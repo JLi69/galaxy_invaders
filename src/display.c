@@ -19,6 +19,12 @@ void initGL(void)
 	rectangleBuffer = createRectangleBuffer();
 	bindBuffers(rectangleBuffer);
 
+	loadTexture("res/images/icons.png"),
+	loadTexture("res/images/spaceship.png"),
+	loadTexture("res/images/bullet.png");
+	loadTexture("res/images/enemy1.png");
+	loadTexture("res/images/explosion.png");
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -64,8 +70,7 @@ void display(struct GameObject player,
 			bindTexture(visualEffects.gameobjects[i].image, GL_TEXTURE0);
 			prevTexture = visualEffects.gameobjects[i].image;	
 		}
-		setTextureForObj(visualEffects.gameobjects[i], 256.0f, 256.0f, 
-						 1.0f / 16.0f, 1.0f / 16.0f, 1.0f / 16.0f, 0.0f);
+		setTextureForObj(visualEffects.gameobjects[i], 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);
 		drawGameObject(visualEffects.gameobjects[i]);
 	}
 

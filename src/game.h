@@ -10,7 +10,8 @@ void update(struct GameObject *player,
 			struct GameObjectList *bullets,
 			struct GameObjectList *enemies,
 			struct GameObjectList *visualEffects,
-			float timePassed);
+			float timePassed,
+			lua_State *L);
 //Draw objects onto the window
 //All sprites are 16 x 16
 //

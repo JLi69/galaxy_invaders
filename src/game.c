@@ -15,11 +15,6 @@ void init(void)
 
 void loop(void)
 {
-	loadTexture("res/images/icons.png"),
-	loadTexture("res/images/spaceship.png"),
-	loadTexture("res/images/bullet.png");
-	loadTexture("res/images/space_jellyfish.png");
-
 	double timepassed = 0.0;
 	
 	struct GameObject player = createObj(pt(0.0f, -300.0f), pt(0.0f, 0.0f), pt(SPRITE_SIZE, SPRITE_SIZE),
@@ -28,13 +23,18 @@ void loop(void)
 	struct GameObjectList enemies = createGameObjectList();
 	struct GameObjectList visualEffects = createGameObjectList();
 
+	lua_State* L = initLua();
+	runLuaFile(L, "res/scripts/enemy.lua", "enemy");
+
 	for(int i = 0; i < 5; i++)
 	{
-		for(int j = -4; j <= 4; j++)
+		for(int j = -3; j <= 3; j++)
 		{
-			appendGameobject(&enemies, createObj(pt(j * (SPRITE_SIZE * 1.5f), 300.0f - i * SPRITE_SIZE), 
-						pt(32.0f, 0.0f), pt(SPRITE_SIZE, SPRITE_SIZE), 4, 
-						getImageId("res/images/space_jellyfish.png")));
+			struct GameObject gameobject = createObj(pt(j * (SPRITE_SIZE * 1.5f), 300.0f - i * SPRITE_SIZE), 
+											pt(32.0f, 0.0f), pt(SPRITE_SIZE, SPRITE_SIZE), 4, 
+											getImageId("res/images/enemy1.png"));	
+			runStartFunction(L, "enemy", &gameobject);
+			appendGameobject(&enemies, gameobject);
 		}	
 	}
 
@@ -44,7 +44,7 @@ void loop(void)
 		gettimeofday(&start, 0);
 		
 		display(player, bullets, enemies, visualEffects);
-		update(&player, &bullets, &enemies, &visualEffects, timepassed); 
+		update(&player, &bullets, &enemies, &visualEffects, timepassed, L); 
 
 		updateWindow();
 		struct timeval end;

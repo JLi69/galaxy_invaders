@@ -1,5 +1,7 @@
 #ifndef GAMEBOJECT_H
 
+#include <lua.h>
+
 #define DEFAULT_MAX_SZ 64
 
 typedef struct 
@@ -12,6 +14,7 @@ struct GameObject
 	Vector2f pos, vel, dim; 
 	int animationFrame, totalFrames;
 	unsigned int image;
+	char *scriptname;
 };
 
 struct GameObjectList
@@ -37,5 +40,16 @@ void deleteGameObject(struct GameObjectList *list, int index);
 void destroyGameObjectList(struct GameObjectList *list);
 
 int colliding(struct GameObject object1, struct GameObject object2);
+
+lua_State* initLua();
+void runLuaFile(lua_State *L, const char *path, const char *mod);
+void runStartFunction(lua_State *L, const char *mod, struct GameObject *gameobject);
+void runUpdateFunction(lua_State *L, const char *mod, struct GameObject *gameobject, float timepassed);
+
+//Gameobject API functions
+int luaApi_setObjectPos(lua_State *L);
+int luaApi_setObjectVel(lua_State *L);
+int luaApi_getObjectPos(lua_State *L);
+int luaApi_getObjectVel(lua_State *L);
 
 #endif

@@ -10,7 +10,8 @@ void update(struct GameObject *player,
 			struct GameObjectList *bullets,
 			struct GameObjectList *enemies,
 			struct GameObjectList *visualEffects,
-			float timePassed)
+			float timePassed,
+			lua_State *L)
 {
 	static float animationTimer = 0.0f;
 	static float shootTimer = 0.0f;
@@ -20,13 +21,7 @@ void update(struct GameObject *player,
 		moveObject(&bullets->gameobjects[i], timePassed);	
 	for(int i = 0; i < enemies->size; i++)
 	{
-		if(enemies->gameobjects[i].pos.x > 300.0f ||
-		   enemies->gameobjects[i].pos.x < -300.0f)
-			enemies->gameobjects[i].vel.x *= -1.0f;
-		if(enemies->gameobjects[i].pos.x > 300.0f)
-			enemies->gameobjects[i].pos.x = 300.0f;
-		if(enemies->gameobjects[i].pos.x < -300.0f)
-			enemies->gameobjects[i].pos.x = -300.0f;
+		runUpdateFunction(L, "enemy", &enemies->gameobjects[i], timePassed);
 		moveObject(&enemies->gameobjects[i], timePassed);
 	}
 
@@ -48,7 +43,7 @@ void update(struct GameObject *player,
 			{
 				appendGameobject(visualEffects, createObj(enemies->gameobjects[j].pos, 
 						pt(0.0f, 0.0f), pt(SPRITE_SIZE, SPRITE_SIZE), 4, 
-						getImageId("res/images/icons.png")));
+						getImageId("res/images/explosion.png")));
 				deleteGameObject(enemies, j);
 				j--;
 				deleteGameObject(bullets, i);
@@ -69,8 +64,6 @@ void update(struct GameObject *player,
 	if(player->pos.y < -300.0f)
 		player->pos.y = -300.0f;
 
-	//Delete objects
-
 	//Keyboard movement
 	if(isPressed(GLFW_KEY_LEFT)) player->vel.x = -SPEED;
 	else if(isPressed(GLFW_KEY_RIGHT)) player->vel.x = SPEED;
@@ -83,11 +76,10 @@ void update(struct GameObject *player,
 	//Shoot!
 	if(isPressed(GLFW_KEY_SPACE) && shootTimer <= 0.0f)  
 	{	
-		float velY = player->vel.y > 0.0 ? player->vel.y : 0.0f;
 		appendGameobject(
 					 bullets, 
 					 createObj(player->pos, 
-							   pt(player->vel.x, BULLET_SPEED + velY),
+							   pt(0.0f, BULLET_SPEED),
 							   pt(SPRITE_SIZE, SPRITE_SIZE), 2, 
 							   getImageId("res/images/bullet.png")));
 		shootTimer = SHOOT_COOLDOWN;
@@ -97,7 +89,7 @@ void update(struct GameObject *player,
 	shootTimer -= timePassed;
 
 	//Animate objects
-	if(animationTimer > 0.1f)
+	if(animationTimer > 0.2f)
 	{
 		animateObject(player);
 		
