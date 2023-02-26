@@ -144,12 +144,11 @@ double getMouseScroll()
 
 void initWindow(const char *title)
 {
-	glfwSwapInterval(1);
 	for(int i = 0; i < MAX_KEY_PRESSED; i++)
 		pressed[i] = UNPRESSED;
 	for(int i = 0; i < MOUSE_BUTTON_COUNT; i++)
 		mouse[i] = UNPRESSED;
-
+	
 	//Initialize glfw
 	if(!glfwInit())
 		crash("Failed to initialize glfw!\n");
@@ -170,6 +169,8 @@ void initWindow(const char *title)
 	//Initialize glad
 	if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		crash("Failed to load glad!");
+
+	glfwSwapInterval(1);
 }
 
 void updateActiveShaderWindowSize(void)

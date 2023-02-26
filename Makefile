@@ -11,14 +11,29 @@ BUILD_SRC_DIRS=$(SRC_DIRS:%=$(BUILD_DIR)/%)
 
 GLAD=gllibs/lib/glad.c
 
-C_FLAGS=-O0
+C_FLAGS=-O0 -g
 LD_FLAGS_LINUX=-static-libgcc -lglfw3 -lm -lSOIL2 -lGL -llua 
+LD_FLAGS_MINGW=-static-libgcc -lglfw3 -lm -lSOIL2 -llua -lopengl32 -lgdi32 -lpthread 
 INCLUDE=-Igllibs/include -Iliblua/include
-LINK_DIR_LINUX=-Lgllibs/lib/linux -Lliblua
-LINK_DIR_MINGW=-Lgllibs/lib/mingw -Lliblua
+LINK_DIR_LINUX=-Lgllibs/lib/linux -Lliblua/linux
+LINK_DIR_MINGW=-Lgllibs/lib/mingw -Lliblua/windows
+LINK_DIR=
+LD_FLAGS=
+
+ifeq ($(OS), Windows_NT)
+# on windows
+# assuming mingw is installed
+CC=gcc
+LINK_DIR=$(LINK_DIR_MINGW)
+LD_FLAGS=$(LD_FLAGS_MINGW)
+else
+# on linux
+LINK_DIR=$(LINK_DIR_LINUX)
+LD_FLAGS=$(LD_FLAGS_LINUX)
+endif
 
 output: $(OBJ)
-	$(CC) $(OBJ) $(GLAD) -o $(BIN) $(LD_FLAGS_LINUX)
+	$(CC) $(OBJ) $(GLAD) -o $(BIN) $(LINK_DIR) $(LD_FLAGS) $(INCLUDE)
 
 $(BUILD_DIR): $(BUILD_SRC_DIRS)
 

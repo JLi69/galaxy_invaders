@@ -39,6 +39,7 @@ void runStartFunction(lua_State *L, const char *mod, struct GameObject *gameobje
 	{
 		lua_pushlightuserdata(L, gameobject);
 		lua_pcall(L, 1, 0, 0);
+		lua_pop(L, -1);	
 	}
 }
 
@@ -52,5 +53,7 @@ void runUpdateFunction(lua_State *L, const char *mod, struct GameObject *gameobj
 		lua_pushlightuserdata(L, gameobject);
 		lua_pushnumber(L, timepassed);
 		lua_pcall(L, 2, 0, 0);
+		lua_pop(L, -1);
+		lua_pop(L, -2);
 	}
 }

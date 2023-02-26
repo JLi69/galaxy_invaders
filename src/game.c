@@ -1,5 +1,9 @@
 #include "game.h"
-#include "gettimeofday.h"
+#if defined(__linux__) || defined(__MINGW64__) || defined(__GNUC__) 
+#include <sys/time.h>
+#else
+#error "Need to find sys/time.h to compile! If you are on Windows use MinGW"
+#endif
 #include "window-func.h"
 #include "gl-func.h"
 #include <glad/glad.h>
