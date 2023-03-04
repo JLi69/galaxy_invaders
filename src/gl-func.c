@@ -305,6 +305,10 @@ struct ShaderProgram* getActiveShader(void)
 
 void appendImageId(const char *path, unsigned int id)
 {
+	for(int i = 0; i < loadedImages._imageCount; i++)
+		if(strcmp(path, loadedImages.images[i].path) == 0)
+			return;
+
 	//Empty
 	if(loadedImages._maxImageCount == 0 ||
 	   loadedImages.images == 0)

@@ -52,4 +52,6 @@ int luaApi_setObjectVel(lua_State *L);
 int luaApi_getObjectPos(lua_State *L);
 int luaApi_getObjectVel(lua_State *L);
 
+int luaApi_addEnemy(lua_State *L); //addEnemy(gameobjectList, x, y, vx, vy, szx, szy, frames, img)
+
 #endif

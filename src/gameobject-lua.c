@@ -10,10 +10,12 @@ lua_State* initLua()
 	luaL_openlibs(L);
 	
 	//Import all api functions
-	lua_register(L, "_setObjectPos", luaApi_setObjectPos);
-	lua_register(L, "_setObjectVel", luaApi_setObjectVel);
-	lua_register(L, "_getObjectPos", luaApi_getObjectPos);
-	lua_register(L, "_getObjectVel", luaApi_getObjectVel);
+	lua_register(L, "enemy_setObjectPos", luaApi_setObjectPos);
+	lua_register(L, "enemy_setObjectVel", luaApi_setObjectVel);
+	lua_register(L, "enemy_getObjectPos", luaApi_getObjectPos);
+	lua_register(L, "enemy_getObjectVel", luaApi_getObjectVel);
+
+	lua_register(L, "game_addEnemy", luaApi_addEnemy);
 
 	return L;
 }

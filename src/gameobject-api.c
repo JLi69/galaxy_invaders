@@ -1,5 +1,6 @@
 #include "gameobject.h"
 #include <stdio.h>
+#include "gl-func.h"
 
 #define CHECK_ARG_COUNT(arg_count) \
 	if(lua_gettop(L) != arg_count) \
@@ -54,4 +55,29 @@ int luaApi_getObjectVel(lua_State *L)
 	lua_pushnumber(L, gameobject->vel.y);
 
 	return 2;
+}
+
+//addEnemy(gameobjectList, x, y, vx, vy, szx, szy, frames, img)
+int luaApi_addEnemy(lua_State *L)
+{
+	CHECK_ARG_COUNT(9);
+
+	struct GameObjectList* gameobjectList = (struct GameObjectList*)lua_touserdata(L, 1);
+	float x = lua_tonumber(L, 2),
+		  y = lua_tonumber(L, 3),
+		  velX = lua_tonumber(L, 4),
+		  velY = lua_tonumber(L, 5),
+		  sizeX = lua_tonumber(L, 6),
+		  sizeY = lua_tonumber(L, 7);
+	int frameCount = lua_tointeger(L, 8);
+	unsigned int imageId = getImageId(lua_tostring(L, 9));
+
+	struct GameObject gameobject =
+			createObj(pt(x, y), pt(velX, velY), pt(sizeX, sizeY), 
+					  frameCount, imageId);
+	runStartFunction(L, "enemy", &gameobject);
+
+	appendGameobject(gameobjectList, gameobject);
+
+	return 0;
 }
