@@ -37,6 +37,13 @@ void handleKeyInput(GLFWwindow *window, int key, int scancode, int action, int m
 {
 	if(action == GLFW_PRESS)
 	{	
+		if(key == GLFW_KEY_ESCAPE)
+		{
+			paused = !paused;
+			toggleCursor();
+			return;
+		}
+
 		//Check all the keys to see if the key is already pressed
 		for(int i = 0; i < MAX_KEY_PRESSED; i++)
 			if(pressed[i] == key)
@@ -52,7 +59,7 @@ void handleKeyInput(GLFWwindow *window, int key, int scancode, int action, int m
 		}
 	}
 	else if(action == GLFW_RELEASE)
-	{
+	{			
 		//Mark the key as unpressed
 		for(int i = 0; i < MAX_KEY_PRESSED; i++)
 		{	
@@ -164,7 +171,7 @@ void initWindow(const char *title)
 	glfwSetMouseButtonCallback(win, handleMouseInput);
 	glfwSetScrollCallback(win, handleMouseScroll);
 	glfwSetWindowPosCallback(win, handleWindowMovement);
-	//glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	//Initialize glad
 	if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))

@@ -6,10 +6,7 @@
 #define BULLET_SPEED 256.0f
 
 //Update game objects
-void update(struct GameObject *player,
-			struct GameObjectList *bullets,
-			struct GameObjectList *enemies,
-			struct GameObjectList *visualEffects,
+void update(struct Game *game,
 			float timePassed,
 			lua_State *L);
 //Draw objects onto the window
@@ -21,10 +18,7 @@ void update(struct GameObject *player,
 //Enemies and bullets are individual images
 //Enemies are 64 x 16 pixels
 //Bullets are 32 x 16 pixels
-void display(struct GameObject player,
-			 struct GameObjectList bullets,
-			 struct GameObjectList enemies,
-			 struct GameObjectList visualEffects);
+void display(struct Game game);
 //Initialize OpenGL data
 //Read/compile shaders, read textures, create window, etc
 void initGL(void);

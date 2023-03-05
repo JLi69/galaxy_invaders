@@ -20,11 +20,12 @@ int main(void)
 
 	double timepassed = 0.0;
 	
-	struct GameObject player = createObj(pt(0.0f, -300.0f), pt(0.0f, 0.0f), pt(SPRITE_SIZE, SPRITE_SIZE),
-										 4, getImageId("res/images/spaceship.png"));
-	struct GameObjectList bullets = createGameObjectList();
-	struct GameObjectList enemies = createGameObjectList();
-	struct GameObjectList visualEffects = createGameObjectList();
+	struct Game game;
+	game.player = createObj(pt(0.0f, -300.0f), pt(0.0f, 0.0f), pt(SPRITE_SIZE, SPRITE_SIZE),
+							4, getImageId("res/images/spaceship.png"));
+	game.bullets = createGameObjectList();
+	game.enemies = createGameObjectList();
+	game.visualEffects = createGameObjectList();
 
 	lua_State* L = initLua();
 
@@ -32,15 +33,15 @@ int main(void)
 	lua_pushnumber(L, SPRITE_SIZE);
 	lua_setglobal(L, "SPRITE_SIZE");
 
-	luaL_dofile(L, "res/scripts/spawnwave.lua");
-	runLuaFile(L, "res/scripts/enemy.lua", "enemy");
+	luaL_dofile(L, "res/scripts/spawnwave.lua");	
+	runLuaFile(L, "res/scripts/prefabs.lua", "prefabs");
 
 	//Spawn first wave
 	int waveNum = 0;
 	lua_getglobal(L, "spawnwave");
 	if(lua_isfunction(L, -1))
 	{
-		lua_pushlightuserdata(L, &enemies);
+		lua_pushlightuserdata(L, &game.enemies);
 		lua_pushinteger(L, waveNum);
 		lua_pcall(L, 2, 0, 0);
 		lua_pop(L, -1);
@@ -52,22 +53,25 @@ int main(void)
 		struct timeval start;
 		gettimeofday(&start, 0);
 		
-		display(player, bullets, enemies, visualEffects);
-		update(&player, &bullets, &enemies, &visualEffects, timepassed, L); 
-		//Are all enemies dead?
-		//If all enemies have been killed, attempt to spawn the next wave
-		if(enemies.size == 0)
+		display(game);
+		if(!isPaused())
 		{
-			//Spawn next wave
-			waveNum++;	
-			lua_getglobal(L, "spawnwave");
-			if(lua_isfunction(L, -1))
+			update(&game, timepassed, L); 
+			//Are all enemies dead?
+			//If all enemies have been killed, attempt to spawn the next wave
+			if(game.enemies.size == 0)
 			{
-				lua_pushlightuserdata(L, &enemies);
-				lua_pushinteger(L, waveNum);
-				lua_pcall(L, 2, 0, 0);
-				lua_pop(L, -1);
-				lua_pop(L, -2);
+				//Spawn next wave
+				waveNum++;	
+				lua_getglobal(L, "spawnwave");
+				if(lua_isfunction(L, -1))
+				{
+					lua_pushlightuserdata(L, &game.enemies);
+					lua_pushinteger(L, waveNum);
+					lua_pcall(L, 2, 0, 0);
+					lua_pop(L, -1);
+					lua_pop(L, -2);
+				}
 			}
 		}
 
@@ -78,7 +82,7 @@ int main(void)
 	}
 
 	//Clean up
-	destroyGameObjectList(&bullets);
-	destroyGameObjectList(&enemies);
-	destroyGameObjectList(&visualEffects);
+	destroyGameObjectList(&game.bullets);
+	destroyGameObjectList(&game.enemies);
+	destroyGameObjectList(&game.visualEffects);
 }

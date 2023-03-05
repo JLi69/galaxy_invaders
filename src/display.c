@@ -22,18 +22,13 @@ void initGL(void)
 	loadTexture("res/images/icons.png"),
 	loadTexture("res/images/spaceship.png"),
 	loadTexture("res/images/bullet.png");
-	loadTexture("res/images/enemy1.png");
 	loadTexture("res/images/explosion.png");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void display(struct GameObject player,
-			 struct GameObjectList bullets,
-			 struct GameObjectList enemies, 
-			 struct GameObjectList visualEffects
-			 )
+void display(struct Game game)
 {
 	clear();
 
@@ -41,45 +36,51 @@ void display(struct GameObject player,
 	
 	//Draw bullet
 	unsigned int prevTexture = -1;
-	for(int i = 0; i < bullets.size; i++)
+	for(int i = 0; i < game.bullets.size; i++)
 	{
-		if(bullets.gameobjects[i].image != prevTexture)
+		if(game.bullets.gameobjects[i].image != prevTexture)
 		{
-			bindTexture(bullets.gameobjects[i].image, GL_TEXTURE0);
-			prevTexture = bullets.gameobjects[i].image;	
+			bindTexture(game.bullets.gameobjects[i].image, GL_TEXTURE0);
+			prevTexture = game.bullets.gameobjects[i].image;	
 		}
-		setTextureForObj(bullets.gameobjects[i], 32.0f, 16.0f, 1.0f / 2.0f, 1.0f, 0.0f, 0.0f);
-		drawGameObject(bullets.gameobjects[i]);
+		setTextureForObj(game.bullets.gameobjects[i], 32.0f, 16.0f, 1.0f / 2.0f, 1.0f, 0.0f, 0.0f);
+		drawGameObject(game.bullets.gameobjects[i]);
 	}
 
-	for(int i = 0; i < enemies.size; i++)
+	for(int i = 0; i < game.enemies.size; i++)
 	{
-		if(enemies.gameobjects[i].image != prevTexture)
+		if(game.enemies.gameobjects[i].image != prevTexture)
 		{
-			bindTexture(enemies.gameobjects[i].image, GL_TEXTURE0);
-			prevTexture = enemies.gameobjects[i].image;	
+			bindTexture(game.enemies.gameobjects[i].image, GL_TEXTURE0);
+			prevTexture = game.enemies.gameobjects[i].image;	
 		}
-		setTextureForObj(enemies.gameobjects[i], 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);
-		drawGameObject(enemies.gameobjects[i]);
+		setTextureForObj(game.enemies.gameobjects[i], 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);
+		drawGameObject(game.enemies.gameobjects[i]);
 	}
 
-	for(int i = 0; i < visualEffects.size; i++)
+	for(int i = 0; i < game.visualEffects.size; i++)
 	{
-		if(visualEffects.gameobjects[i].image != prevTexture)
+		if(game.visualEffects.gameobjects[i].image != prevTexture)
 		{
-			bindTexture(visualEffects.gameobjects[i].image, GL_TEXTURE0);
-			prevTexture = visualEffects.gameobjects[i].image;	
+			bindTexture(game.visualEffects.gameobjects[i].image, GL_TEXTURE0);
+			prevTexture = game.visualEffects.gameobjects[i].image;	
 		}
-		setTextureForObj(visualEffects.gameobjects[i], 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);
-		drawGameObject(visualEffects.gameobjects[i]);
+		setTextureForObj(game.visualEffects.gameobjects[i], 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);
+		drawGameObject(game.visualEffects.gameobjects[i]);
 	}
 
 	//Draw player
-	bindTexture(player.image, GL_TEXTURE0);
-	setTextureForObj(player, 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);	
-	drawGameObject(player);	
+	bindTexture(game.player.image, GL_TEXTURE0);
+	setTextureForObj(game.player, 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);	
+	drawGameObject(game.player);	
 
-
+	if(isPaused())
+	{
+		setTexFrac(1.0f / 16.0f, 1.0f / 16.0f);
+		setTexSize(256.0f, 256.0f);
+		bindTexture(getImageId("res/images/icons.png"), GL_TEXTURE0);
+		drawString("Paused", 0.0f, 0.0f, 64.0f);
+	}
 
 	outputGLErrors();	
 }

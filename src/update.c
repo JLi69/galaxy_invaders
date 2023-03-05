@@ -3,13 +3,12 @@
 #include "window-func.h"
 #include "gl-func.h"
 
+#include <stdio.h>
+
 #define ANIMATION_SPEED 0.1f
 #define SHOOT_COOLDOWN 0.5f
 
-void update(struct GameObject *player,
-			struct GameObjectList *bullets,
-			struct GameObjectList *enemies,
-			struct GameObjectList *visualEffects,
+void update(struct Game *game,
 			float timePassed,
 			lua_State *L)
 {
@@ -17,68 +16,66 @@ void update(struct GameObject *player,
 	static float shootTimer = 0.0f;
 
 	//Move gameobjects
-	for(int i = 0; i < bullets->size; i++)
-		moveObject(&bullets->gameobjects[i], timePassed);	
-	for(int i = 0; i < enemies->size; i++)
-	{
-		runUpdateFunction(L, "enemy", &enemies->gameobjects[i], timePassed);
-		moveObject(&enemies->gameobjects[i], timePassed);
-	}
+	for(int i = 0; i < game->bullets.size; i++)
+		moveObject(&game->bullets.gameobjects[i], timePassed);	
+	for(int i = 0; i < game->enemies.size; i++)
+		runUpdateFunction(L, "enemy", &game->enemies.gameobjects[i], game, timePassed);
 
-	for(int i = 0; i < bullets->size; i++)
+	for(int i = 0; i < game->bullets.size; i++)
 	{
-		if(bullets->gameobjects[i].pos.x < -1024.0f ||
-		   bullets->gameobjects[i].pos.y < -1024.0f ||
-		   bullets->gameobjects[i].pos.x > 1024.0f ||
-		   bullets->gameobjects[i].pos.y > 1024.0f)
+		if(game->bullets.gameobjects[i].pos.x < -1024.0f ||
+		   game->bullets.gameobjects[i].pos.y < -1024.0f ||
+		   game->bullets.gameobjects[i].pos.x > 1024.0f ||
+		   game->bullets.gameobjects[i].pos.y > 1024.0f)
 		{
-			deleteGameObject(bullets, i);	
+			deleteGameObject(&game->bullets, i);	
 			i--;
 			continue;
 		}
 
-		for(int j = 0; j < enemies->size; j++)
+		for(int j = 0; j < game->enemies.size; j++)
 		{
-			if(colliding(enemies->gameobjects[j], bullets->gameobjects[i]))
+			if(colliding(game->enemies.gameobjects[j], game->bullets.gameobjects[i]))
 			{
-				appendGameobject(visualEffects, createObj(enemies->gameobjects[j].pos, 
-						pt(0.0f, 0.0f), pt(SPRITE_SIZE, SPRITE_SIZE), 4, 
-						getImageId("res/images/explosion.png")));
-				deleteGameObject(enemies, j);
-				j--;
-				deleteGameObject(bullets, i);
-				i--;	
+				if(runOnCollisionFunction(L, "enemy", &game->enemies.gameobjects[j], game))
+				{
+					deleteGameObject(&game->enemies, j);
+					j--;
+				}
+
+				deleteGameObject(&game->bullets, i);
+				i--;
 				break;
 			}
 		}
 	}
 
-	moveObject(player, timePassed);
+	moveObject(&game->player, timePassed);
 	//Bound the player's position
-	if(player->pos.x > 300.0f)
-		player->pos.x = 300.0f;
-	if(player->pos.x < -300.0f)
-		player->pos.x = -300.0f;
-	if(player->pos.y > 300.0f)
-		player->pos.y = 300.0f;
-	if(player->pos.y < -300.0f)
-		player->pos.y = -300.0f;
+	if(game->player.pos.x > 320.0f)
+		game->player.pos.x = 320.0f;
+	if(game->player.pos.x < -320.0f)
+		game->player.pos.x = -320.0f;
+	if(game->player.pos.y > 320.0f)
+		game->player.pos.y = 320.0f;
+	if(game->player.pos.y < -320.0f)
+		game->player.pos.y = -320.0f;
 
 	//Keyboard movement
-	if(isPressed(GLFW_KEY_LEFT)) player->vel.x = -SPEED;
-	else if(isPressed(GLFW_KEY_RIGHT)) player->vel.x = SPEED;
-	else player->vel.x = 0.0f;
+	if(isPressed(GLFW_KEY_LEFT)) game->player.vel.x = -SPEED;
+	else if(isPressed(GLFW_KEY_RIGHT)) game->player.vel.x = SPEED;
+	else game->player.vel.x = 0.0f;
 
-	if(isPressed(GLFW_KEY_DOWN)) player->vel.y = -SPEED;
-	else if(isPressed(GLFW_KEY_UP)) player->vel.y = SPEED;
-	else player->vel.y = 0.0f;
+	if(isPressed(GLFW_KEY_DOWN)) game->player.vel.y = -SPEED;
+	else if(isPressed(GLFW_KEY_UP)) game->player.vel.y = SPEED;
+	else game->player.vel.y = 0.0f;
 
 	//Shoot!
 	if(isPressed(GLFW_KEY_SPACE) && shootTimer <= 0.0f)  
 	{	
 		appendGameobject(
-					 bullets, 
-					 createObj(player->pos, 
+					 &game->bullets, 
+					 createObj(game->player.pos, 
 							   pt(0.0f, BULLET_SPEED),
 							   pt(SPRITE_SIZE, SPRITE_SIZE), 2, 
 							   getImageId("res/images/bullet.png")));
@@ -91,20 +88,20 @@ void update(struct GameObject *player,
 	//Animate objects
 	if(animationTimer > 0.2f)
 	{
-		animateObject(player);
+		animateObject(&game->player);
 		
-		for(int i = 0; i < bullets->size; i++)
-			animateObject(&bullets->gameobjects[i]);
-		for(int i = 0; i < enemies->size; i++)
-			animateObject(&enemies->gameobjects[i]);
+		for(int i = 0; i < game->bullets.size; i++)
+			animateObject(&game->bullets.gameobjects[i]);
+		for(int i = 0; i < game->enemies.size; i++)
+			animateObject(&game->enemies.gameobjects[i]);
 
-		for(int i = 0; i < visualEffects->size; i++)
+		for(int i = 0; i < game->visualEffects.size; i++)
 		{
-			animateObject(&visualEffects->gameobjects[i]);
-			if(visualEffects->gameobjects[i].animationFrame ==
-			   visualEffects->gameobjects[i].totalFrames - 1)
+			animateObject(&game->visualEffects.gameobjects[i]);
+			if(game->visualEffects.gameobjects[i].animationFrame >=
+			   game->visualEffects.gameobjects[i].totalFrames - 1)
 			{
-				deleteGameObject(visualEffects, i);
+				deleteGameObject(&game->visualEffects, i);
 				i--;
 			}
 		}	

@@ -10,6 +10,8 @@ void moveObject(struct GameObject *obj, float timePassed)
 
 void animateObject(struct GameObject *obj)
 {
+	if(obj->totalFrames <= 0)
+		return;
 	obj->animationFrame++;
 	obj->animationFrame %= obj->totalFrames;
 }
@@ -26,7 +28,9 @@ struct GameObject createObj(Vector2f pos,
 		  .dim = dim,
 		  .animationFrame = 0,
 		  .totalFrames = maxFrames,
-		  .image = img };
+		  .image = img,
+		  .timer = 0.0,
+		  .health = 0 };
 	return obj;
 }
 

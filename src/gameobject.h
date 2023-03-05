@@ -15,12 +15,22 @@ struct GameObject
 	int animationFrame, totalFrames;
 	unsigned int image;
 	char *scriptname;
+	unsigned int health;
+	double timer;
 };
 
 struct GameObjectList
 {
 	struct GameObject *gameobjects;
 	unsigned long long size, _maxSize;
+};
+
+struct Game
+{
+	struct GameObjectList bullets;
+	struct GameObjectList enemies;
+	struct GameObjectList visualEffects;
+	struct GameObject player;
 };
 
 struct GameObject createObj(Vector2f pos, Vector2f vel, Vector2f dim, int maxFrames, 
@@ -44,14 +54,36 @@ int colliding(struct GameObject object1, struct GameObject object2);
 lua_State* initLua();
 void runLuaFile(lua_State *L, const char *path, const char *mod);
 void runStartFunction(lua_State *L, const char *mod, struct GameObject *gameobject);
-void runUpdateFunction(lua_State *L, const char *mod, struct GameObject *gameobject, float timepassed);
+void runUpdateFunction(lua_State *L, const char *mod, struct GameObject *gameobject, struct Game *game, float timepassed);
+int runOnCollisionFunction(lua_State *L, const char *mod, struct GameObject *gameobject, struct Game *game);
 
 //Gameobject API functions
 int luaApi_setObjectPos(lua_State *L);
-int luaApi_setObjectVel(lua_State *L);
 int luaApi_getObjectPos(lua_State *L);
+int luaApi_setObjectVel(lua_State *L);
 int luaApi_getObjectVel(lua_State *L);
+int luaApi_setObjectSize(lua_State *L);
+int luaApi_getObjectSize(lua_State *L);
+int luaApi_getObjectHealth(lua_State *L);
+int luaApi_setObjectHealth(lua_State *L);
+int luaApi_getObjectTimer(lua_State *L);
+int luaApi_setObjectTimer(lua_State *L);
+int luaApi_setObjectFrameCount(lua_State *L);
+int luaApi_getObjectFrameCount(lua_State *L);
+int luaApi_getObjectFrame(lua_State *L);
+int luaApi_setObjectFrame(lua_State *L);
 
 int luaApi_addEnemy(lua_State *L); //addEnemy(gameobjectList, x, y, vx, vy, szx, szy, frames, img)
+int luaApi_addObject(lua_State *L); //addObject(gameobjectList, x, y, img)
+
+int luaApi_getEnemyList(lua_State *L);
+int luaApi_getBulletList(lua_State *L);
+int luaApi_getVisualEffectList(lua_State *L);
+int luaApi_getPlayerPos(lua_State *L);
+int luaApi_getListSize(lua_State *L);
+int luaApi_getGameobject(lua_State *L);
+
+int luaApi_loadImage(lua_State *L);
+int luaApi_loadScript(lua_State *L);
 
 #endif
