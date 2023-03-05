@@ -17,9 +17,9 @@ void update(struct Game *game,
 
 	//Move gameobjects
 	for(int i = 0; i < game->bullets.size; i++)
-		moveObject(&game->bullets.gameobjects[i], timePassed);	
+		runUpdateFunction(L, game->bullets.gameobjects[i].scriptname, &game->bullets.gameobjects[i], game, timePassed);
 	for(int i = 0; i < game->enemies.size; i++)
-		runUpdateFunction(L, "enemy", &game->enemies.gameobjects[i], game, timePassed);
+		runUpdateFunction(L, game->enemies.gameobjects[i].scriptname, &game->enemies.gameobjects[i], game, timePassed);
 
 	for(int i = 0; i < game->bullets.size; i++)
 	{
@@ -33,11 +33,10 @@ void update(struct Game *game,
 			continue;
 		}
 
-		for(int j = 0; j < game->enemies.size; j++)
-		{
+		for(int j = 0; j < game->enemies.size; j++) {
 			if(colliding(game->enemies.gameobjects[j], game->bullets.gameobjects[i]))
 			{
-				if(runOnCollisionFunction(L, "enemy", &game->enemies.gameobjects[j], game))
+				if(runOnCollisionFunction(L, game->enemies.gameobjects[i].scriptname, &game->enemies.gameobjects[j], game))
 				{
 					deleteGameObject(&game->enemies, j);
 					j--;
@@ -50,16 +49,7 @@ void update(struct Game *game,
 		}
 	}
 
-	moveObject(&game->player, timePassed);
-	//Bound the player's position
-	if(game->player.pos.x > 320.0f)
-		game->player.pos.x = 320.0f;
-	if(game->player.pos.x < -320.0f)
-		game->player.pos.x = -320.0f;
-	if(game->player.pos.y > 320.0f)
-		game->player.pos.y = 320.0f;
-	if(game->player.pos.y < -320.0f)
-		game->player.pos.y = -320.0f;
+	runUpdateFunction(L, game->player.scriptname, &game->player, game, timePassed);
 
 	//Keyboard movement
 	if(isPressed(GLFW_KEY_LEFT)) game->player.vel.x = -SPEED;
@@ -78,7 +68,7 @@ void update(struct Game *game,
 					 createObj(game->player.pos, 
 							   pt(0.0f, BULLET_SPEED),
 							   pt(SPRITE_SIZE, SPRITE_SIZE), 2, 
-							   getImageId("res/images/bullet.png")));
+							   getImageId("res/images/bullet.png"), "bullet"));
 		shootTimer = SHOOT_COOLDOWN;
 	}
 

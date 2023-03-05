@@ -34,8 +34,7 @@ struct Game
 };
 
 struct GameObject createObj(Vector2f pos, Vector2f vel, Vector2f dim, int maxFrames, 
-							unsigned int img);
-void moveObject(struct GameObject *obj, float timePassed);
+							unsigned int img, const char *scriptname);
 void animateObject(struct GameObject *obj);
 void setTextureForObj(struct GameObject obj, 
 					  float w, float h,
@@ -73,8 +72,8 @@ int luaApi_getObjectFrameCount(lua_State *L);
 int luaApi_getObjectFrame(lua_State *L);
 int luaApi_setObjectFrame(lua_State *L);
 
-int luaApi_addEnemy(lua_State *L); //addEnemy(gameobjectList, x, y, vx, vy, szx, szy, frames, img)
-int luaApi_addObject(lua_State *L); //addObject(gameobjectList, x, y, img)
+int luaApi_addEnemy(lua_State *L); //addEnemy(gameobjectList, x, y, vx, vy, szx, szy, frames, img, scriptname)
+int luaApi_addObject(lua_State *L); //addObject(gameobjectList, x, y, img, scriptname)
 
 int luaApi_getEnemyList(lua_State *L);
 int luaApi_getBulletList(lua_State *L);

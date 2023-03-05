@@ -21,8 +21,6 @@ void initGL(void)
 
 	loadTexture("res/images/icons.png"),
 	loadTexture("res/images/spaceship.png"),
-	loadTexture("res/images/bullet.png");
-	loadTexture("res/images/explosion.png");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

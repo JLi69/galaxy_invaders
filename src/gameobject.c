@@ -1,12 +1,7 @@
 #include "gameobject.h"
 #include "draw.h"
 #include <stdlib.h>
-
-void moveObject(struct GameObject *obj, float timePassed)
-{
-	obj->pos.x += obj->vel.x * timePassed;
-	obj->pos.y += obj->vel.y * timePassed;
-}
+#include <string.h>
 
 void animateObject(struct GameObject *obj)
 {
@@ -20,7 +15,8 @@ struct GameObject createObj(Vector2f pos,
 							Vector2f vel,
 							Vector2f dim,
 							int maxFrames,
-							unsigned int img)
+							unsigned int img,
+							const char *scriptname)
 {
 	struct GameObject obj = 
 		{ .pos = pos,
@@ -31,6 +27,17 @@ struct GameObject createObj(Vector2f pos,
 		  .image = img,
 		  .timer = 0.0,
 		  .health = 0 };
+
+	if(scriptname == NULL)
+	{
+		obj.scriptname = NULL;
+		return obj;
+	}
+
+	obj.scriptname = (char*)malloc(strlen(scriptname) + 1);
+	strncpy(obj.scriptname, scriptname, strlen(scriptname));
+	obj.scriptname[strlen(scriptname)] = '\0';
+
 	return obj;
 }
 
@@ -92,6 +99,8 @@ void deleteGameObject(struct GameObjectList *list, int index)
 	struct GameObject temp = list->gameobjects[list->size - 1];
 	list->gameobjects[list->size - 1] = list->gameobjects[index];
 	list->gameobjects[index] = temp;
+	free(list->gameobjects[list->size - 1].scriptname);
+	list->gameobjects[list->size - 1].scriptname = NULL;
 	list->size--;
 
 	if(list->size * 2 < list->_maxSize && list->_maxSize > DEFAULT_MAX_SZ)

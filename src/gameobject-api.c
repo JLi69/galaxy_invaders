@@ -145,10 +145,10 @@ int luaApi_setObjectFrame(lua_State *L)
 	return 0;
 }
 
-//addEnemy(gameobjectList, x, y, vx, vy, szx, szy, frames, img)
+//addEnemy(gameobjectList, x, y, vx, vy, szx, szy, frames, img, scriptname)
 int luaApi_addEnemy(lua_State *L)
 {
-	CHECK_ARG_COUNT(9);
+	CHECK_ARG_COUNT(10);
 
 	struct GameObjectList* gameobjectList = (struct GameObjectList*)lua_touserdata(L, 1);
 	float x = lua_tonumber(L, 2),
@@ -160,30 +160,49 @@ int luaApi_addEnemy(lua_State *L)
 	int frameCount = lua_tointeger(L, 8);
 	unsigned int imageId = getImageId(lua_tostring(L, 9));
 
+	if(lua_isnil(L, 10))
+	{
+		struct GameObject gameobject =
+			createObj(pt(x, y), pt(velX, velY), pt(sizeX, sizeY), 
+					  frameCount, imageId, NULL);
+
+		appendGameobject(gameobjectList, gameobject);
+		return 0;
+	}
+
 	struct GameObject gameobject =
 			createObj(pt(x, y), pt(velX, velY), pt(sizeX, sizeY), 
-					  frameCount, imageId);
-	runStartFunction(L, "enemy", &gameobject);
+					  frameCount, imageId, lua_tostring(L, 10));
+	runStartFunction(L, gameobject.scriptname, &gameobject);
 
 	appendGameobject(gameobjectList, gameobject);
 
 	return 0;
 }
 
-//addObject(gameobjectList, x, y, img)
+//addObject(gameobjectList, x, y, img, scriptname)
 int luaApi_addObject(lua_State *L)
 {
-	CHECK_ARG_COUNT(4);
+	CHECK_ARG_COUNT(5);
 
 	struct GameObjectList* gameobjectList = (struct GameObjectList*)lua_touserdata(L, 1);
 	float x = lua_tonumber(L, 2),
 		  y = lua_tonumber(L, 3);
 	unsigned int imageId = getImageId(lua_tostring(L, 4));
 
+	if(lua_isnil(L, 5))
+	{
+		struct GameObject gameobject =
+			createObj(pt(x, y), pt(0.0f, 0.0f), pt(0.0f, 0.0f), 
+					  0, imageId, NULL);
+		appendGameobject(gameobjectList, gameobject);
+		return 0;
+	}
+
 	struct GameObject gameobject =
 		createObj(pt(x, y), pt(0.0f, 0.0f), pt(0.0f, 0.0f), 
-					  0, imageId);
-	runStartFunction(L, "enemy", &gameobject);
+					  0, imageId, lua_tostring(L, 5));
+	runStartFunction(L, gameobject.scriptname, &gameobject);
 
 	appendGameobject(gameobjectList, gameobject);
 

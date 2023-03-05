@@ -22,10 +22,17 @@ function prefabs.loadres()
 	end
 end
 
--- Create/add prefabs here
-prefabs.newprefab("enemy", "res/scripts/enemy.lua", "enemy", "res/images/enemy1.png")
+function prefabs.init()
+	prefabs.newprefab("player", "res/scripts/player.lua", "player", "res/images/spaceship.png")
+	prefabs.newprefab("explosion", "res/scripts/explosion.lua", "explosion", "res/images/explosion.png")
+	prefabs.newprefab("enemy", "res/scripts/enemy.lua", "enemy", "res/images/enemy1.png")
+	prefabs.newprefab("bullet", "res/scripts/bullet.lua", "bullet", "res/images/bullet.png")
+	
+	prefabs.loadres()
+end
 
--- Load scripts/images
-prefabs.loadres()
+function prefabs.addPrefab(gameobjectlist, x, y, sprite)
+	game_addObject(gameobjectlist, x, y, prefabs[sprite].imagepath, prefabs[sprite].mod)
+end
 
 return prefabs

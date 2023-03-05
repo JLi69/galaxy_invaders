@@ -46,15 +46,23 @@ void runLuaFile(lua_State *L, const char *path, const char *mod)
 	//import the module
 	lua_getglobal(L, "require");
 	lua_pushstring(L, mod);
-	lua_pcall(L, 1, 1, 0);
+	lua_pcall(L, 1, 1, 0);	
 	lua_pop(L, 1);
 	lua_setglobal(L, mod);
-	//Some checks to make sure that the file is of the right format
 }
 
 void runStartFunction(lua_State *L, const char *mod, struct GameObject *gameobject)
 {
-	lua_getglobal(L, mod);
+	if(mod == NULL)
+		return;
+
+	lua_getglobal(L, mod);	
+	if(lua_isnil(L, -1))
+	{
+		fprintf(stderr, "%s is nil!\n", mod);
+		return;
+	}
+
 	luaL_checktype(L, -1, LUA_TTABLE);
 	lua_getfield(L, -1, "start");
 	if(lua_isfunction(L, -1))
@@ -68,9 +76,19 @@ void runStartFunction(lua_State *L, const char *mod, struct GameObject *gameobje
 void runUpdateFunction(lua_State *L, const char *mod, struct GameObject *gameobject, struct Game *game,
 					   float timepassed)
 {	
+	if(mod == NULL)
+		return;
+
 	lua_getglobal(L, mod);
+	if(lua_isnil(L, -1))
+	{
+		fprintf(stderr, "%s is nil!\n", mod);
+		return;
+	}
+
 	luaL_checktype(L, -1, LUA_TTABLE);
-	lua_getfield(L, -1, "update");
+	lua_getfield(L, -1, "update");	
+
 	if(lua_isfunction(L, -1))
 	{
 		lua_pushlightuserdata(L, gameobject);
@@ -85,8 +103,17 @@ void runUpdateFunction(lua_State *L, const char *mod, struct GameObject *gameobj
 
 int runOnCollisionFunction(lua_State *L, const char *mod, struct GameObject *gameobject, struct Game *game)
 {
-	int ret = 0;
+	if(mod == NULL)
+		return 0;
+
 	lua_getglobal(L, mod);
+	if(lua_isnil(L, -1))
+	{
+		fprintf(stderr, "%s is nil!\n", mod);
+		return 0;
+	}
+
+	int ret = 0;
 	luaL_checktype(L, -1, LUA_TTABLE);
 	lua_getfield(L, -1, "oncollision");
 	if(lua_isfunction(L, -1))

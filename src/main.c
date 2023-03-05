@@ -17,24 +17,31 @@
 int main(void)
 {
 	initGL();
+	lua_State* L = initLua();
 
 	double timepassed = 0.0;
 	
 	struct Game game;
 	game.player = createObj(pt(0.0f, -300.0f), pt(0.0f, 0.0f), pt(SPRITE_SIZE, SPRITE_SIZE),
-							4, getImageId("res/images/spaceship.png"));
+							4, getImageId("res/images/spaceship.png"), "player");
 	game.bullets = createGameObjectList();
 	game.enemies = createGameObjectList();
 	game.visualEffects = createGameObjectList();
-
-	lua_State* L = initLua();
 
 	//Push constants
 	lua_pushnumber(L, SPRITE_SIZE);
 	lua_setglobal(L, "SPRITE_SIZE");
 
+	runLuaFile(L, "res/scripts/prefabs.lua", "prefabs");	
 	luaL_dofile(L, "res/scripts/spawnwave.lua");	
-	runLuaFile(L, "res/scripts/prefabs.lua", "prefabs");
+
+	lua_getglobal(L, "prefabs");
+	luaL_checktype(L, -1, LUA_TTABLE);
+	lua_getfield(L, -1, "init");
+	if(lua_isfunction(L, -1))
+	{
+		lua_pcall(L, 0, 0, 0);
+	}
 
 	//Spawn first wave
 	int waveNum = 0;
@@ -85,4 +92,5 @@ int main(void)
 	destroyGameObjectList(&game.bullets);
 	destroyGameObjectList(&game.enemies);
 	destroyGameObjectList(&game.visualEffects);
+	lua_close(L);
 }

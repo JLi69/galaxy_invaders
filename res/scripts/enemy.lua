@@ -18,8 +18,6 @@ function enemy.update(gameobject, game, timepassed)
 
 	timer = enemy_getObjectTimer(gameobject)
 	enemy_setObjectTimer(gameobject, timer + timepassed)
-	-- print(timer)
-
 
 	-- Bounce off of edges of screen
 	if x < -320.0 then	
@@ -51,7 +49,7 @@ function enemy.oncollision(gameobject, game)
 	if health <= 0 then
 		x, y = enemy_getObjectPos(gameobject)
 		vis = game_getVisualEffectList(game)
-		game_addObject(vis, x, y, "res/images/explosion.png")
+		prefabs.addPrefab(vis, x, y, "explosion")
 	end
 	
 	-- Delete object if health is less than or equal to 0
