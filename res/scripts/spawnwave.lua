@@ -1,4 +1,4 @@
-function spawnwave(enemies, waveNum)	
+function spawnwave(enemies, waveNum)
 	if waveNum == 0 then
 		-- spawn first wave
 		for x = -1, 1 do
@@ -8,7 +8,11 @@ function spawnwave(enemies, waveNum)
 		-- spawn second wave
 		for y = 0, 3 do
 			for x = -2, 2 do			
-				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, "enemy")
+				if y == 0 or y == 3 or x == -2 or x == 2 then
+					prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, "enemy")
+				else
+					prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, "enemy2")
+				end	
 			end
 		end
 	elseif waveNum == 2 then

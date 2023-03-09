@@ -26,7 +26,8 @@ struct GameObject createObj(Vector2f pos,
 		  .totalFrames = maxFrames,
 		  .image = img,
 		  .timer = 0.0,
-		  .health = 0 };
+		  .health = 0,
+		  .mode = 0 };
 
 	if(scriptname == NULL)
 	{

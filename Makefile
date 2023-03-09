@@ -11,7 +11,7 @@ GLAD=gllibs/lib/glad.c
 
 C_FLAGS=-O0 -g
 LD_FLAGS_LINUX=-static-libgcc -lglfw3 -lm -lSOIL2 -lGL -llua 
-LD_FLAGS_MINGW=-static-libgcc -lglfw3 -lm -lSOIL2 -llua -lopengl32 -lgdi32 -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,-Bdynamic,--no-whole-archive -g
+LD_FLAGS_MINGW=-static-libgcc -lglfw3 -lm -lSOIL2 -llua -lopengl32 -lgdi32 -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,-Bdynamic,--no-whole-archive -mwindows
 INCLUDE=-Igllibs/include -Iliblua/include
 LINK_DIR_LINUX=-Lgllibs/lib/linux -Lliblua/linux
 LINK_DIR_MINGW=-Lgllibs/lib/mingw -Lliblua/windows

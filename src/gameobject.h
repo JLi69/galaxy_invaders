@@ -17,6 +17,7 @@ struct GameObject
 	char *scriptname;
 	unsigned int health;
 	double timer;
+	int mode;
 };
 
 struct GameObjectList
@@ -71,6 +72,8 @@ int luaApi_setObjectFrameCount(lua_State *L);
 int luaApi_getObjectFrameCount(lua_State *L);
 int luaApi_getObjectFrame(lua_State *L);
 int luaApi_setObjectFrame(lua_State *L);
+int luaApi_getObjectMode(lua_State *L);
+int luaApi_setObjectMode(lua_State *L);
 
 int luaApi_addEnemy(lua_State *L); //addEnemy(gameobjectList, x, y, vx, vy, szx, szy, frames, img, scriptname)
 int luaApi_addObject(lua_State *L); //addObject(gameobjectList, x, y, img, scriptname)

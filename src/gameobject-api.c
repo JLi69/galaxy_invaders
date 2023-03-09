@@ -145,6 +145,23 @@ int luaApi_setObjectFrame(lua_State *L)
 	return 0;
 }
 
+int luaApi_getObjectMode(lua_State *L)
+{
+	CHECK_ARG_COUNT(1);
+	struct GameObject* gameobject = (struct GameObject*)lua_touserdata(L, 1);
+	lua_pushinteger(L, gameobject->mode);
+	return 1;
+}
+
+int luaApi_setObjectMode(lua_State *L)
+{
+	CHECK_ARG_COUNT(2);
+	struct GameObject* gameobject = (struct GameObject*)lua_touserdata(L, 1);
+	int mode = lua_tointeger(L, 2);
+	gameobject->mode = mode;
+	return 0;
+}
+
 //addEnemy(gameobjectList, x, y, vx, vy, szx, szy, frames, img, scriptname)
 int luaApi_addEnemy(lua_State *L)
 {
