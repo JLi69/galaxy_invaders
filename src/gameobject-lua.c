@@ -26,6 +26,8 @@ lua_State* initLua()
 	lua_register(L, "enemy_setObjectFrame", luaApi_setObjectFrame);
 	lua_register(L, "enemy_getObjectMode", luaApi_getObjectMode);
 	lua_register(L, "enemy_setObjectMode", luaApi_setObjectMode);
+	lua_register(L, "enemy_setObjectScript", luaApi_setObjectScript);
+	lua_register(L, "enemy_setObjectPicture", luaApi_setObjectPicture);
 
 	lua_register(L, "game_addEnemy", luaApi_addEnemy);	
 	lua_register(L, "game_addObject", luaApi_addObject);

@@ -43,6 +43,8 @@ int main(void)
 		lua_pcall(L, 0, 0, 0);
 	}
 
+	runStartFunction(L, game.player.scriptname, &game.player);
+
 	//Spawn first wave
 	int waveNum = 0;
 	lua_getglobal(L, "spawnwave");

@@ -48,8 +48,12 @@ void update(struct Game *game,
 			}
 		}
 	}
-
+	
+	//Update the player
 	runUpdateFunction(L, game->player.scriptname, &game->player, game, timePassed);
+	for(int i = 0; i < game->enemies.size; i++)
+		if(colliding(game->enemies.gameobjects[i], game->player))
+			runOnCollisionFunction(L, game->player.scriptname, &game->player, game);
 
 	//Keyboard movement
 	if(isPressed(GLFW_KEY_LEFT)) game->player.vel.x = -SPEED;
@@ -61,7 +65,7 @@ void update(struct Game *game,
 	else game->player.vel.y = 0.0f;
 
 	//Shoot!
-	if(isPressed(GLFW_KEY_SPACE) && shootTimer <= 0.0f)  
+	if(isPressed(GLFW_KEY_SPACE) && shootTimer <= 0.0f && game->player.mode == 0)  
 	{	
 		appendGameobject(
 					 &game->bullets, 

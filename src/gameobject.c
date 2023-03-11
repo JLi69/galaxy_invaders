@@ -29,16 +29,7 @@ struct GameObject createObj(Vector2f pos,
 		  .health = 0,
 		  .mode = 0 };
 
-	if(scriptname == NULL)
-	{
-		obj.scriptname = NULL;
-		return obj;
-	}
-
-	obj.scriptname = (char*)malloc(strlen(scriptname) + 1);
-	strncpy(obj.scriptname, scriptname, strlen(scriptname));
-	obj.scriptname[strlen(scriptname)] = '\0';
-
+	setGameobjectScript(&obj, scriptname);
 	return obj;
 }
 
@@ -67,6 +58,8 @@ void setTextureForObj(struct GameObject obj,
 
 void drawGameObject(struct GameObject obj)
 {
+	if(obj.image == 0)
+		return;
 	setRectPos(obj.pos.x, obj.pos.y);
 	setRectSize(obj.dim.x, obj.dim.y);
 	drawRect();
@@ -125,4 +118,16 @@ int colliding(struct GameObject object1, struct GameObject object2)
 		   object2.pos.x - object2.dim.x / 2.0f < object1.pos.x + object1.dim.x / 2.0f &&
 		   object1.pos.y - object1.dim.y / 2.0f < object2.pos.y + object2.dim.y / 2.0f && 
 		   object2.pos.y - object2.dim.y / 2.0f < object1.pos.y + object1.dim.y / 2.0f;
+}
+
+void setGameobjectScript(struct GameObject *obj, const char *scriptname)
+{
+	if(scriptname == NULL)
+	{
+		obj->scriptname = NULL;
+	}
+
+	obj->scriptname = (char*)malloc(strlen(scriptname) + 1);
+	strncpy(obj->scriptname, scriptname, strlen(scriptname));
+	obj->scriptname[strlen(scriptname)] = '\0';
 }

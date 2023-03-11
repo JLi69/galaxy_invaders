@@ -41,6 +41,7 @@ void setTextureForObj(struct GameObject obj,
 					  float w, float h,
 					  float fracX, float fracY,
 					  float x, float y);
+void setGameobjectScript(struct GameObject *obj, const char *scriptname);
 void drawGameObject(struct GameObject obj);
 Vector2f pt(float x, float y);
 
@@ -74,6 +75,8 @@ int luaApi_getObjectFrame(lua_State *L);
 int luaApi_setObjectFrame(lua_State *L);
 int luaApi_getObjectMode(lua_State *L);
 int luaApi_setObjectMode(lua_State *L);
+int luaApi_setObjectScript(lua_State *L);
+int luaApi_setObjectPicture(lua_State *L);
 
 int luaApi_addEnemy(lua_State *L); //addEnemy(gameobjectList, x, y, vx, vy, szx, szy, frames, img, scriptname)
 int luaApi_addObject(lua_State *L); //addObject(gameobjectList, x, y, img, scriptname)

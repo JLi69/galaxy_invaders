@@ -72,12 +72,56 @@ void display(struct Game game)
 	setTextureForObj(game.player, 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);	
 	drawGameObject(game.player);	
 
+	//Draw lives
+	{
+		bindTexture(getImageId("res/images/spaceship.png"), GL_TEXTURE0);
+		int w, h;
+		getWindowSize(&w, &h);
+		float iconX = -(float)w / 2.0f + 64.0f,
+			  iconY = (float)h / 2.0f - 64.0f;
+		setRectSize(32.0f, 32.0f);
+		setTexOffset(0.0f, 0.0f);
+		for(int i = 0; i < game.player.health; i++)
+		{
+			setRectPos(iconX, iconY);
+			drawRect();
+			iconX += 32.0f;
+		}
+	}
+
 	if(isPaused())
 	{
 		setTexFrac(1.0f / 16.0f, 1.0f / 16.0f);
 		setTexSize(256.0f, 256.0f);
 		bindTexture(getImageId("res/images/icons.png"), GL_TEXTURE0);
+		
+		turnOffTexture();
+		setRectPos(0.0f, 0.0f);
+		int w, h;
+		getWindowSize(&w, &h);
+		setRectSize((float)w, (float)h);
+		setRectColor(128.0f, 128.0f, 128.0f, 128.0f);
+		drawRect();
+		turnOnTexture();
+
 		drawString("Paused", 0.0f, 0.0f, 64.0f);
+	}
+	else if(game.player.health <= 0)
+	{
+		setTexFrac(1.0f / 16.0f, 1.0f / 16.0f);
+		setTexSize(256.0f, 256.0f);	
+		
+		turnOffTexture();
+		setRectPos(0.0f, 0.0f);
+		int w, h;
+		getWindowSize(&w, &h);
+		setRectSize((float)w, (float)h);
+		setRectColor(255.0f, 0.0f, 0.0f, 128.0f);
+		drawRect();
+		turnOnTexture();
+		
+		bindTexture(getImageId("res/images/icons.png"), GL_TEXTURE0);
+		drawString("Game Over!", 0.0f, 0.0f, 64.0f);
 	}
 
 	outputGLErrors();	

@@ -1,5 +1,6 @@
 #include "gameobject.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include "gl-func.h"
 
 #define CHECK_ARG_COUNT(arg_count) \
@@ -293,6 +294,29 @@ int luaApi_loadImage(lua_State *L)
 
 int luaApi_loadScript(lua_State *L)
 {
+	CHECK_ARG_COUNT(2);
 	runLuaFile(L, lua_tostring(L, 1), lua_tostring(L,2));
+	return 0;
+}
+
+int luaApi_setObjectScript(lua_State *L)
+{
+	CHECK_ARG_COUNT(2);	
+	struct GameObject* obj = (struct GameObject*)lua_touserdata(L, 1);
+	free(obj->scriptname);
+	setGameobjectScript(obj, lua_tostring(L, 2));
+	return 0;
+}
+
+int luaApi_setObjectPicture(lua_State *L)
+{
+	CHECK_ARG_COUNT(2);	
+	struct GameObject* obj = (struct GameObject*)lua_touserdata(L, 1);	
+	if(lua_isnil(L, 2))
+	{
+		obj->image = 0;
+		return 0;
+	}
+	obj->image = getImageId(lua_tostring(L, 2));
 	return 0;
 }
