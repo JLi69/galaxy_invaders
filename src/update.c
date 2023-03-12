@@ -23,12 +23,25 @@ void update(struct Game *game,
 	for(int i = 0; i < game->visualEffects.size; i++)
 		runUpdateFunction(L, game->visualEffects.gameobjects[i].scriptname, &game->visualEffects.gameobjects[i], game, timePassed);
 
+	for(int i = 0; i < game->enemies.size; i++)
+	{
+		if(game->enemies.gameobjects[i].pos.x < -1024.0f ||
+		   game->enemies.gameobjects[i].pos.y < -600.0f ||
+		   game->enemies.gameobjects[i].pos.x > 1024.0f ||
+		   game->enemies.gameobjects[i].pos.y > 600.0f)
+		{
+			deleteGameObject(&game->enemies, i);	
+			i--;
+			continue;
+		}
+	}
+
 	for(int i = 0; i < game->bullets.size; i++)
 	{
 		if(game->bullets.gameobjects[i].pos.x < -1024.0f ||
-		   game->bullets.gameobjects[i].pos.y < -1024.0f ||
+		   game->bullets.gameobjects[i].pos.y < -600.0f ||
 		   game->bullets.gameobjects[i].pos.x > 1024.0f ||
-		   game->bullets.gameobjects[i].pos.y > 1024.0f)
+		   game->bullets.gameobjects[i].pos.y > 600.0f)
 		{
 			deleteGameObject(&game->bullets, i);	
 			i--;
@@ -54,8 +67,17 @@ void update(struct Game *game,
 	//Update the player
 	runUpdateFunction(L, game->player.scriptname, &game->player, game, timePassed);
 	for(int i = 0; i < game->enemies.size; i++)
+	{
 		if(colliding(game->enemies.gameobjects[i], game->player))
+		{	
 			runOnCollisionFunction(L, game->player.scriptname, &game->player, game);
+			if(runOnCollisionWithPlayerFunction(L, game->enemies.gameobjects[i].scriptname, &game->enemies.gameobjects[i], game))
+			{
+				deleteGameObject(&game->enemies, i);
+				i--;
+			}
+		}	
+	}
 
 	//Keyboard movement
 	if(isPressed(GLFW_KEY_LEFT)) game->player.vel.x = -SPEED;

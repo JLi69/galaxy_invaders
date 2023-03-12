@@ -1,6 +1,6 @@
 local player = {}
 
-player.SHOOT_COOLDOWN = 1.0 
+player.SHOOT_COOLDOWN = 0.7 
 
 local SPAWN_X = 0
 local SPAWN_Y = -300
@@ -35,11 +35,11 @@ function player.update(gameobject, game, timepassed)
 	enemy_setObjectTimer(gameobject, timer - timepassed)
 
 	-- Bound the player's position
-	if x < -320.0 then
-		x = -320.0
+	if x < -360.0 then
+		x = -360.0
 		enemy_setObjectPos(gameobject, x, y)
-	elseif x > 320.0 then
-		x = 320.0
+	elseif x > 360.0 then
+		x = 360.0
 		enemy_setObjectPos(gameobject, x, y)
 	end
 

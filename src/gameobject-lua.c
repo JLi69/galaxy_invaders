@@ -136,3 +136,31 @@ int runOnCollisionFunction(lua_State *L, const char *mod, struct GameObject *gam
 	}
 	return ret;
 }
+
+int runOnCollisionWithPlayerFunction(lua_State *L, const char *mod, struct GameObject *gameobject, struct Game *game)
+{
+	if(mod == NULL)
+		return 0;
+
+	lua_getglobal(L, mod);
+	if(lua_isnil(L, -1))
+	{
+		fprintf(stderr, "%s is nil!\n", mod);
+		return 0;
+	}
+
+	int ret = 0;
+	luaL_checktype(L, -1, LUA_TTABLE);
+	lua_getfield(L, -1, "oncollisionwithplayer");
+	if(lua_isfunction(L, -1))
+	{
+		lua_pushlightuserdata(L, gameobject);
+		lua_pushlightuserdata(L, game);	
+		lua_pcall(L, 2, 1, 0);
+		ret = lua_toboolean(L, -1);
+		lua_pop(L, -1);
+		lua_pop(L, -2);
+		lua_pop(L, -3);
+	}
+	return ret;
+}

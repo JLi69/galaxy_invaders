@@ -72,6 +72,7 @@ void runLuaFile(lua_State *L, const char *path, const char *mod);
 void runStartFunction(lua_State *L, const char *mod, struct GameObject *gameobject);
 void runUpdateFunction(lua_State *L, const char *mod, struct GameObject *gameobject, struct Game *game, float timepassed);
 int runOnCollisionFunction(lua_State *L, const char *mod, struct GameObject *gameobject, struct Game *game);
+int runOnCollisionWithPlayerFunction(lua_State *L, const char *mod, struct GameObject *gameobject, struct Game *game);
 
 //Gameobject API functions
 int luaApi_setObjectPos(lua_State *L);

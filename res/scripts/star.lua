@@ -5,7 +5,7 @@ function star.start(gameobject)
 	enemy_setObjectSize(gameobject, 16, 16)
 	enemy_setObjectFrame(gameobject, 0)
 	enemy_setObjectFrameCount(gameobject, 4)
-	enemy_setObjectVel(gameobject, 0, -32)
+	enemy_setObjectVel(gameobject, 0, -16)
 	enemy_setObjectPos(gameobject, math.random() * 1920 - 960, math.random() * 1080 - 540)
 	enemy_setObjectZ(gameobject, -1)
 end

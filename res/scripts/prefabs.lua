@@ -35,6 +35,8 @@ function prefabs.init()
 	prefabs.prefab("enemy2", "res/scripts/enemy2.lua", "res/images/enemy2.png")
 	prefabs.prefab("bullet", "res/scripts/bullet.lua", "res/images/bullet.png")
 	prefabs.prefab("star", "res/scripts/star.lua", "res/images/star.png")
+	prefabs.prefab("enemy_bullet", "res/scripts/enemy_bullet.lua", "res/images/enemy_bullet.png")
+	prefabs.prefab("pink_bullet", "res/scripts/pink_bullet.lua", "res/images/pink_bullet.png")
 
 	prefabs.loadres()
 end
