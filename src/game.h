@@ -11,14 +11,8 @@ void update(struct Game *game,
 			lua_State *L);
 //Draw objects onto the window
 //All sprites are 16 x 16
-//
-//Player sprite is made up of a single image
-//that is 64 x 16 pixels
-//
-//Enemies and bullets are individual images
-//Enemies are 64 x 16 pixels
-//Bullets are 32 x 16 pixels
-void display(struct Game game);
+//Sprite animations are 64 x 16 pixels
+void display(struct Game *game);
 //Initialize OpenGL data
 //Read/compile shaders, read textures, create window, etc
 void initGL(void);

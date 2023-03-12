@@ -3,6 +3,7 @@
 #include "gl-func.h"
 #include <glad/glad.h>
 #include "window-func.h"
+#include <stdlib.h>
 
 static struct ShaderProgram shaderProgram;
 static struct Buffers rectangleBuffer;
@@ -27,7 +28,12 @@ void initGL(void)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void display(struct Game game)
+int compareGameObjectZ(const void *gameobject1, const void *gameobject2)
+{
+	return (*((struct GameObject**)gameobject1))->z - (*((struct GameObject**)gameobject2))->z;
+}
+
+void display(struct Game *game)
 {
 	clear();
 
@@ -41,9 +47,30 @@ void display(struct Game game)
 	setTexOffset(0.0f, 0.0f);
 	drawRect();
 
-	//Draw bullet
+	for(int i = 0; i < game->bullets.size; i++)
+		appendGameobjectPointer(&game->toDraw, &game->bullets.gameobjects[i]);
+	for(int i = 0; i < game->enemies.size; i++)
+		appendGameobjectPointer(&game->toDraw, &game->enemies.gameobjects[i]);
+	for(int i = 0; i < game->visualEffects.size; i++)
+		appendGameobjectPointer(&game->toDraw, &game->visualEffects.gameobjects[i]);
+	appendGameobjectPointer(&game->toDraw, &game->player);
+	
+	qsort(game->toDraw.pointers, game->toDraw.size, sizeof(void*), compareGameObjectZ); 
+
+	//Draw gameobjects 
 	unsigned int prevTexture = -1;
-	for(int i = 0; i < game.bullets.size; i++)
+	for(int i = 0; i < game->toDraw.size; i++)
+	{
+		if(game->toDraw.pointers[i]->image != prevTexture)
+		{
+			bindTexture(game->toDraw.pointers[i]->image, GL_TEXTURE0);
+			prevTexture = game->toDraw.pointers[i]->image;
+		}
+		setTextureForObj(*game->toDraw.pointers[i], 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);	
+		drawGameObject(*game->toDraw.pointers[i]);
+	}
+
+	/*for(int i = 0; i < game.bullets.size; i++)
 	{
 		if(game.bullets.gameobjects[i].image != prevTexture)
 		{
@@ -79,7 +106,7 @@ void display(struct Game game)
 	//Draw player
 	bindTexture(game.player.image, GL_TEXTURE0);
 	setTextureForObj(game.player, 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);	
-	drawGameObject(game.player);	
+	drawGameObject(game.player);*/	
 
 	//Draw lives
 	{
@@ -89,8 +116,10 @@ void display(struct Game game)
 		float iconX = -(float)w / 2.0f + 64.0f,
 			  iconY = (float)h / 2.0f - 64.0f;
 		setRectSize(32.0f, 32.0f);
+		setTexSize(64.0f, 16.0f);
+		setTexFrac(1.0f / 4.0f, 1.0f);
 		setTexOffset(0.0f, 0.0f);
-		for(int i = 0; i < game.player.health; i++)
+		for(int i = 0; i < game->player.health; i++)
 		{
 			setRectPos(iconX, iconY);
 			drawRect();
@@ -115,7 +144,7 @@ void display(struct Game game)
 
 		drawString("Paused", 0.0f, 0.0f, 64.0f);
 	}
-	else if(game.player.health <= 0)
+	else if(game->player.health <= 0)
 	{
 		setTexFrac(1.0f / 16.0f, 1.0f / 16.0f);
 		setTexSize(256.0f, 256.0f);	
@@ -134,4 +163,6 @@ void display(struct Game game)
 	}
 
 	outputGLErrors();
+	destroyGameObjectPointerList(&game->toDraw);
+	game->toDraw = createGameObjectPointerList();
 }

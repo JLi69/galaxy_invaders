@@ -18,11 +18,20 @@ struct GameObject
 	unsigned int health;
 	double timer;
 	int mode;
+	int score;
+	int z; // z coordinate of object,
+		   // how much it should be prioritized in the drawing
 };
 
 struct GameObjectList
 {
 	struct GameObject *gameobjects;
+	unsigned long long size, _maxSize;
+};
+
+struct GameObjectPointerList
+{
+	struct GameObject **pointers;
 	unsigned long long size, _maxSize;
 };
 
@@ -32,6 +41,7 @@ struct Game
 	struct GameObjectList enemies;
 	struct GameObjectList visualEffects;
 	struct GameObject player;
+	struct GameObjectPointerList toDraw;
 };
 
 struct GameObject createObj(Vector2f pos, Vector2f vel, Vector2f dim, int maxFrames, 
@@ -49,6 +59,11 @@ struct GameObjectList createGameObjectList();
 void appendGameobject(struct GameObjectList *list, struct GameObject object);
 void deleteGameObject(struct GameObjectList *list, int index);
 void destroyGameObjectList(struct GameObjectList *list);
+
+struct GameObjectPointerList createGameObjectPointerList();
+void appendGameobjectPointer(struct GameObjectPointerList *list, struct GameObject *object);
+void deleteGameObjectPointer(struct GameObjectPointerList *list, int index);
+void destroyGameObjectPointerList(struct GameObjectPointerList *list);
 
 int colliding(struct GameObject object1, struct GameObject object2);
 
@@ -77,6 +92,10 @@ int luaApi_getObjectMode(lua_State *L);
 int luaApi_setObjectMode(lua_State *L);
 int luaApi_setObjectScript(lua_State *L);
 int luaApi_setObjectPicture(lua_State *L);
+int luaApi_getObjectScore(lua_State *L);
+int luaApi_setObjectScore(lua_State *L);
+int luaApi_getObjectZ(lua_State *L);
+int luaApi_setObjectZ(lua_State *L);
 
 int luaApi_addEnemy(lua_State *L); //addEnemy(gameobjectList, x, y, vx, vy, szx, szy, frames, img, scriptname)
 int luaApi_addObject(lua_State *L); //addObject(gameobjectList, x, y, img, scriptname)

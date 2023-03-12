@@ -34,8 +34,9 @@ function prefabs.init()
 	prefabs.prefab("enemy", "res/scripts/enemy.lua", "res/images/enemy1.png")		
 	prefabs.prefab("enemy2", "res/scripts/enemy2.lua", "res/images/enemy2.png")
 	prefabs.prefab("bullet", "res/scripts/bullet.lua", "res/images/bullet.png")
-	
-	prefabs.loadres()	
+	prefabs.prefab("star", "res/scripts/star.lua", "res/images/star.png")
+
+	prefabs.loadres()
 end
 
 function prefabs.addPrefab(gameobjectlist, x, y, sprite)

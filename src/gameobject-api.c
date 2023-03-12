@@ -320,3 +320,35 @@ int luaApi_setObjectPicture(lua_State *L)
 	obj->image = getImageId(lua_tostring(L, 2));
 	return 0;
 }
+
+int luaApi_getObjectScore(lua_State *L)
+{
+	CHECK_ARG_COUNT(1);
+	struct GameObject* obj = (struct GameObject*)lua_touserdata(L, 1);
+	lua_pushinteger(L, obj->score);
+	return 1;
+}
+
+int luaApi_setObjectScore(lua_State *L)
+{
+	CHECK_ARG_COUNT(2);		
+	struct GameObject* obj = (struct GameObject*)lua_touserdata(L, 1);
+	obj->score = lua_tointeger(L, 2);
+	return 0;
+}
+
+int luaApi_getObjectZ(lua_State *L)
+{
+	CHECK_ARG_COUNT(2);		
+	struct GameObject* obj = (struct GameObject*)lua_touserdata(L, 1);
+	lua_pushinteger(L, obj->z);
+	return 1;
+}
+
+int luaApi_setObjectZ(lua_State *L)
+{
+	CHECK_ARG_COUNT(2);	
+	struct GameObject* obj = (struct GameObject*)lua_touserdata(L, 1);
+	obj->z  = lua_tointeger(L, 2);
+	return 0;
+}

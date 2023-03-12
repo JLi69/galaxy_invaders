@@ -20,6 +20,8 @@ void update(struct Game *game,
 		runUpdateFunction(L, game->bullets.gameobjects[i].scriptname, &game->bullets.gameobjects[i], game, timePassed);
 	for(int i = 0; i < game->enemies.size; i++)
 		runUpdateFunction(L, game->enemies.gameobjects[i].scriptname, &game->enemies.gameobjects[i], game, timePassed);
+	for(int i = 0; i < game->visualEffects.size; i++)
+		runUpdateFunction(L, game->visualEffects.gameobjects[i].scriptname, &game->visualEffects.gameobjects[i], game, timePassed);
 
 	for(int i = 0; i < game->bullets.size; i++)
 	{

@@ -6,7 +6,7 @@ function enemy.start(gameobject)
 	enemy_setObjectVel(gameobject, 32.0, 0.0)
 	-- Set health
 	enemy_setObjectHealth(gameobject, 2)
-	enemy_setObjectSize(gameobject, SPRITE_SIZE, SPRITE_SIZE)
+	enemy_setObjectSize(gameobject, SPRITE_SIZE, SPRITE_SIZE)	
 	enemy_setObjectFrameCount(gameobject, 4)
 end
 

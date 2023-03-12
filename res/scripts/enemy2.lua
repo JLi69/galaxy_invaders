@@ -17,22 +17,15 @@ function enemy2.update(gameobject, game, timepassed)
 	velx, vely = enemy_getObjectVel(gameobject)
 
 	timer = enemy_getObjectTimer(gameobject)
-	enemy_setObjectTimer(gameobject, timer + timepassed)
-	
-	if timer > 2.0 then	
-		if enemy_getObjectMode(gameobject) == 0 and math.random() < 0.05 then
-			enemy_setObjectMode(gameobject, 1)
-		end
-		enemy_setObjectTimer(gameobject, 0.0)
-	end
+	enemy_setObjectTimer(gameobject, timer + timepassed)	
 	
 	if enemy_getObjectMode(gameobject) == 1 then -- dive bomb
 		playerx, playery = game_getPlayerPos(game)
-		velx = (playerx - x) * 0.75
-		vely = (playery - y) * 0.75
+		velx = (playerx - x) * 2
+		vely = (playery - y) * 0.8
 
-		if (math.abs(x - playerx) < 64.0 and math.abs(y - playery) < 48.0) or
-			enemy_getObjectTimer(gameobject) > 1.0 then	
+		if (math.abs(x - playerx) < 8.0 and math.abs(y - playery) < 128.0) or
+			enemy_getObjectTimer(gameobject) > 3.0 then	
 			enemy_setObjectMode(gameobject, 0)
 			enemy_setObjectTimer(gameobject, -4.0) -- 6 second delay before the enemy could dive bomb again 
 
@@ -46,7 +39,13 @@ function enemy2.update(gameobject, game, timepassed)
 		end
 
 		enemy_setObjectVel(gameobject, velx, vely) 	
-		enemy_setObjectTimer(gameobject, 0.0)	
+	end
+
+	if timer > 2.0 and enemy_getObjectMode(gameobject) == 0 then	
+		if math.random() < 0.05 then
+			enemy_setObjectMode(gameobject, 1)
+		end
+		enemy_setObjectTimer(gameobject, 0.0)
 	end
 
 	-- Bounce off of edges of screen
@@ -76,7 +75,6 @@ function enemy2.oncollision(gameobject, game)
 	health = enemy_getObjectHealth(gameobject)
 	health = health - 1
 	enemy_setObjectHealth(gameobject, health)
-	enemy_setObjectTimer(gameobject, 0.0)	
 
 	-- if out of health, explode
 	if health <= 0 then

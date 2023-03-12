@@ -11,7 +11,6 @@
 #include "draw.h"
 #include <lauxlib.h>
 #include <lualib.h>
-
 #include <stdio.h>
 
 int main(void)
@@ -27,13 +26,15 @@ int main(void)
 	game.bullets = createGameObjectList();
 	game.enemies = createGameObjectList();
 	game.visualEffects = createGameObjectList();
+	game.toDraw = createGameObjectPointerList();
 
 	//Push constants
 	lua_pushnumber(L, SPRITE_SIZE);
 	lua_setglobal(L, "SPRITE_SIZE");
 
 	runLuaFile(L, "res/scripts/prefabs.lua", "prefabs");	
-	luaL_dofile(L, "res/scripts/spawnwave.lua");	
+	luaL_dofile(L, "res/scripts/spawnwave.lua");		
+	luaL_dofile(L, "res/scripts/start.lua");
 
 	lua_getglobal(L, "prefabs");
 	luaL_checktype(L, -1, LUA_TTABLE);
@@ -41,6 +42,14 @@ int main(void)
 	if(lua_isfunction(L, -1))
 	{
 		lua_pcall(L, 0, 0, 0);
+	}
+
+	lua_getglobal(L, "startgame");
+	if(lua_isfunction(L, -1))
+	{
+		lua_pushlightuserdata(L, &game);
+		lua_pcall(L, 1, 0, 0);
+		lua_pop(L, -1);
 	}
 
 	runStartFunction(L, game.player.scriptname, &game.player);
@@ -62,7 +71,7 @@ int main(void)
 		struct timeval start;
 		gettimeofday(&start, 0);
 		
-		display(game);
+		display(&game);
 		if(!isPaused())
 		{
 			update(&game, timepassed, L); 
@@ -94,5 +103,6 @@ int main(void)
 	destroyGameObjectList(&game.bullets);
 	destroyGameObjectList(&game.enemies);
 	destroyGameObjectList(&game.visualEffects);
+	destroyGameObjectPointerList(&game.toDraw);
 	lua_close(L);
 }
