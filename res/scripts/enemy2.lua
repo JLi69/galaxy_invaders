@@ -5,7 +5,7 @@ function enemy2.start(gameobject)
 	-- Set object's velocity
 	enemy_setObjectVel(gameobject, 32.0, 0.0)
 	-- Set health
-	enemy_setObjectHealth(gameobject, 4)
+	enemy_setObjectHealth(gameobject, 5)
 	enemy_setObjectSize(gameobject, SPRITE_SIZE, SPRITE_SIZE)
 	enemy_setObjectFrameCount(gameobject, 4)
 end
@@ -29,16 +29,17 @@ function enemy2.update(gameobject, game, timepassed)
 	if enemy_getObjectMode(gameobject) == 1 then -- dive bomb
 		playerx, playery = game_getPlayerPos(game)
 		velx = (playerx - x) * 0.75
-		vely = (playery - y ) * 0.75
+		vely = (playery - y) * 0.75
 
-		if (math.abs(x - playerx) < 128.0 and math.abs(y - playery) < 64.0) or
-			enemy_getObjectTimer(gameobject) > 2.0 then	
+		if (math.abs(x - playerx) < 64.0 and math.abs(y - playery) < 48.0) or
+			enemy_getObjectTimer(gameobject) > 1.0 then	
 			enemy_setObjectMode(gameobject, 0)
+			enemy_setObjectTimer(gameobject, -4.0) -- 6 second delay before the enemy could dive bomb again 
 
 			if velx < 0.0 then
-				velx = -32.0
+				velx = -32.0 - math.random() * 32.0 + 16.0
 			elseif velx > 0.0 then
-				velx = 32.0
+				velx = 32.0 + math.random() * 32.0 - 16.0
 			end
 
 			vely = 256.0

@@ -1,0 +1,15 @@
+CREDITS
+
+Programming - Nullptr Error aka JLi69
+
+Libraries Used:
+
+Lua (https://www.lua.org)
+GLFW (https://glfw.org)
+glad (https://glad.da1de.de)
+SOIL2 (https://SpartanJ/SOIL2)
+
+Images Used: 
+
+background.png - "Sombrero Galaxy" [ Credit: STScI, NASA ]
+(https://hubblesite.org/contents/media/images/3884-Image)

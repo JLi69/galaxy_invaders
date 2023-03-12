@@ -2,18 +2,18 @@
 #include <GLFW/glfw3.h>
 #include "window-func.h"
 #include "gl-func.h"
+#include <lauxlib.h>
+#include <lualib.h>
 
 #include <stdio.h>
 
 #define ANIMATION_SPEED 0.1f
-#define SHOOT_COOLDOWN 0.5f
 
 void update(struct Game *game,
 			float timePassed,
 			lua_State *L)
 {
 	static float animationTimer = 0.0f;
-	static float shootTimer = 0.0f;
 
 	//Move gameobjects
 	for(int i = 0; i < game->bullets.size; i++)
@@ -65,7 +65,7 @@ void update(struct Game *game,
 	else game->player.vel.y = 0.0f;
 
 	//Shoot!
-	if(isPressed(GLFW_KEY_SPACE) && shootTimer <= 0.0f && game->player.mode == 0)  
+	if(isPressed(GLFW_KEY_SPACE) && game->player.timer <= 0.0f && game->player.mode == 0)  
 	{	
 		appendGameobject(
 					 &game->bullets, 
@@ -73,11 +73,14 @@ void update(struct Game *game,
 							   pt(0.0f, BULLET_SPEED),
 							   pt(SPRITE_SIZE, SPRITE_SIZE), 2, 
 							   getImageId("res/images/bullet.png"), "bullet"));
-		shootTimer = SHOOT_COOLDOWN;
+		
+		lua_getglobal(L, game->player.scriptname);
+		luaL_checktype(L, -1, LUA_TTABLE);
+		lua_getfield(L, -1, "SHOOT_COOLDOWN");
+		game->player.timer = lua_tonumber(L, -1);
 	}
 
 	animationTimer += timePassed;
-	shootTimer -= timePassed;
 
 	//Animate objects
 	if(animationTimer > 0.2f)

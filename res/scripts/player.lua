@@ -1,5 +1,7 @@
 local player = {}
 
+player.SHOOT_COOLDOWN = 1.0 
+
 local SPAWN_X = 0
 local SPAWN_Y = -300
 
@@ -28,7 +30,10 @@ function player.update(gameobject, game, timepassed)
 
 	x, y = enemy_getObjectPos(gameobject)
 	velx, vely = enemy_getObjectVel(gameobject)
-	
+
+	timer = enemy_getObjectTimer(gameobject)
+	enemy_setObjectTimer(gameobject, timer - timepassed)
+
 	-- Bound the player's position
 	if x < -320.0 then
 		x = -320.0

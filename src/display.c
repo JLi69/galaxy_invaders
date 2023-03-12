@@ -19,8 +19,9 @@ void initGL(void)
 	rectangleBuffer = createRectangleBuffer();
 	bindBuffers(rectangleBuffer);
 
-	loadTexture("res/images/icons.png"),
-	loadTexture("res/images/spaceship.png"),
+	loadTexture("res/images/icons.png");
+	loadTexture("res/images/spaceship.png");
+	loadTexture("res/images/background.png");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -31,7 +32,15 @@ void display(struct Game game)
 	clear();
 
 	updateActiveShaderWindowSize();
-	
+
+	bindTexture(getImageId("res/images/background.png"), GL_TEXTURE0);
+	setRectPos(0.0f, 0.0f);
+	setRectSize(1920.0f, 1080.0f);
+	setTexSize(640.0f, 360.0f);
+	setTexFrac(1.0f, 1.0f);
+	setTexOffset(0.0f, 0.0f);
+	drawRect();
+
 	//Draw bullet
 	unsigned int prevTexture = -1;
 	for(int i = 0; i < game.bullets.size; i++)
@@ -124,5 +133,5 @@ void display(struct Game game)
 		drawString("Game Over!", 0.0f, 0.0f, 64.0f);
 	}
 
-	outputGLErrors();	
+	outputGLErrors();
 }
