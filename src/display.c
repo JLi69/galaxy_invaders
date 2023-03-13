@@ -4,6 +4,7 @@
 #include <glad/glad.h>
 #include "window-func.h"
 #include <stdlib.h>
+#include <math.h>
 
 static struct ShaderProgram shaderProgram;
 static struct Buffers rectangleBuffer;
@@ -69,52 +70,14 @@ void display(struct Game *game)
 		setTextureForObj(*game->toDraw.pointers[i], 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);	
 		drawGameObject(*game->toDraw.pointers[i]);
 	}
-
-	/*for(int i = 0; i < game.bullets.size; i++)
-	{
-		if(game.bullets.gameobjects[i].image != prevTexture)
-		{
-			bindTexture(game.bullets.gameobjects[i].image, GL_TEXTURE0);
-			prevTexture = game.bullets.gameobjects[i].image;	
-		}
-		setTextureForObj(game.bullets.gameobjects[i], 32.0f, 16.0f, 1.0f / 2.0f, 1.0f, 0.0f, 0.0f);
-		drawGameObject(game.bullets.gameobjects[i]);
-	}
-
-	for(int i = 0; i < game.enemies.size; i++)
-	{
-		if(game.enemies.gameobjects[i].image != prevTexture)
-		{
-			bindTexture(game.enemies.gameobjects[i].image, GL_TEXTURE0);
-			prevTexture = game.enemies.gameobjects[i].image;	
-		}
-		setTextureForObj(game.enemies.gameobjects[i], 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);
-		drawGameObject(game.enemies.gameobjects[i]);
-	}
-
-	for(int i = 0; i < game.visualEffects.size; i++)
-	{
-		if(game.visualEffects.gameobjects[i].image != prevTexture)
-		{
-			bindTexture(game.visualEffects.gameobjects[i].image, GL_TEXTURE0);
-			prevTexture = game.visualEffects.gameobjects[i].image;	
-		}
-		setTextureForObj(game.visualEffects.gameobjects[i], 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);
-		drawGameObject(game.visualEffects.gameobjects[i]);
-	}
-
-	//Draw player
-	bindTexture(game.player.image, GL_TEXTURE0);
-	setTextureForObj(game.player, 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);	
-	drawGameObject(game.player);*/	
-
+	
 	//Draw lives
 	{
 		bindTexture(getImageId("res/images/spaceship.png"), GL_TEXTURE0);
 		int w, h;
 		getWindowSize(&w, &h);
-		float iconX = -(float)w / 2.0f + 64.0f,
-			  iconY = (float)h / 2.0f - 64.0f;
+		float iconX = -(float)w / 2.0f + 32.0f,
+			  iconY = (float)h / 2.0f - 32.0f;
 		setRectSize(32.0f, 32.0f);
 		setTexSize(64.0f, 16.0f);
 		setTexFrac(1.0f / 4.0f, 1.0f);
@@ -160,6 +123,32 @@ void display(struct Game *game)
 		
 		bindTexture(getImageId("res/images/icons.png"), GL_TEXTURE0);
 		drawString("Game Over!", 0.0f, 0.0f, 64.0f);
+	}
+
+	//Draw score and current wave
+	{
+		bindTexture(getImageId("res/images/icons.png"), GL_TEXTURE0);
+		setTexFrac(1.0f / 16.0f, 1.0f / 16.0f);
+		setTexSize(256.0f, 256.0f);
+		int w, h;
+		getWindowSize(&w, &h);
+		
+		int numOffset = 1;
+		if(game->player.score != 0)
+			numOffset = ((int)log10((double)(game->player.score > 0 ? game->player.score : -game->player.score)) + 1);
+		float textX = (float)w / 2.0f - numOffset * 16.0f - 8.0f - (float)sizeof("Score:") * 16.0f / 2.0f - 32.0f,
+			  textY = (float)h / 2.0f - 32.0f;
+		float stringEndX = drawString("Score:", textX, textY, 16.0f); 
+		drawInteger(game->player.score, stringEndX - 16.0f + 8.0f * numOffset, textY, 16.0f);
+		
+		numOffset = 1;
+		if(game->waveNum != 0)
+			numOffset = ((int)log10((double)(game->waveNum > 0 ? game->waveNum : -game->waveNum)) + 1);
+
+		textX = (float)w / 2.0f - numOffset * 16.0f - 8.0f - (float)sizeof("Wave:") * 16.0f / 2.0f - 32.0f;
+		textY -= 24.0f;
+		stringEndX = drawString("Wave:", textX, textY, 16.0f);
+		drawInteger(game->waveNum, stringEndX - 16.0f + 8.0f * numOffset, textY, 16.0f);
 	}
 
 	outputGLErrors();

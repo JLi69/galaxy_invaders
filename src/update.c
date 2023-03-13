@@ -48,9 +48,11 @@ void update(struct Game *game,
 			continue;
 		}
 
-		for(int j = 0; j < game->enemies.size; j++) {
+		for(int j = 0; j < game->enemies.size; j++) 
+		{
 			if(colliding(game->enemies.gameobjects[j], game->bullets.gameobjects[i]))
 			{
+				game->player.score += game->enemies.gameobjects[j].score;
 				if(runOnCollisionFunction(L, game->enemies.gameobjects[j].scriptname, &game->enemies.gameobjects[j], game))
 				{
 					deleteGameObject(&game->enemies, j);

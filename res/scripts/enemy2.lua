@@ -8,6 +8,8 @@ function enemy2.start(gameobject)
 	enemy_setObjectHealth(gameobject, 2)
 	enemy_setObjectSize(gameobject, SPRITE_SIZE, SPRITE_SIZE)
 	enemy_setObjectFrameCount(gameobject, 4)
+
+	enemy_setObjectScore(gameobject, 50)
 end
 
 function enemy2.update(gameobject, game, timepassed)

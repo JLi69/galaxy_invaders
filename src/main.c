@@ -54,16 +54,18 @@ int main(void)
 
 	runStartFunction(L, game.player.scriptname, &game.player);
 
+	game.player.score = 0;
 	//Spawn first wave
-	int waveNum = 0;
+	game.waveNum = 0;
 	lua_getglobal(L, "spawnwave");
 	if(lua_isfunction(L, -1))
 	{
 		lua_pushlightuserdata(L, &game.enemies);
-		lua_pushinteger(L, waveNum);
+		lua_pushinteger(L, game.waveNum);
 		lua_pcall(L, 2, 0, 0);
 		lua_pop(L, -1);
 		lua_pop(L, -2);
+		game.waveNum++;	
 	}
 
 	while(!canQuit())
@@ -80,16 +82,16 @@ int main(void)
 			if(game.enemies.size == 0)
 			{
 				//Spawn next wave
-				waveNum++;	
 				lua_getglobal(L, "spawnwave");
 				if(lua_isfunction(L, -1))
 				{
 					lua_pushlightuserdata(L, &game.enemies);
-					lua_pushinteger(L, waveNum);
+					lua_pushinteger(L, game.waveNum);
 					lua_pcall(L, 2, 0, 0);
 					lua_pop(L, -1);
 					lua_pop(L, -2);
 				}
+				game.waveNum++;	
 			}
 		}
 

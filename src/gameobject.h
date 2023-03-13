@@ -42,6 +42,7 @@ struct Game
 	struct GameObjectList visualEffects;
 	struct GameObject player;
 	struct GameObjectPointerList toDraw;
+	int waveNum;
 };
 
 struct GameObject createObj(Vector2f pos, Vector2f vel, Vector2f dim, int maxFrames, 
