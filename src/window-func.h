@@ -39,6 +39,8 @@ void getCursorPos(double *x, double *y);
 
 void toggleCursor(void);
 void enableCursor(void);
+void disableCursor(void);
+void hideCursor(void);
 
 #endif
 #define WINDOW_UTIL_H

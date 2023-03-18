@@ -1,5 +1,9 @@
+createmenu = require("res.scripts.createmenu")
+
 -- This function is called once at the beginning of the game
 function startgame(game)
+	createmenu.createmainmenu(game)
+
 	-- Add visual effects
 	visualEffects = game_getVisualEffectList(game)		
 	for i = 0, 80 do

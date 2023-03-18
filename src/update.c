@@ -4,6 +4,7 @@
 #include "gl-func.h"
 #include <lauxlib.h>
 #include <lualib.h>
+#include "menu.h"
 
 #include <stdio.h>
 
@@ -15,13 +16,41 @@ void update(struct Game *game,
 {
 	static float animationTimer = 0.0f;
 
+	for(int i = 0; i < game->visualEffects.size; i++)
+		runUpdateFunction(L, game->visualEffects.gameobjects[i].scriptname, &game->visualEffects.gameobjects[i], game, timePassed);
+
+	//Animate objects
+	if(animationTimer > 0.2f)
+	{
+		animateObject(&game->player);
+		
+		for(int i = 0; i < game->bullets.size; i++)
+			animateObject(&game->bullets.gameobjects[i]);
+		for(int i = 0; i < game->enemies.size; i++)
+			animateObject(&game->enemies.gameobjects[i]);
+
+		for(int i = 0; i < game->visualEffects.size; i++)
+		{
+			animateObject(&game->visualEffects.gameobjects[i]);
+			if(game->visualEffects.gameobjects[i].animationFrame >=
+			   game->visualEffects.gameobjects[i].totalFrames - 1)
+			{
+				deleteGameObject(&game->visualEffects, i);
+				i--;
+			}
+		}	
+
+		animationTimer = 0.0f;
+	}
+
+	if(game->selectedMenu != GAME)
+		return;
+
 	//Move gameobjects
 	for(int i = 0; i < game->bullets.size; i++)
 		runUpdateFunction(L, game->bullets.gameobjects[i].scriptname, &game->bullets.gameobjects[i], game, timePassed);
 	for(int i = 0; i < game->enemies.size; i++)
-		runUpdateFunction(L, game->enemies.gameobjects[i].scriptname, &game->enemies.gameobjects[i], game, timePassed);
-	for(int i = 0; i < game->visualEffects.size; i++)
-		runUpdateFunction(L, game->visualEffects.gameobjects[i].scriptname, &game->visualEffects.gameobjects[i], game, timePassed);
+		runUpdateFunction(L, game->enemies.gameobjects[i].scriptname, &game->enemies.gameobjects[i], game, timePassed);	
 
 	for(int i = 0; i < game->enemies.size; i++)
 	{
@@ -106,29 +135,5 @@ void update(struct Game *game,
 		game->player.timer = lua_tonumber(L, -1);
 	}
 
-	animationTimer += timePassed;
-
-	//Animate objects
-	if(animationTimer > 0.2f)
-	{
-		animateObject(&game->player);
-		
-		for(int i = 0; i < game->bullets.size; i++)
-			animateObject(&game->bullets.gameobjects[i]);
-		for(int i = 0; i < game->enemies.size; i++)
-			animateObject(&game->enemies.gameobjects[i]);
-
-		for(int i = 0; i < game->visualEffects.size; i++)
-		{
-			animateObject(&game->visualEffects.gameobjects[i]);
-			if(game->visualEffects.gameobjects[i].animationFrame >=
-			   game->visualEffects.gameobjects[i].totalFrames - 1)
-			{
-				deleteGameObject(&game->visualEffects, i);
-				i--;
-			}
-		}	
-
-		animationTimer = 0.0f;
-	}
+	animationTimer += timePassed;	
 }

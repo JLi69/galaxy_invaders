@@ -5,6 +5,9 @@
 #include "window-func.h"
 #include <stdlib.h>
 #include <math.h>
+#include "menu.h"
+
+#include <stdio.h>
 
 static struct ShaderProgram shaderProgram;
 static struct Buffers rectangleBuffer;
@@ -48,14 +51,15 @@ void display(struct Game *game)
 	setTexOffset(0.0f, 0.0f);
 	drawRect();
 
-	for(int i = 0; i < game->bullets.size; i++)
+	for(int i = 0; i < game->bullets.size && game->selectedMenu == GAME; i++)
 		appendGameobjectPointer(&game->toDraw, &game->bullets.gameobjects[i]);
-	for(int i = 0; i < game->enemies.size; i++)
+	for(int i = 0; i < game->enemies.size && game->selectedMenu == GAME; i++)
 		appendGameobjectPointer(&game->toDraw, &game->enemies.gameobjects[i]);
 	for(int i = 0; i < game->visualEffects.size; i++)
 		appendGameobjectPointer(&game->toDraw, &game->visualEffects.gameobjects[i]);
-	appendGameobjectPointer(&game->toDraw, &game->player);
-	
+	if(game->selectedMenu == GAME)
+		appendGameobjectPointer(&game->toDraw, &game->player);
+
 	qsort(game->toDraw.pointers, game->toDraw.size, sizeof(void*), compareGameObjectZ); 
 
 	//Draw gameobjects 
@@ -72,6 +76,7 @@ void display(struct Game *game)
 	}
 	
 	//Draw lives
+	if(game->selectedMenu == GAME)
 	{
 		bindTexture(getImageId("res/images/spaceship.png"), GL_TEXTURE0);
 		int w, h;
@@ -90,7 +95,7 @@ void display(struct Game *game)
 		}
 	}
 
-	if(isPaused())
+	if(isPaused() && game->selectedMenu == GAME)
 	{
 		setTexFrac(1.0f / 16.0f, 1.0f / 16.0f);
 		setTexSize(256.0f, 256.0f);
@@ -107,7 +112,7 @@ void display(struct Game *game)
 
 		drawString("Paused", 0.0f, 0.0f, 64.0f);
 	}
-	else if(game->player.health <= 0)
+	else if(game->player.health <= 0 && game->selectedMenu == GAME)
 	{
 		setTexFrac(1.0f / 16.0f, 1.0f / 16.0f);
 		setTexSize(256.0f, 256.0f);	
@@ -126,6 +131,7 @@ void display(struct Game *game)
 	}
 
 	//Draw score and current wave
+	if(game->selectedMenu == GAME)
 	{
 		bindTexture(getImageId("res/images/icons.png"), GL_TEXTURE0);
 		setTexFrac(1.0f / 16.0f, 1.0f / 16.0f);
@@ -148,7 +154,7 @@ void display(struct Game *game)
 		textX = (float)w / 2.0f - numOffset * 16.0f - 8.0f - (float)sizeof("Wave:") * 16.0f / 2.0f - 32.0f;
 		textY -= 24.0f;
 		stringEndX = drawString("Wave:", textX, textY, 16.0f);
-		drawInteger(game->waveNum, stringEndX - 16.0f + 8.0f * numOffset, textY, 16.0f);
+		drawInteger(game->waveNum, stringEndX - 16.0f + 8.0f * numOffset, textY, 16.0f);	
 	}
 
 	outputGLErrors();

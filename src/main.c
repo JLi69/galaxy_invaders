@@ -12,6 +12,7 @@
 #include <lauxlib.h>
 #include <lualib.h>
 #include <stdio.h>
+#include "menu.h"
 
 int main(void)
 {
@@ -27,6 +28,7 @@ int main(void)
 	game.enemies = createGameObjectList();
 	game.visualEffects = createGameObjectList();
 	game.toDraw = createGameObjectPointerList();
+	game.selectedMenu = 0;
 
 	//Push constants
 	lua_pushnumber(L, SPRITE_SIZE);
@@ -49,7 +51,7 @@ int main(void)
 	{
 		lua_pushlightuserdata(L, &game);
 		lua_pcall(L, 1, 0, 0);
-		lua_pop(L, -1);
+		lua_pop(L, 1);
 	}
 
 	runStartFunction(L, game.player.scriptname, &game.player);
@@ -74,6 +76,30 @@ int main(void)
 		gettimeofday(&start, 0);
 		
 		display(&game);
+		drawMenu(game.selectedMenu);
+		
+		//Draw cursor on menu
+		if(game.selectedMenu != GAME && cursorInBounds())
+		{
+			bindTexture(getImageId("res/images/icons.png"), GL_TEXTURE0);
+			setTexOffset(0.0f, 0.0f);
+			setRectSize(24.0f, 24.0f);
+			double cursorX, cursorY;
+			getCursorPos(&cursorX, &cursorY);
+			setRectPos(cursorX, cursorY);
+			drawRect();
+		}
+
+		//Don't pause unless in game
+		if(game.selectedMenu != GAME)
+		{
+			setPaused(0);
+
+			//Hide/show mouse cursor
+			if(cursorInBounds()) hideCursor();
+			else enableCursor();
+		}
+
 		if(!isPaused())
 		{
 			update(&game, timepassed, L); 
@@ -94,8 +120,10 @@ int main(void)
 				game.waveNum++;	
 			}
 		}
+		interactWithMenu(game.selectedMenu, &game, L);
 
-		updateWindow();
+		updateWindow();	
+
 		struct timeval end;
 		gettimeofday(&end, 0);	
 		timepassed = end.tv_sec - start.tv_sec + 1e-6 * (end.tv_usec - start.tv_usec);

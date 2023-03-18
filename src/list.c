@@ -7,6 +7,7 @@ struct GameObjectList createGameObjectList()
 	list.gameobjects = (struct GameObject*)malloc(sizeof(struct GameObject) * DEFAULT_MAX_SZ);
 	list.size = 0;
 	list._maxSize = DEFAULT_MAX_SZ;
+	list.enabled = 1;
 	return list;
 }
 

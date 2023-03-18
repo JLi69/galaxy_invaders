@@ -3,6 +3,7 @@
 #include <lualib.h>
 #include <string.h>
 #include <stdlib.h>
+#include "menu.h"
 
 lua_State* initLua()
 {
@@ -44,6 +45,12 @@ lua_State* initLua()
 
 	lua_register(L, "game_loadTexture", luaApi_loadImage);
 	lua_register(L, "game_loadScript", luaApi_loadScript);
+
+	lua_register(L, "menu_addTextToMenu", luaApi_addTextToMenu);
+	lua_register(L, "menu_addButtonToMenu", luaApi_addButtonToMenu);
+	lua_register(L, "menu_gotoMenu", luaApi_gotoMenu);
+	lua_register(L, "menu_getMenuId", luaApi_getCurrentMenuId);
+	lua_register(L, "game_setPaused", luaApi_setPaused);
 
 	return L;
 }

@@ -284,3 +284,19 @@ void enableCursor()
 	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_NORMAL);	
 	glfwSetCursorPos(win, cursorX, cursorY);
 }
+
+void disableCursor()
+{
+	double cursorX, cursorY;
+	glfwGetCursorPos(win, &cursorX, &cursorY);
+	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);	
+	glfwSetCursorPos(win, cursorX, cursorY);
+}
+
+void hideCursor()
+{
+	double cursorX, cursorY;
+	glfwGetCursorPos(win, &cursorX, &cursorY);
+	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);	
+	glfwSetCursorPos(win, cursorX, cursorY);
+}

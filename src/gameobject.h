@@ -1,4 +1,4 @@
-#ifndef GAMEBOJECT_H
+#ifndef GAMEOBJECT_H
 
 #include <lua.h>
 
@@ -26,6 +26,7 @@ struct GameObject
 struct GameObjectList
 {
 	struct GameObject *gameobjects;
+	int enabled;
 	unsigned long long size, _maxSize;
 };
 
@@ -43,6 +44,7 @@ struct Game
 	struct GameObject player;
 	struct GameObjectPointerList toDraw;
 	int waveNum;
+	int selectedMenu;
 };
 
 struct GameObject createObj(Vector2f pos, Vector2f vel, Vector2f dim, int maxFrames, 
@@ -113,3 +115,5 @@ int luaApi_loadImage(lua_State *L);
 int luaApi_loadScript(lua_State *L);
 
 #endif
+
+#define GAMEOBJECT_H
