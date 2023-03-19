@@ -41,8 +41,12 @@ lua_State* initLua()
 	lua_register(L, "game_getVisualEffectList", luaApi_getVisualEffectList);
 	lua_register(L, "game_getPlayerPos", luaApi_getPlayerPos);
 	lua_register(L, "game_sizeofList", luaApi_getListSize);
-	lua_register(L, "game_getGameObjectAt", luaApi_getGameobject);	
-
+	lua_register(L, "game_getGameObjectAt", luaApi_getGameobject);
+	lua_register(L, "game_clearList", luaApi_clearList);	
+	lua_register(L, "game_getWaveNum", luaApi_getWave);
+	lua_register(L, "game_setWaveNum", luaApi_setWave);	
+	lua_register(L, "game_getPlayer", luaApi_getPlayer);	
+	
 	lua_register(L, "game_loadTexture", luaApi_loadImage);
 	lua_register(L, "game_loadScript", luaApi_loadScript);
 
@@ -52,6 +56,8 @@ lua_State* initLua()
 	lua_register(L, "menu_getMenuId", luaApi_getCurrentMenuId);	
 	lua_register(L, "menu_clear", luaApi_clearMenu);
 	lua_register(L, "game_setPaused", luaApi_setPaused);
+	lua_register(L, "menu_setBackgroundColor", luaApi_setBackgroundColor);
+	lua_register(L, "menu_showGameobjects", luaApi_setDisplayGameObjects);
 
 	return L;
 }

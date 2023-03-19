@@ -6,8 +6,17 @@
 #define MAX_TEXT 64
 #define MAX_MENU 16
 
-#define QUIT -2
-#define GAME -1
+
+enum MenuId
+{
+	QUIT = -2,
+	GAME = -1,
+	MAIN = 0,
+	CREDITS = 1,
+	HISCORE = 2,
+	PAUSE = 3,
+	GAMEOVER = 4
+};
 
 struct MenuObj 
 {
@@ -22,6 +31,8 @@ struct Menu
 	struct MenuObj menuButtons[MAX_BUTTONS];
 	struct MenuObj menuText[MAX_TEXT];
 	int buttonCount, textCount;
+	int displayGameobjects;
+	float backgroundR, backgroundG, backgroundB, backgroundA;
 };
 
 //Button darkens when you hover over it
@@ -46,6 +57,8 @@ int luaApi_gotoMenu(lua_State *L);
 int luaApi_getCurrentMenuId(lua_State *L);
 int luaApi_setPaused(lua_State *L);
 int luaApi_clearMenu(lua_State *L);
+int luaApi_setDisplayGameObjects(lua_State *L);
+int luaApi_setBackgroundColor(lua_State *L);
 
 void interactWithMenu(int menuId, struct Game *game, lua_State *L);
 

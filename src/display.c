@@ -51,13 +51,13 @@ void display(struct Game *game)
 	setTexOffset(0.0f, 0.0f);
 	drawRect();
 
-	for(int i = 0; i < game->bullets.size && game->selectedMenu == GAME; i++)
+	for(int i = 0; i < game->bullets.size && (game->selectedMenu == GAME || getMenuFromId(game->selectedMenu)->displayGameobjects); i++)
 		appendGameobjectPointer(&game->toDraw, &game->bullets.gameobjects[i]);
-	for(int i = 0; i < game->enemies.size && game->selectedMenu == GAME; i++)
+	for(int i = 0; i < game->enemies.size && (game->selectedMenu == GAME || getMenuFromId(game->selectedMenu)->displayGameobjects); i++)
 		appendGameobjectPointer(&game->toDraw, &game->enemies.gameobjects[i]);
 	for(int i = 0; i < game->visualEffects.size; i++)
 		appendGameobjectPointer(&game->toDraw, &game->visualEffects.gameobjects[i]);
-	if(game->selectedMenu == GAME)
+	if(game->selectedMenu == GAME || getMenuFromId(game->selectedMenu)->displayGameobjects)
 		appendGameobjectPointer(&game->toDraw, &game->player);
 
 	qsort(game->toDraw.pointers, game->toDraw.size, sizeof(void*), compareGameObjectZ); 
@@ -93,41 +93,6 @@ void display(struct Game *game)
 			drawRect();
 			iconX += 32.0f;
 		}
-	}
-
-	if(isPaused() && game->selectedMenu == GAME)
-	{
-		setTexFrac(1.0f / 16.0f, 1.0f / 16.0f);
-		setTexSize(256.0f, 256.0f);
-		bindTexture(getImageId("res/images/icons.png"), GL_TEXTURE0);
-		
-		turnOffTexture();
-		setRectPos(0.0f, 0.0f);
-		int w, h;
-		getWindowSize(&w, &h);
-		setRectSize((float)w, (float)h);
-		setRectColor(128.0f, 128.0f, 128.0f, 128.0f);
-		drawRect();
-		turnOnTexture();
-
-		drawString("Paused", 0.0f, 0.0f, 64.0f);
-	}
-	else if(game->player.health <= 0 && game->selectedMenu == GAME)
-	{
-		setTexFrac(1.0f / 16.0f, 1.0f / 16.0f);
-		setTexSize(256.0f, 256.0f);	
-		
-		turnOffTexture();
-		setRectPos(0.0f, 0.0f);
-		int w, h;
-		getWindowSize(&w, &h);
-		setRectSize((float)w, (float)h);
-		setRectColor(255.0f, 0.0f, 0.0f, 128.0f);
-		drawRect();
-		turnOnTexture();
-		
-		bindTexture(getImageId("res/images/icons.png"), GL_TEXTURE0);
-		drawString("Game Over!", 0.0f, 0.0f, 64.0f);
 	}
 
 	//Draw score and current wave

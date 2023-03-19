@@ -16,6 +16,9 @@
 
 int main(void)
 {
+	for(int i = 0; i < MAX_MENU; i++)
+		clearMenu(i);
+
 	initGL();
 	lua_State* L = initLua();
 

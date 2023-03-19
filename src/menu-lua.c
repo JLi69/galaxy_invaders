@@ -91,3 +91,24 @@ int luaApi_clearMenu(lua_State *L)
 	clearMenu(lua_tointeger(L, 1));
 	return 0;
 }
+
+int luaApi_setDisplayGameObjects(lua_State *L)
+{
+	CHECK_ARG_COUNT(2);
+	struct Menu* menu = getMenuFromId(lua_tointeger(L, 1));
+	menu->displayGameobjects = lua_toboolean(L, 2);
+	return 0;
+}
+
+int luaApi_setBackgroundColor(lua_State *L)
+{
+	CHECK_ARG_COUNT(5);
+	struct Menu* menu = getMenuFromId(lua_tointeger(L, 1));
+	
+	menu->backgroundR = lua_tonumber(L, 2);
+	menu->backgroundG = lua_tonumber(L, 3);
+	menu->backgroundB = lua_tonumber(L, 4);
+	menu->backgroundA = lua_tonumber(L, 5);
+
+	return 0;
+}

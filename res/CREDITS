@@ -5,7 +5,7 @@ Libraries Used:
 Lua (www.lua.org)
 GLFW (glfw.org)
 glad (glad.dav1d.de)
-SOIL2 (SpartanJ/SOIL2)
+SOIL2 (github.com/SpartanJ/SOIL2)
 
 Images Used:
 background.png - "Sombrero Galaxy" 

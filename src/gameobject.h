@@ -100,6 +100,10 @@ int luaApi_getObjectScore(lua_State *L);
 int luaApi_setObjectScore(lua_State *L);
 int luaApi_getObjectZ(lua_State *L);
 int luaApi_setObjectZ(lua_State *L);
+int luaApi_clearList(lua_State *L);
+int luaApi_setWave(lua_State *L);
+int luaApi_getWave(lua_State *L);
+int luaApi_getPlayer(lua_State *L);
 
 int luaApi_addEnemy(lua_State *L); //addEnemy(gameobjectList, x, y, vx, vy, szx, szy, frames, img, scriptname)
 int luaApi_addObject(lua_State *L); //addObject(gameobjectList, x, y, img, scriptname)

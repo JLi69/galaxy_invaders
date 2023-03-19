@@ -1,3 +1,4 @@
+local menuids = require("res.scripts.menuids")
 local player = {}
 
 player.SHOOT_COOLDOWN = 0.7 
@@ -9,9 +10,15 @@ function player.start(gameobject)
 	enemy_setObjectMode(gameobject, 0)
 	enemy_setObjectHealth(gameobject, 3)
 	enemy_setObjectPos(gameobject, SPAWN_X, SPAWN_Y)
+	enemy_setObjectPicture(gameobject, "res/images/spaceship.png")
+	enemy_setObjectScore(gameobject, 0)
 end
 
 function player.update(gameobject, game, timepassed)
+	if enemy_getObjectHealth(gameobject) <= 0 then
+		menu_gotoMenu(game, menuids.GAMEOVER)
+	end
+
 	-- Player is dead	
 	if enemy_getObjectMode(gameobject) == 1 then
 		if enemy_getObjectFrame(gameobject) == enemy_getObjectFrameCount(gameobject) - 1 then

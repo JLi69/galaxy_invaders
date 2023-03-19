@@ -16,6 +16,23 @@ void update(struct Game *game,
 {
 	static float animationTimer = 0.0f;
 
+	//Pause/unpause the game
+	if(isPressedOnce(GLFW_KEY_ESCAPE))
+	{
+		if(game->selectedMenu == GAME)
+		{
+			setPaused(1);
+			hideCursor();
+			game->selectedMenu = PAUSE;
+		}	
+		else if(game->selectedMenu == PAUSE)
+		{
+			setPaused(0);
+			disableCursor();
+			game->selectedMenu = GAME;
+		}
+	}
+
 	for(int i = 0; i < game->visualEffects.size; i++)
 		runUpdateFunction(L, game->visualEffects.gameobjects[i].scriptname, &game->visualEffects.gameobjects[i], game, timePassed);
 
@@ -43,7 +60,7 @@ void update(struct Game *game,
 		animationTimer = 0.0f;
 	}
 
-	if(game->selectedMenu != GAME)
+	if(game->selectedMenu != GAME && game->selectedMenu != GAMEOVER)
 		return;
 
 	//Move gameobjects
@@ -81,9 +98,9 @@ void update(struct Game *game,
 		{
 			if(colliding(game->enemies.gameobjects[j], game->bullets.gameobjects[i]))
 			{
-				game->player.score += game->enemies.gameobjects[j].score;
 				if(runOnCollisionFunction(L, game->enemies.gameobjects[j].scriptname, &game->enemies.gameobjects[j], game))
-				{
+				{	
+					game->player.score += game->enemies.gameobjects[j].score;
 					deleteGameObject(&game->enemies, j);
 					j--;
 				}

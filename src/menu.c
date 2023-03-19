@@ -61,6 +61,20 @@ void drawMenu(int menu)
 {
 	if(menu < 0 || menu >= MAX_MENU)
 		return;
+
+	if(menus[menu].backgroundA >= 8.0f)
+	{
+		turnOffTexture();
+		setRectSize(1920.0f, 1080.0f);
+		setRectPos(0.0f, 0.0f);
+		setRectColor(menus[menu].backgroundR, 
+					 menus[menu].backgroundG,
+					 menus[menu].backgroundB,
+					 menus[menu].backgroundA);
+		drawRect();
+		turnOnTexture();
+	}
+
 	bindTexture(getImageId("res/images/icons.png"), GL_TEXTURE0);
 	setTexFrac(1.0f / 16.0f, 1.0f / 16.0f);
 	setTexSize(256.0f, 256.0f);
@@ -90,6 +104,8 @@ struct Menu emptyMenu()
 	struct Menu menu;
 	menu.buttonCount = 0;
 	menu.textCount = 0;
+	menu.displayGameobjects = 0;
+	menu.backgroundR = menu.backgroundG = menu.backgroundB = menu.backgroundA = 0.0f;
 	return menu;
 }
 

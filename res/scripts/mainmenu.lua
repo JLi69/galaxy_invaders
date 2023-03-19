@@ -12,6 +12,13 @@ function play(game)
 end
 
 function gotomain(game)
+	-- Add visual effects
+	visualEffects = game_getVisualEffectList(game)		
+	game_clearList(visualEffects)
+	for i = 0, 80 do
+		prefabs.addPrefab(visualEffects, 0, 300, "star") 		
+	end
+
 	menu_gotoMenu(game, menuids.MAIN)
 end
 

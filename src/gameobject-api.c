@@ -352,3 +352,37 @@ int luaApi_setObjectZ(lua_State *L)
 	obj->z  = lua_tointeger(L, 2);
 	return 0;
 }
+
+int luaApi_clearList(lua_State *L)
+{
+	CHECK_ARG_COUNT(1);
+	struct GameObjectList* list = (struct GameObjectList*)lua_touserdata(L, 1);
+	free(list->gameobjects);
+	*list = createGameObjectList();
+
+	return 0;
+}
+
+int luaApi_setWave(lua_State *L)
+{
+	CHECK_ARG_COUNT(2);
+	struct Game* game = (struct Game*)lua_touserdata(L, 1);
+	game->waveNum = lua_tointeger(L, 2);
+	return 0;
+}
+
+int luaApi_getWave(lua_State *L)
+{
+	CHECK_ARG_COUNT(1);
+	struct Game* game = (struct Game*)lua_touserdata(L, 1);
+	lua_pushinteger(L, game->waveNum);
+	return 1;
+}
+
+int luaApi_getPlayer(lua_State *L)
+{
+	CHECK_ARG_COUNT(1);	
+	struct Game* game = (struct Game*)lua_touserdata(L, 1);
+	lua_pushlightuserdata(L, &game->player);
+	return 1;
+}
