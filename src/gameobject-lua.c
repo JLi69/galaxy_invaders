@@ -49,7 +49,8 @@ lua_State* initLua()
 	lua_register(L, "menu_addTextToMenu", luaApi_addTextToMenu);
 	lua_register(L, "menu_addButtonToMenu", luaApi_addButtonToMenu);
 	lua_register(L, "menu_gotoMenu", luaApi_gotoMenu);
-	lua_register(L, "menu_getMenuId", luaApi_getCurrentMenuId);
+	lua_register(L, "menu_getMenuId", luaApi_getCurrentMenuId);	
+	lua_register(L, "menu_clear", luaApi_clearMenu);
 	lua_register(L, "game_setPaused", luaApi_setPaused);
 
 	return L;

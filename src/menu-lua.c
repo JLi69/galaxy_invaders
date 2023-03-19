@@ -84,3 +84,10 @@ int luaApi_setPaused(lua_State *L)
 	setPaused(lua_toboolean(L, 1));
 	return 0;
 }
+
+int luaApi_clearMenu(lua_State *L)
+{
+	CHECK_ARG_COUNT(1);
+	clearMenu(lua_tointeger(L, 1));
+	return 0;
+}

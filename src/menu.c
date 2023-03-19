@@ -146,3 +146,8 @@ void interactWithMenu(int menuId, struct Game *game, lua_State *L)
 		}	
 	}
 }
+
+void clearMenu(int menuid)
+{
+	menus[menuid] = emptyMenu();
+}

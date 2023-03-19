@@ -18,7 +18,7 @@ Lua ([website](https://www.lua.org))
 
 GLFW ([website](https://glfw.org))
 
-glad ([website](https://glad.da1de.de))
+glad ([website](https://glad.dav1d.de))
 
 SOIL2 ([repo](https://SpartanJ/SOIL2))
 
