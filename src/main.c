@@ -61,17 +61,7 @@ int main(void)
 
 	game.player.score = 0;
 	//Spawn first wave
-	game.waveNum = 0;
-	lua_getglobal(L, "spawnwave");
-	if(lua_isfunction(L, -1))
-	{
-		lua_pushlightuserdata(L, &game.enemies);
-		lua_pushinteger(L, game.waveNum);
-		lua_pcall(L, 2, 0, 0);
-		lua_pop(L, -1);
-		lua_pop(L, -2);
-		game.waveNum++;	
-	}
+	game.waveNum = 0;	
 
 	while(!canQuit())
 	{
@@ -105,23 +95,7 @@ int main(void)
 
 		if(!isPaused())
 		{
-			update(&game, timepassed, L); 
-			//Are all enemies dead?
-			//If all enemies have been killed, attempt to spawn the next wave
-			if(game.enemies.size == 0)
-			{
-				//Spawn next wave
-				lua_getglobal(L, "spawnwave");
-				if(lua_isfunction(L, -1))
-				{
-					lua_pushlightuserdata(L, &game.enemies);
-					lua_pushinteger(L, game.waveNum);
-					lua_pcall(L, 2, 0, 0);
-					lua_pop(L, -1);
-					lua_pop(L, -2);
-				}
-				game.waveNum++;	
-			}
+			update(&game, timepassed, L); 	
 		}
 		interactWithMenu(game.selectedMenu, &game, L);
 

@@ -7,5 +7,6 @@ menuids.CREDITS = 1
 menuids.HISCORE = 2
 menuids.PAUSED = 3
 menuids.GAMEOVER = 4
+menuids.INTRO = 5
 
 return menuids

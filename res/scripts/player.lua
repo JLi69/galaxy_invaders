@@ -2,6 +2,7 @@ local menuids = require("res.scripts.menuids")
 local player = {}
 
 player.SHOOT_COOLDOWN = 0.7 
+player.INVINCIBLE_TIMER = 3.0
 
 local SPAWN_X = 0
 local SPAWN_Y = -300
@@ -24,8 +25,9 @@ function player.update(gameobject, game, timepassed)
 		if enemy_getObjectFrame(gameobject) == enemy_getObjectFrameCount(gameobject) - 1 then
 			
 			if enemy_getObjectHealth(gameobject) > 0 then
-				enemy_setObjectMode(gameobject, 0)
+				enemy_setObjectMode(gameobject, 2)
 				enemy_setObjectPicture(gameobject, "res/images/spaceship.png")
+				enemy_setObjectTimer(gameobject, player.INVINCIBLE_TIMER)
 			else
 				enemy_setObjectPicture(gameobject, nil)
 			end
@@ -33,13 +35,13 @@ function player.update(gameobject, game, timepassed)
 			enemy_setObjectPos(gameobject, SPAWN_X, SPAWN_Y)
 		end	
 		return
-	end
+	end	
 
 	x, y = enemy_getObjectPos(gameobject)
 	velx, vely = enemy_getObjectVel(gameobject)
 
 	timer = enemy_getObjectTimer(gameobject)
-	enemy_setObjectTimer(gameobject, timer - timepassed)
+	enemy_setObjectTimer(gameobject, timer - timepassed)	
 
 	-- Bound the player's position
 	if x < -360.0 then
@@ -60,6 +62,11 @@ function player.update(gameobject, game, timepassed)
 
 	-- move the player
 	enemy_setObjectPos(gameobject, x + velx * timepassed, y + vely * timepassed)
+
+	-- Invincibility 
+	if enemy_getObjectMode(gameobject) == 2 and enemy_getObjectTimer(gameobject) <= 0.0 then
+		enemy_setObjectMode(gameobject, 0)
+	end
 end
 
 function player.oncollision(gameobject, game)

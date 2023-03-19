@@ -7,13 +7,17 @@ function quit(game)
 end
 
 function play(game)
-	menu_gotoMenu(game, menuids.GAME)
-	game_setPaused(false)
+	if game_getWaveNum(game) > 0 then
+		menu_gotoMenu(game, menuids.GAME)
+		game_setPaused(false)
+	else
+		menu_gotoMenu(game, menuids.INTRO)
+	end
 end
 
 function gotomain(game)
 	-- Add visual effects
-	visualEffects = game_getVisualEffectList(game)		
+	local visualEffects = game_getVisualEffectList(game)		
 	game_clearList(visualEffects)
 	for i = 0, 80 do
 		prefabs.addPrefab(visualEffects, 0, 300, "star") 		
@@ -35,7 +39,7 @@ function credits(game)
 	menu_addTextToMenu(menuids.CREDITS, "Credits", 0.0, 256.0, 48.0)
 	
 	-- Open file that contains the credits
-	y = 180.0
+	local y = 180.0
 	for line in io.lines("res/CREDITS") do
 		menu_addTextToMenu(menuids.CREDITS, line, 0.0, y, 16.0)
 		y = y - 32.0	

@@ -153,4 +153,21 @@ void update(struct Game *game,
 	}
 
 	animationTimer += timePassed;	
+
+	//Are all enemies dead?
+	//If all enemies have been killed, attempt to spawn the next wave
+	if(game->enemies.size == 0)
+	{
+		//Spawn next wave
+		lua_getglobal(L, "spawnwave");
+		if(lua_isfunction(L, -1))
+		{
+			lua_pushlightuserdata(L, &game->enemies);
+			lua_pushinteger(L, game->waveNum);
+			lua_pcall(L, 2, 0, 0);
+			lua_pop(L, -1);
+			lua_pop(L, -2);
+		}
+		game->waveNum++;	
+	}
 }
