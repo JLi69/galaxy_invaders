@@ -83,11 +83,8 @@ int main(void)
 			drawRect();
 		}
 
-		//Don't pause unless in game
 		if(game.selectedMenu != GAME)
 		{
-			setPaused(0);
-
 			//Hide/show mouse cursor
 			if(cursorInBounds()) hideCursor();
 			else enableCursor();
