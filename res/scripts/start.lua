@@ -7,7 +7,6 @@ local introtext = require("res.scripts.intro")
 function startgame(game)
 	mainmenu.createmenu(game)
 	pausemenu.createmenu(game)
-	gameoverscreen.createmenu(game)
 	introtext.createmenu(game)
 
 	-- Add visual effects

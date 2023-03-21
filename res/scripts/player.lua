@@ -1,4 +1,5 @@
 local menuids = require("res.scripts.menuids")
+local gameover = require("res.scripts.gameover")
 local player = {}
 
 player.SHOOT_COOLDOWN = 0.7 
@@ -16,7 +17,8 @@ function player.start(gameobject)
 end
 
 function player.update(gameobject, game, timepassed)
-	if enemy_getObjectHealth(gameobject) <= 0 then
+	if enemy_getObjectHealth(gameobject) <= 0 and menu_getMenuId(game) == menuids.GAME then	
+		gameover.createmenu(game)
 		menu_gotoMenu(game, menuids.GAMEOVER)
 	end
 
