@@ -90,12 +90,8 @@ int main(void)
 			else enableCursor();
 		}
 
-		if(!isPaused())
-		{
-			update(&game, timepassed, L); 	
-		}
+		update(&game, timepassed, L); 	
 		interactWithMenu(game.selectedMenu, &game, L);
-
 		updateWindow();	
 
 		struct timeval end;

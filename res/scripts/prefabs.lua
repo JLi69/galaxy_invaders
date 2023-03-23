@@ -31,12 +31,17 @@ end
 function prefabs.init()
 	prefabs.prefab("player", "res/scripts/player.lua", "res/images/spaceship.png")
 	prefabs.prefab("explosion", "res/scripts/explosion.lua", "res/images/explosion.png")	
+	
 	prefabs.prefab("enemy", "res/scripts/enemy.lua", "res/images/enemy1.png")		
 	prefabs.prefab("enemy2", "res/scripts/enemy2.lua", "res/images/enemy2.png")
+	prefabs.prefab("enemy3", "res/scripts/enemy3.lua", "res/images/enemy3.png")
+
 	prefabs.prefab("bullet", "res/scripts/bullet.lua", "res/images/bullet.png")
 	prefabs.prefab("star", "res/scripts/star.lua", "res/images/star.png")
+	
 	prefabs.prefab("enemy_bullet", "res/scripts/enemy_bullet.lua", "res/images/enemy_bullet.png")
 	prefabs.prefab("pink_bullet", "res/scripts/pink_bullet.lua", "res/images/pink_bullet.png")
+	prefabs.prefab("purple_bullet", "res/scripts/purple_bullet.lua", "res/images/purple_bullet.png")
 
 	prefabs.loadres()
 end

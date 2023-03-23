@@ -60,7 +60,7 @@ void update(struct Game *game,
 		animationTimer = 0.0f;
 	}
 
-	if(game->selectedMenu != GAME)
+	if(game->selectedMenu != GAME || isPaused())
 		return;
 
 	//Move gameobjects
