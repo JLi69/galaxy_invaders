@@ -1,22 +1,23 @@
--- TODO: clean up this function
-
-function spawnwave(enemies, waveNum)
-	waveNum = 4
-
-	if waveNum == 0 then
+local spawnWaveFunctions = {
+	function(enemies)
 		-- spawn first wave
 		for y = 0, 1 do
 			for x = -2, 2 do	
 				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, "enemy")
 			end
 		end
-	elseif waveNum == 1 then
+	end,
+
+	function(enemies)
 		-- spawn second wave
 		for y = 0, 4 do
 			for x = -(3 - y), (3 - y) do		
 				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, "enemy")
 			end
-		end elseif waveNum == 2 then
+		end
+	end,
+
+	function(enemies)
 		-- spawn third wave
 		for y = 0, 3 do
 			for x = -2, 2 do			
@@ -27,14 +28,18 @@ function spawnwave(enemies, waveNum)
 				end	
 			end
 		end
-	elseif waveNum == 3 then
+	end,
+
+	function(enemies)
 		-- spawn fourth wave
 		for y = 0, 3 do
 			for x = -1, 1 do			
 				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, "enemy2")
 			end
 		end
-	elseif waveNum == 4 then
+	end,
+
+	function(enemies)
 		-- spawn fifth wave
 		for y = 0, 5 do
 			for x = -2, 2 do			
@@ -43,7 +48,9 @@ function spawnwave(enemies, waveNum)
 				end
 			end
 		end
-	elseif waveNum == 5 then
+	end,
+
+	function(enemies)
 		-- spawn sixth wave
 		for y = 0, 3 do
 			for x = -2, 2 do			
@@ -56,16 +63,43 @@ function spawnwave(enemies, waveNum)
 					enemyType = "enemy"	
 				end
 
-				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, enemyType)
-			
+				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, enemyType)	
 			end
 		end
-	else
+	end,
+
+	function(enemies)
+		-- spawn seventh wave
+		y = 2
+		local dy = -1
+		for x = -6, 6 do	
+			prefabs.addPrefab(enemies, x * SPRITE_SIZE, 300 - y * SPRITE_SIZE, "circle_alien")	
+			y = y + dy
+			
+			if y <= 0 then
+				dy = 1
+			elseif y >= 2 then
+				dy = -1
+			end
+		end
+	end,
+
+	-- Final function will spawn all other waves
+	function(enemies)
 		-- Spawn all other waves
 		for y = 0, 5 do
 			for x = -2, 2 do					
 				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, "enemy")
 			end
 		end
+	end
+}
+
+function spawnwave(enemies, waveNum)
+	waveNum = 6
+	if waveNum + 1 <= #spawnWaveFunctions then 
+		spawnWaveFunctions[waveNum + 1](enemies)
+	else
+		spawnWaveFunctions[#spawnWaveFunctions](enemies)
 	end
 end
