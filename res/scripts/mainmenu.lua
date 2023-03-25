@@ -76,6 +76,9 @@ function mainmenu.createmenu(game)
 	-- Title text
 	menu_addTextToMenu(menuids.MAIN, "Galaxy Invaders", 0.0, 128.0, 48.0)	
 	menu_addTextToMenu(menuids.MAIN, "(demo version)", 0.0, 80.0, 16.0)
+	
+	menu_addTextToMenu(menuids.MAIN, "Lua Version: " .. _VERSION, -200.0, -320.0, 16.0)
+
 	menu_addButtonToMenu(menuids.MAIN, "Play", "play", 0.0, 0.0, 32.0)
 	menu_addButtonToMenu(menuids.MAIN, "High Scores", "gotohiscore", 0.0, -64.0, 32.0)
 	menu_addButtonToMenu(menuids.MAIN, "Credits", "credits", 0.0, -128.0, 32.0)

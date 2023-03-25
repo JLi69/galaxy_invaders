@@ -402,3 +402,19 @@ int luaApi_setObjectRotation(lua_State *L)
 	gameobject->rotation = lua_tonumber(L, 2);
 	return 0;
 }
+
+int luaApi_getTimer(lua_State *L)
+{
+	CHECK_ARG_COUNT(1);
+	struct Game* game = (struct Game*)lua_touserdata(L, 1);
+	lua_pushnumber(L, game->timer);
+	return 1;
+}
+
+int luaApi_setTimer(lua_State *L)
+{
+	CHECK_ARG_COUNT(2);
+	struct Game* game = (struct Game*)lua_touserdata(L, 1);
+	game->timer = lua_tonumber(L, 2);
+	return 0;
+}

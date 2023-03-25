@@ -34,7 +34,7 @@ local spawnWaveFunctions = {
 
 	function(enemies)
 		-- spawn fourth wave
-		for y = 0, 3 do
+		for y = 0, 2 do
 			for x = -1, 1 do			
 				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, "enemy2")
 			end

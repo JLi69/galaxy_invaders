@@ -35,7 +35,9 @@ lua_State* initLua()
 	lua_register(L, "enemy_setObjectRotation", luaApi_setObjectRotation);
 	lua_register(L, "enemy_getObjectZ", luaApi_getObjectZ);
 	lua_register(L, "enemy_setObjectZ", luaApi_setObjectZ);
-
+	
+	lua_register(L, "game_getTimer", luaApi_getTimer);
+	lua_register(L, "game_setTimer", luaApi_setTimer);
 	lua_register(L, "game_addEnemy", luaApi_addEnemy);	
 	lua_register(L, "game_addObject", luaApi_addObject);
 	lua_register(L, "game_getEnemyList", luaApi_getEnemyList);

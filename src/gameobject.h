@@ -46,6 +46,7 @@ struct Game
 	struct GameObjectPointerList toDraw;
 	int waveNum;
 	int selectedMenu;
+	float timer;
 };
 
 struct GameObject createObj(Vector2f pos, Vector2f vel, Vector2f dim, int maxFrames, 
@@ -105,6 +106,8 @@ int luaApi_getObjectRotation(lua_State *L);
 int luaApi_setObjectRotation(lua_State *L);
 int luaApi_setObjectRotationSpeed(lua_State *L);
 int luaApi_getObjectRotationSpeed(lua_State *L);
+int luaApi_getTimer(lua_State *L);
+int luaApi_setTimer(lua_State *L);
 
 int luaApi_clearList(lua_State *L);
 int luaApi_setWave(lua_State *L);

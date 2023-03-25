@@ -32,6 +32,7 @@ int main(void)
 	game.visualEffects = createGameObjectList();
 	game.toDraw = createGameObjectPointerList();
 	game.selectedMenu = 0;
+	game.timer = 0.0f;
 
 	//Push constants
 	lua_pushnumber(L, SPRITE_SIZE);
@@ -90,13 +91,16 @@ int main(void)
 			else enableCursor();
 		}
 
+		if(game.selectedMenu == GAME)
+			disableCursor();
+
 		update(&game, timepassed, L); 	
 		interactWithMenu(game.selectedMenu, &game, L);
 		updateWindow();	
 
 		struct timeval end;
 		gettimeofday(&end, 0);	
-		timepassed = end.tv_sec - start.tv_sec + 1e-6 * (end.tv_usec - start.tv_usec);
+		timepassed = end.tv_sec - start.tv_sec + 1e-6 * (end.tv_usec - start.tv_usec);	
 	}
 
 	//Clean up

@@ -62,18 +62,18 @@ void drawMenu(int menu)
 	if(menu < 0 || menu >= MAX_MENU)
 		return;
 
+	turnOffTexture();
 	if(menus[menu].backgroundA >= 8.0f)
 	{
-		turnOffTexture();
 		setRectSize(1920.0f, 1080.0f);
 		setRectPos(0.0f, 0.0f);
 		setRectColor(menus[menu].backgroundR, 
 					 menus[menu].backgroundG,
 					 menus[menu].backgroundB,
 					 menus[menu].backgroundA);
-		drawRect();
-		turnOnTexture();
+		drawRect();	
 	}
+	turnOnTexture();
 
 	bindTexture(getImageId("res/images/icons.png"), GL_TEXTURE0);
 	setTexFrac(1.0f / 16.0f, 1.0f / 16.0f);

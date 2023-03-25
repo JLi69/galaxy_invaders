@@ -122,6 +122,26 @@ void display(struct Game *game)
 		textY -= 24.0f;
 		stringEndX = drawString("Wave:", textX, textY, 16.0f);
 		drawInteger(game->waveNum, stringEndX - 16.0f + 8.0f * numOffset, textY, 16.0f);	
+	
+		//Draw timer
+		int minutes = (int)(game->timer / 60.0f),
+			seconds = (int)(game->timer - minutes * 60.0f);
+		if(minutes != 0)
+			numOffset = ((int)log10((double)(minutes > 0 ? minutes : -minutes)) + 1);
+		else
+			numOffset = 1;
+
+		float timerX = drawInteger((int)minutes, -w / 2.0f + 16.0f + numOffset * 8.0f, h / 2.0f - 64.0f, 16.0f);
+		timerX = drawString(":", timerX - 16.0f, h / 2.0f - 64.0f, 16.0f);
+		if(seconds < 10)
+		{
+			timerX = drawString("0", timerX - 16.0f, h / 2.0f - 64.0f, 16.0f);
+			drawInteger(seconds, timerX - 16.0f, h / 2.0f - 64.0f, 16.0f);	
+		}
+		else
+		{
+			drawInteger(seconds, timerX - 8.0f, h / 2.0f - 64.0f, 16.0f);	
+		}
 	}
 
 	outputGLErrors();

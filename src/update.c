@@ -153,6 +153,7 @@ void update(struct Game *game,
 	}
 
 	animationTimer += timePassed;	
+	game->timer += timePassed;
 
 	//Are all enemies dead?
 	//If all enemies have been killed, attempt to spawn the next wave
