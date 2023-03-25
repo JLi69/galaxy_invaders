@@ -46,6 +46,9 @@ function prefabs.init()
 	prefabs.prefab("purple_bullet", "res/scripts/purple_bullet.lua", "res/images/purple_bullet.png")
 
 	prefabs.loadres()
+
+
+	game_loadTexture("res/images/shielded_spaceship.png")	
 end
 
 function prefabs.addPrefab(gameobjectlist, x, y, sprite)

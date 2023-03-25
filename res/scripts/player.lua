@@ -4,6 +4,7 @@ local player = {}
 
 player.SHOOT_COOLDOWN = 0.7 
 player.INVINCIBLE_TIMER = 3.0
+player.WAVES_FOR_ONE_UP = 4
 
 local SPAWN_X = 0
 local SPAWN_Y = -300
@@ -28,7 +29,7 @@ function player.update(gameobject, game, timepassed)
 			
 			if enemy_getObjectHealth(gameobject) > 0 then
 				enemy_setObjectMode(gameobject, 2)
-				enemy_setObjectPicture(gameobject, "res/images/spaceship.png")
+				enemy_setObjectPicture(gameobject, "res/images/shielded_spaceship.png")
 				enemy_setObjectTimer(gameobject, player.INVINCIBLE_TIMER)
 			else
 				enemy_setObjectPicture(gameobject, nil)
@@ -68,12 +69,28 @@ function player.update(gameobject, game, timepassed)
 	-- Invincibility 
 	if enemy_getObjectMode(gameobject) == 2 and enemy_getObjectTimer(gameobject) <= 0.0 then
 		enemy_setObjectMode(gameobject, 0)
+		enemy_setObjectPicture(gameobject, "res/images/spaceship.png")
+	end
+	
+	-- Make the player invincible if the wave is gone for 1 second
+	local enemies = game_getEnemyList(game)
+	if game_sizeofList(enemies) == 0 and game_getWaveNum(game) ~= 0 then
+		enemy_setObjectMode(gameobject, 2)
+		enemy_setObjectPicture(gameobject, "res/images/shielded_spaceship.png")
+		enemy_setObjectTimer(gameobject, 1.5)
+
+		-- 1 UP
+		local health = enemy_getObjectHealth(gameobject)
+		if game_getWaveNum(game) % player.WAVES_FOR_ONE_UP == 0 and health < 4 then
+			health = health + 1
+			enemy_setObjectHealth(gameobject, health)
+		end
 	end
 end
 
 function player.oncollision(gameobject, game)
 	if enemy_getObjectMode(gameobject) == 0 then
-		health = enemy_getObjectHealth(gameobject)
+		local health = enemy_getObjectHealth(gameobject)
 		health = health - 1
 		enemy_setObjectHealth(gameobject, health)
 		enemy_setObjectMode(gameobject, 1)
