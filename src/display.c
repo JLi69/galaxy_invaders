@@ -71,9 +71,11 @@ void display(struct Game *game)
 			bindTexture(game->toDraw.pointers[i]->image, GL_TEXTURE0);
 			prevTexture = game->toDraw.pointers[i]->image;
 		}
+		setRotationRad(game->toDraw.pointers[i]->rotation);
 		setTextureForObj(*game->toDraw.pointers[i], 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);	
 		drawGameObject(*game->toDraw.pointers[i]);
 	}
+	setRotationRad(0.0f);
 	
 	//Draw lives
 	if(game->selectedMenu == GAME)

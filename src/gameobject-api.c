@@ -386,3 +386,19 @@ int luaApi_getPlayer(lua_State *L)
 	lua_pushlightuserdata(L, &game->player);
 	return 1;
 }
+
+int luaApi_getObjectRotation(lua_State *L)
+{	
+	CHECK_ARG_COUNT(1);
+	struct GameObject* gameobject = (struct GameObject*)lua_touserdata(L, 1);
+	lua_pushnumber(L, gameobject->rotation);
+	return 1;
+}
+
+int luaApi_setObjectRotation(lua_State *L)
+{
+	CHECK_ARG_COUNT(2);	
+	struct GameObject* gameobject = (struct GameObject*)lua_touserdata(L, 1);
+	gameobject->rotation = lua_tonumber(L, 2);
+	return 0;
+}

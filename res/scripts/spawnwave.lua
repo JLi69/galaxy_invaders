@@ -1,10 +1,12 @@
+local math = require("math")
+
 local spawnWaveFunctions = {
 	function(enemies)
-		-- spawn first wave
-		for y = 0, 1 do
+		-- spawn first wave 
+		for y = 0, 1 do 
 			for x = -2, 2 do	
-				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, "enemy")
-			end
+				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, "enemy") 
+			end 
 		end
 	end,
 
@@ -84,6 +86,35 @@ local spawnWaveFunctions = {
 		end
 	end,
 
+	function(enemies)
+		-- spawn eigth wave
+		local num = 12
+		local radius = 150.0
+		for theta = 0, num do
+			angle = theta * 3.14159 * 2.0  / num
+			prefabs.addPrefab(enemies, math.cos(angle) * radius, 300 - radius + math.sin(angle) * radius, "square_alien")	
+			
+			if y <= 0 then
+				dy = 1
+			elseif y >= 2 then
+				dy = -1
+			end
+		end
+
+		num = 6
+
+		for theta = 0, num do
+			angle = theta * 3.14159 * 2.0  / num
+			prefabs.addPrefab(enemies, math.cos(angle) * radius / 2, 300 - radius + math.sin(angle) * radius / 2, "square_alien")	
+			
+			if y <= 0 then
+				dy = 1
+			elseif y >= 2 then
+				dy = -1
+			end
+		end
+	end,
+
 	-- Final function will spawn all other waves
 	function(enemies)
 		-- Spawn all other waves
@@ -96,7 +127,6 @@ local spawnWaveFunctions = {
 }
 
 function spawnwave(enemies, waveNum)
-	waveNum = 6
 	if waveNum + 1 <= #spawnWaveFunctions then 
 		spawnWaveFunctions[waveNum + 1](enemies)
 	else

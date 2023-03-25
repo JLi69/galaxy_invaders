@@ -12,6 +12,7 @@ typedef struct
 struct GameObject
 {
 	Vector2f pos, vel, dim; 
+	float rotation, rotationSpeed;
 	int animationFrame, totalFrames;
 	unsigned int image;
 	char *scriptname;
@@ -100,6 +101,11 @@ int luaApi_getObjectScore(lua_State *L);
 int luaApi_setObjectScore(lua_State *L);
 int luaApi_getObjectZ(lua_State *L);
 int luaApi_setObjectZ(lua_State *L);
+int luaApi_getObjectRotation(lua_State *L);
+int luaApi_setObjectRotation(lua_State *L);
+int luaApi_setObjectRotationSpeed(lua_State *L);
+int luaApi_getObjectRotationSpeed(lua_State *L);
+
 int luaApi_clearList(lua_State *L);
 int luaApi_setWave(lua_State *L);
 int luaApi_getWave(lua_State *L);
