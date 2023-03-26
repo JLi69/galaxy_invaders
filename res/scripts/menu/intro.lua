@@ -1,4 +1,4 @@
-local menuids = require("res.scripts.menuids")
+local menuids = require("res.scripts.menu.menuids")
 local introtext = {}
 
 function gotogame(game)

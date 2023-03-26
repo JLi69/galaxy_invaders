@@ -1,5 +1,5 @@
-local menuids = require("res.scripts.menuids")
-local gameover = require("res.scripts.gameover")
+local menuids = require("res.scripts.menu.menuids")
+local gameover = require("res.scripts.menu.gameover")
 local player = {}
 
 player.SHOOT_COOLDOWN = 0.7 

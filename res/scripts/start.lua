@@ -1,7 +1,7 @@
-local mainmenu = require("res.scripts.mainmenu")
-local pausemenu = require("res.scripts.pausemenu")
-local gameoverscreen = require("res.scripts.gameover")
-local introtext = require("res.scripts.intro")
+local mainmenu = require("res.scripts.menu.mainmenu")
+local pausemenu = require("res.scripts.menu.pausemenu")
+local gameoverscreen = require("res.scripts.menu.gameover")
+local introtext = require("res.scripts.menu.intro")
 
 -- This function is called once at the beginning of the game
 function startgame(game)

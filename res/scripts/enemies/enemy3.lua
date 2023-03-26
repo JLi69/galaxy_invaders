@@ -19,7 +19,7 @@ function enemy3.update(gameobject, game, timepassed)
 	timer = enemy_getObjectTimer(gameobject)
 	enemy_setObjectTimer(gameobject, timer + timepassed)
 
-	if timer >= 3.0 then
+	if timer >= 2.0 then
 		-- shoot
 		if math.random() < 0.1 then
 			enemies = game_getEnemyList(game)

@@ -1,5 +1,5 @@
-local menuids = require("res.scripts.menuids")
-local hiscore = require("res.scripts.hiscore")
+local menuids = require("res.scripts.menu.menuids")
+local hiscore = require("res.scripts.menu.hiscore")
 local gameover = {}
 
 function reset(game)
