@@ -42,6 +42,7 @@ function prefabs.init()
 	prefabs.prefab("square_alien", "res/scripts/enemies/square_alien.lua", "res/images/square_alien.png")
 	prefabs.prefab("star_alien", "res/scripts/enemies/star_alien.lua", "res/images/star_alien.png")
 	prefabs.prefab("shielded_alien", "res/scripts/enemies/shielded_alien.lua", "res/images/shielded_alien.png")
+	prefabs.prefab("ufo", "res/scripts/enemies/ufo.lua", "res/images/ufo.png")
 
 	prefabs.prefab("enemy_bullet", "res/scripts/bullets/enemy_bullet.lua", "res/images/enemy_bullet.png")
 	prefabs.prefab("pink_bullet", "res/scripts/bullets/pink_bullet.lua", "res/images/pink_bullet.png")
@@ -49,7 +50,8 @@ function prefabs.init()
 	prefabs.prefab("star_bullet", "res/scripts/bullets/star_bullet.lua", "res/images/star_bullet.png")
 	prefabs.prefab("bomb", "res/scripts/bullets/bomb.lua", "res/images/bomb.png")
 	prefabs.prefab("bomb_shard", "res/scripts/bullets/bomb_shard.lua", "res/images/bomb_shard.png")
-
+	prefabs.prefab("laser", "res/scripts/bullets/laser.lua", "res/images/laser.png")
+	
 	prefabs.loadres()
 
 	game_loadTexture("res/images/shielded_spaceship.png")	

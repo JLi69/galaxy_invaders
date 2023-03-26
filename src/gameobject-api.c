@@ -63,8 +63,8 @@ int luaApi_setObjectSize(lua_State *L)
 	CHECK_ARG_COUNT(3);
 
 	struct GameObject* gameobject = (struct GameObject*)lua_touserdata(L, 1);
-	gameobject->dim.x = lua_tointeger(L, 2);
-	gameobject->dim.y = lua_tointeger(L, 3);
+	gameobject->dim.x = lua_tonumber(L, 2);
+	gameobject->dim.y = lua_tonumber(L, 3);
 
 	return 0;
 }

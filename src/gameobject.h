@@ -2,7 +2,7 @@
 
 #include <lua.h>
 
-#define DEFAULT_MAX_SZ 64
+#define DEFAULT_MAX_SZ 128
 
 typedef struct 
 {

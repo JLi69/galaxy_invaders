@@ -153,6 +153,18 @@ local spawnWaveFunctions = {
 		end
 	end,
 
+	function(enemies)
+		-- Spawn eleventh wave
+		for x = -2, 2 do
+			prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300, "shielded_alien") 
+		end
+
+		prefabs.addPrefab(enemies, 320.0, 300 - SPRITE_SIZE, "ufo") 
+		prefabs.addPrefab(enemies, 160.0, 300 - 3.0 * SPRITE_SIZE, "ufo") 
+		prefabs.addPrefab(enemies, -320.0, 300 - 2.0 * SPRITE_SIZE, "ufo") 
+		prefabs.addPrefab(enemies, -160.0, 300 - 4.0 * SPRITE_SIZE, "ufo") 
+	end,
+
 	-- Final function will spawn all other waves
 	function(enemies)
 		-- Spawn all other waves
