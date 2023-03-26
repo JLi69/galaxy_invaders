@@ -22,11 +22,13 @@ function star_alien.update(gameobject, game, timepassed)
 	enemy_setObjectTimer(gameobject, timer + timepassed)
 
 	if timer >= 2.0 then
+		playerx, playery = game_getPlayerPos(game)	
+
 		-- shoot
-		if math.random() < 0.1 and enemy_getObjectMode(gameobject) == 0 then
+		if math.random() < 0.2 and enemy_getObjectMode(gameobject) == 0 then
 			enemies = game_getEnemyList(game)
 			prefabs.addPrefab(enemies, x, y, "star_bullet")
-		elseif math.random() < 0.02 then
+		elseif math.random() < 0.03 and math.abs(x - playerx) > 64.0 then
 			-- Falling star attack
 			enemy_setObjectMode(gameobject, 1) 
 		end
@@ -45,9 +47,9 @@ function star_alien.update(gameobject, game, timepassed)
 	if enemy_getObjectMode(gameobject) == 1 then
 		playerx, playery = game_getPlayerPos(game)	
 		if playerx < x - 8.0 then
-			enemy_setObjectVel(gameobject, -128.0, 0.0)	
+			enemy_setObjectVel(gameobject, -192.0, 0.0)	
 		elseif playerx > x + 8.0 then
-			enemy_setObjectVel(gameobject, 128.0, 0.0)	
+			enemy_setObjectVel(gameobject, 192.0, 0.0)	
 		else
 			enemy_setObjectVel(gameobject, 0.0, -480.0)
 			enemy_setObjectMode(gameobject, 2)

@@ -133,6 +133,26 @@ local spawnWaveFunctions = {
 		end
 	end,
 
+	function(enemies)
+		-- Spawn tenth wave
+		
+		for y = 0, 3 do 
+			for x = -2, 2 do	
+				local enemyType = ""	
+
+				if y < 2 then
+					enemyType = "shielded_alien"
+				elseif (x + y) % 2 == 0 then
+					enemyType = "enemy"
+				else
+					enemyType = "star_alien"
+				end	
+
+				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, enemyType) 
+			end 
+		end
+	end,
+
 	-- Final function will spawn all other waves
 	function(enemies)
 		-- Spawn all other waves

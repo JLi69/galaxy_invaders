@@ -41,14 +41,16 @@ function prefabs.init()
 	prefabs.prefab("circle_alien", "res/scripts/enemies/circle_alien.lua", "res/images/circle_alien.png")
 	prefabs.prefab("square_alien", "res/scripts/enemies/square_alien.lua", "res/images/square_alien.png")
 	prefabs.prefab("star_alien", "res/scripts/enemies/star_alien.lua", "res/images/star_alien.png")
-	
+	prefabs.prefab("shielded_alien", "res/scripts/enemies/shielded_alien.lua", "res/images/shielded_alien.png")
+
 	prefabs.prefab("enemy_bullet", "res/scripts/bullets/enemy_bullet.lua", "res/images/enemy_bullet.png")
 	prefabs.prefab("pink_bullet", "res/scripts/bullets/pink_bullet.lua", "res/images/pink_bullet.png")
 	prefabs.prefab("purple_bullet", "res/scripts/bullets/purple_bullet.lua", "res/images/purple_bullet.png")
 	prefabs.prefab("star_bullet", "res/scripts/bullets/star_bullet.lua", "res/images/star_bullet.png")
+	prefabs.prefab("bomb", "res/scripts/bullets/bomb.lua", "res/images/bomb.png")
+	prefabs.prefab("bomb_shard", "res/scripts/bullets/bomb_shard.lua", "res/images/bomb_shard.png")
 
 	prefabs.loadres()
-
 
 	game_loadTexture("res/images/shielded_spaceship.png")	
 end
