@@ -90,7 +90,7 @@ local spawnWaveFunctions = {
 		-- spawn eigth wave
 		local num = 12
 		local radius = 150.0
-		for theta = 0, num do
+		for theta = 0, num - 1 do
 			angle = theta * 3.14159 * 2.0  / num
 			prefabs.addPrefab(enemies, math.cos(angle) * radius, 300 - radius + math.sin(angle) * radius, "square_alien")	
 			
@@ -103,7 +103,7 @@ local spawnWaveFunctions = {
 
 		num = 6
 
-		for theta = 0, num do
+		for theta = 0, num - 1 do
 			angle = theta * 3.14159 * 2.0  / num
 			prefabs.addPrefab(enemies, math.cos(angle) * radius / 2, 300 - radius + math.sin(angle) * radius / 2, "square_alien")	
 			
@@ -111,6 +111,24 @@ local spawnWaveFunctions = {
 				dy = 1
 			elseif y >= 2 then
 				dy = -1
+			end
+		end
+	end,
+	
+	function(enemies)
+		-- Spawn ninth wave	
+
+		for y = 0, 6 do
+			for x = -3, 3 do
+				if (math.floor(math.sin(x) * 3 + 3) <= y and 
+					math.floor(math.sin(x - 1) * 3 + 3) >= y and 
+					math.floor(math.sin(x - 1) * 3 + 3) >= math.floor(math.sin(x) * 3 + 3)) or
+					
+					(math.floor(math.sin(x) * 3 + 3) >= y and 
+					math.floor(math.sin(x - 1) * 3 + 3) <= y and 
+					math.floor(math.sin(x - 1) * 3 + 3) <= math.floor(math.sin(x) * 3 + 3)) then
+					prefabs.addPrefab(enemies, 1.5 * SPRITE_SIZE * x, 300 - SPRITE_SIZE * y, "star_alien")
+				end	
 			end
 		end
 	end,

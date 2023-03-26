@@ -82,6 +82,7 @@ void setGameobjectScript(struct GameObject *obj, const char *scriptname)
 	if(scriptname == NULL)
 	{
 		obj->scriptname = NULL;
+		return;	
 	}
 
 	obj->scriptname = (char*)malloc(strlen(scriptname) + 1);

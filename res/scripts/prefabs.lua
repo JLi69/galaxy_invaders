@@ -37,6 +37,7 @@ function prefabs.init()
 	prefabs.prefab("enemy3", "res/scripts/enemy3.lua", "res/images/enemy3.png")
 	prefabs.prefab("circle_alien", "res/scripts/circle_alien.lua", "res/images/circle_alien.png")
 	prefabs.prefab("square_alien", "res/scripts/square_alien.lua", "res/images/square_alien.png")
+	prefabs.prefab("star_alien", "res/scripts/star_alien.lua", "res/images/star_alien.png")
 
 	prefabs.prefab("bullet", "res/scripts/bullet.lua", "res/images/bullet.png")
 	prefabs.prefab("star", "res/scripts/star.lua", "res/images/star.png")
@@ -44,6 +45,7 @@ function prefabs.init()
 	prefabs.prefab("enemy_bullet", "res/scripts/enemy_bullet.lua", "res/images/enemy_bullet.png")
 	prefabs.prefab("pink_bullet", "res/scripts/pink_bullet.lua", "res/images/pink_bullet.png")
 	prefabs.prefab("purple_bullet", "res/scripts/purple_bullet.lua", "res/images/purple_bullet.png")
+	prefabs.prefab("star_bullet", "res/scripts/star_bullet.lua", "res/images/star_bullet.png")
 
 	prefabs.loadres()
 
