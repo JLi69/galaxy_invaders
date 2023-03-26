@@ -183,3 +183,7 @@ function spawnwave(enemies, waveNum)
 		spawnWaveFunctions[#spawnWaveFunctions](enemies)
 	end
 end
+
+function waveCount()
+	return #spawnWaveFunctions
+end

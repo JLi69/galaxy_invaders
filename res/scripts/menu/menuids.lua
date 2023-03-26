@@ -8,5 +8,6 @@ menuids.HISCORE = 2
 menuids.PAUSED = 3
 menuids.GAMEOVER = 4
 menuids.INTRO = 5
+menuids.SELECT_WAVE = 6
 
 return menuids

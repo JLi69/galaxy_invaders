@@ -54,8 +54,13 @@ function gameover.createmenu(game)
 		hiscore.saveHighScores("hiscore")
 	end
 
-	menu_addTextToMenu(menuids.GAMEOVER, "Final Score: " .. tostring(score), 0.0, 80.0, 24.0)	
-	menu_addTextToMenu(menuids.GAMEOVER, "Time Played: " .. tostring(minutes) .. ":" .. tostring(seconds), 0.0, 44.0, 24.0) 
+	menu_addTextToMenu(menuids.GAMEOVER, "Final Score: " .. tostring(score), 0.0, 80.0, 24.0)
+	if seconds >= 10 then
+		menu_addTextToMenu(menuids.GAMEOVER, "Time Played: " .. tostring(minutes) .. ":" .. tostring(seconds), 0.0, 44.0, 24.0) 
+	else 
+		menu_addTextToMenu(menuids.GAMEOVER, "Time Played: " .. tostring(minutes) .. ":0" .. tostring(seconds), 0.0, 44.0, 24.0) 
+	end
+
 	menu_addTextToMenu(menuids.GAMEOVER, "On Wave: " .. tostring(waveNum), 0.0, 8.0, 24.0)
 	menu_setBackgroundColor(menuids.GAMEOVER, 255.0, 0.0, 0.0, 128.0)
 	menu_showGameobjects(menuids.GAMEOVER, true)

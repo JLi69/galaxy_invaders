@@ -1,5 +1,6 @@
 local menuids = require("res.scripts.menu.menuids")
 local hiscore = require("res.scripts.menu.hiscore")
+local waveselect = require("res.scripts.menu.waveselect")
 local mainmenu = {}
 
 -- These functions must be global
@@ -72,6 +73,13 @@ function credits(game)
 	menu_gotoMenu(game, menuids.CREDITS)
 end
 
+function gotoWaveSelect(game)	
+	menu_clear(menuids.SELECT_WAVE)
+	game_setWaveNum(game, 0)
+	waveselect.createmenu(game)
+	menu_gotoMenu(game, menuids.SELECT_WAVE)
+end
+
 function mainmenu.createmenu(game)
 	-- Title text
 	menu_addTextToMenu(menuids.MAIN, "Galaxy Invaders", 0.0, 128.0, 48.0)	
@@ -80,9 +88,10 @@ function mainmenu.createmenu(game)
 	menu_addTextToMenu(menuids.MAIN, "Lua Version: " .. _VERSION, -200.0, -320.0, 16.0)
 
 	menu_addButtonToMenu(menuids.MAIN, "Play", "play", 0.0, 0.0, 32.0)
-	menu_addButtonToMenu(menuids.MAIN, "High Scores", "gotohiscore", 0.0, -64.0, 32.0)
-	menu_addButtonToMenu(menuids.MAIN, "Credits", "credits", 0.0, -128.0, 32.0)
-	menu_addButtonToMenu(menuids.MAIN, "Quit", "quit", 0.0, -192.0, 32.0)
+	menu_addButtonToMenu(menuids.MAIN, "Select Wave", "gotoWaveSelect", 0.0, -64.0, 32.0)
+	menu_addButtonToMenu(menuids.MAIN, "High Scores", "gotohiscore", 0.0, -128.0, 32.0)
+	menu_addButtonToMenu(menuids.MAIN, "Credits", "credits", 0.0, -192.0, 32.0)
+	menu_addButtonToMenu(menuids.MAIN, "Quit", "quit", 0.0, -256.0, 32.0)
 end
 
 return mainmenu
