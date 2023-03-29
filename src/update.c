@@ -16,6 +16,10 @@ void update(struct Game *game,
 {
 	static float animationTimer = 0.0f;
 
+	addItems(&game->visualEffects);
+	addItems(&game->enemies);
+	addItems(&game->bullets);
+
 	//Pause/unpause the game
 	if(isPressedOnce(GLFW_KEY_ESCAPE))
 	{
@@ -66,11 +70,15 @@ void update(struct Game *game,
 	//Move gameobjects
 	for(int i = 0; i < game->bullets.size; i++)
 		runUpdateFunction(L, game->bullets.gameobjects[i].scriptname, &game->bullets.gameobjects[i], game, timePassed);
+	
 	for(int i = 0; i < game->enemies.size; i++)
 		runUpdateFunction(L, game->enemies.gameobjects[i].scriptname, &game->enemies.gameobjects[i], game, timePassed);	
 
 	for(int i = 0; i < game->enemies.size; i++)
 	{
+		if(i < 0 || i >= game->enemies.size)
+			continue;
+
 		if(game->enemies.gameobjects[i].pos.x < -1024.0f ||
 		   game->enemies.gameobjects[i].pos.y < -600.0f ||
 		   game->enemies.gameobjects[i].pos.x > 1024.0f ||
@@ -84,12 +92,15 @@ void update(struct Game *game,
 
 	for(int i = 0; i < game->bullets.size; i++)
 	{
+		if(i < 0 || i >= game->bullets.size)
+			continue;
+
 		if(game->bullets.gameobjects[i].pos.x < -1024.0f ||
 		   game->bullets.gameobjects[i].pos.y < -600.0f ||
 		   game->bullets.gameobjects[i].pos.x > 1024.0f ||
 		   game->bullets.gameobjects[i].pos.y > 600.0f)
 		{
-			deleteGameObject(&game->bullets, i);	
+			deleteGameObject(&game->bullets, i);
 			i--;
 			continue;
 		}
@@ -116,6 +127,9 @@ void update(struct Game *game,
 	runUpdateFunction(L, game->player.scriptname, &game->player, game, timePassed);
 	for(int i = 0; i < game->enemies.size; i++)
 	{
+		if(i < 0 || i >= game->enemies.size)
+			continue;
+
 		if(colliding(game->enemies.gameobjects[i], game->player))
 		{	
 			runOnCollisionFunction(L, game->player.scriptname, &game->player, game);
@@ -153,7 +167,7 @@ void update(struct Game *game,
 	}
 
 	animationTimer += timePassed;	
-	game->timer += timePassed;
+	game->timer += timePassed;	
 
 	//Are all enemies dead?
 	//If all enemies have been killed, attempt to spawn the next wave

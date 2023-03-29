@@ -31,8 +31,9 @@ struct GameObject createObj(Vector2f pos,
 		  .health = 0,
 		  .mode = 0,
 		  .score = 0,
-		  .z = 0 };
-
+		  .z = 0,
+		  .scriptname = NULL };
+	
 	setGameobjectScript(&obj, scriptname);
 	return obj;
 }
@@ -84,6 +85,9 @@ void setGameobjectScript(struct GameObject *obj, const char *scriptname)
 		obj->scriptname = NULL;
 		return;	
 	}
+
+	if(obj->scriptname != NULL)
+		free(obj->scriptname);
 
 	obj->scriptname = (char*)malloc(strlen(scriptname) + 1);
 	strncpy(obj->scriptname, scriptname, strlen(scriptname));

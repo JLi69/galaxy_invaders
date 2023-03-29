@@ -1,13 +1,19 @@
 #include "gameobject.h"
 #include <stdlib.h>
 
+#include <stdio.h>
+
 struct GameObjectList createGameObjectList()
 {
 	struct GameObjectList list;
 	list.gameobjects = (struct GameObject*)malloc(sizeof(struct GameObject) * DEFAULT_MAX_SZ);
 	list.size = 0;
 	list._maxSize = DEFAULT_MAX_SZ;
-	list.enabled = 1;
+	
+	list.toAdd = (struct GameObject*)malloc(sizeof(struct GameObject) * DEFAULT_MAX_SZ);
+	list._toAddCount = 0;
+	list._maxToAdd = DEFAULT_MAX_SZ;
+
 	return list;
 }
 
@@ -18,35 +24,65 @@ void appendGameobject(struct GameObjectList *list, struct GameObject object)
 	else
 	{
 		list->_maxSize *= 2;
-		list->gameobjects = realloc(list->gameobjects, list->_maxSize * sizeof(struct GameObject));
+		list->gameobjects = realloc(list->gameobjects, sizeof(struct GameObject) * list->_maxSize); 
 		list->gameobjects[list->size++] = object;
 	}
 }
 
 void deleteGameObject(struct GameObjectList *list, int index)
 {
-	if(index >= list->size)
+	if(index >= list->size || index < 0)
 		return;
+
 	struct GameObject temp = list->gameobjects[list->size - 1];
 	list->gameobjects[list->size - 1] = list->gameobjects[index];
 	list->gameobjects[index] = temp;
+
 	free(list->gameobjects[list->size - 1].scriptname);
 	list->gameobjects[list->size - 1].scriptname = NULL;
+	
 	list->size--;
 
 	if(list->size * 2 < list->_maxSize && list->_maxSize > DEFAULT_MAX_SZ)
-	{
-		list->_maxSize /= 2;
-		list->gameobjects = realloc(list->gameobjects, list->_maxSize * sizeof(struct GameObject));
+	{	
+		list->_maxSize /= 2;	
+		list->gameobjects = realloc(list->gameobjects, sizeof(struct GameObject) * list->_maxSize); 
 	}
 }
 
 void destroyGameObjectList(struct GameObjectList *list)
 {
+	for(int i = 0; i < list->size; i++)
+		free(list->gameobjects[i].scriptname);
 	free(list->gameobjects);
 	list->gameobjects = NULL;
 	list->size = 0;
 	list->_maxSize = 0;
+}
+
+void addToList(struct GameObjectList *list, struct GameObject object)
+{
+	if(list->_toAddCount < list->_maxToAdd)
+		list->toAdd[list->_toAddCount++] = object;
+	else
+	{
+		list->_maxToAdd *= 2;
+		list->toAdd = realloc(list->toAdd, sizeof(struct GameObject) * list->_maxToAdd); 
+		list->toAdd[list->_toAddCount++] = object;
+	}
+}
+
+void addItems(struct GameObjectList *list)
+{
+	for(int i = 0; i < list->_toAddCount; i++)
+		appendGameobject(list, list->toAdd[i]);
+	if(list->_toAddCount != 0)
+	{
+		free(list->toAdd);
+		list->toAdd = (struct GameObject*)malloc(sizeof(struct GameObject) * DEFAULT_MAX_SZ);
+		list->_toAddCount = 0;
+		list->_maxToAdd = DEFAULT_MAX_SZ;
+	}
 }
 
 struct GameObjectPointerList createGameObjectPointerList()

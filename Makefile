@@ -9,7 +9,7 @@ BUILD_SRC_DIRS=$(SRC_DIRS:%=$(BUILD_DIR)/%)
 
 GLAD=gllibs/lib/glad.c
 
-C_FLAGS=-O2
+C_FLAGS=-O2 -g
 LD_FLAGS_LINUX=-static-libgcc -lglfw3 -lm -lSOIL2 -lGL -llua 
 LD_FLAGS_MINGW=-static-libgcc -lglfw3 -lm -lSOIL2 -llua -lopengl32 -lgdi32 -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,-Bdynamic,--no-whole-archive -mwindows
 INCLUDE=-Igllibs/include -Iliblua/include

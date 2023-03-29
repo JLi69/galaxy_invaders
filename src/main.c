@@ -109,4 +109,5 @@ int main(void)
 	destroyGameObjectList(&game.visualEffects);
 	destroyGameObjectPointerList(&game.toDraw);
 	lua_close(L);
+	glfwTerminate();
 }

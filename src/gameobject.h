@@ -2,7 +2,7 @@
 
 #include <lua.h>
 
-#define DEFAULT_MAX_SZ 128
+#define DEFAULT_MAX_SZ 1
 
 typedef struct 
 {
@@ -27,8 +27,9 @@ struct GameObject
 struct GameObjectList
 {
 	struct GameObject *gameobjects;
-	int enabled;
 	unsigned long long size, _maxSize;
+	struct GameObject *toAdd;
+	unsigned long long _toAddCount, _maxToAdd;
 };
 
 struct GameObjectPointerList
@@ -61,6 +62,13 @@ void drawGameObject(struct GameObject obj);
 Vector2f pt(float x, float y);
 
 struct GameObjectList createGameObjectList();
+
+//Use this function when calling the update function 
+//for a gameobject when we are iterating through the 
+//list to avoid reading and writing to an invalid pointer
+void addToList(struct GameObjectList *list, struct GameObject object);
+void addItems(struct GameObjectList *list);
+
 void appendGameobject(struct GameObjectList *list, struct GameObject object);
 void deleteGameObject(struct GameObjectList *list, int index);
 void destroyGameObjectList(struct GameObjectList *list);

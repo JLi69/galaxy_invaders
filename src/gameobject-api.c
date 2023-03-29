@@ -184,7 +184,7 @@ int luaApi_addEnemy(lua_State *L)
 			createObj(pt(x, y), pt(velX, velY), pt(sizeX, sizeY), 
 					  frameCount, imageId, NULL);
 
-		appendGameobject(gameobjectList, gameobject);
+		addToList(gameobjectList, gameobject);
 		return 0;
 	}
 
@@ -193,7 +193,7 @@ int luaApi_addEnemy(lua_State *L)
 					  frameCount, imageId, lua_tostring(L, 10));
 	runStartFunction(L, gameobject.scriptname, &gameobject);
 
-	appendGameobject(gameobjectList, gameobject);
+	addToList(gameobjectList, gameobject);
 
 	return 0;
 }
@@ -213,7 +213,7 @@ int luaApi_addObject(lua_State *L)
 		struct GameObject gameobject =
 			createObj(pt(x, y), pt(0.0f, 0.0f), pt(0.0f, 0.0f), 
 					  0, imageId, NULL);
-		appendGameobject(gameobjectList, gameobject);
+		addToList(gameobjectList, gameobject);
 		return 0;
 	}
 
@@ -222,7 +222,7 @@ int luaApi_addObject(lua_State *L)
 					  0, imageId, lua_tostring(L, 5));
 	runStartFunction(L, gameobject.scriptname, &gameobject);
 
-	appendGameobject(gameobjectList, gameobject);
+	addToList(gameobjectList, gameobject);
 
 	return 0;
 }

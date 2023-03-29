@@ -2,7 +2,7 @@ local menuids = require("res.scripts.menu.menuids")
 local gameover = require("res.scripts.menu.gameover")
 local player = {}
 
-player.SHOOT_COOLDOWN = 0.7 
+player.SHOOT_COOLDOWN = 0.8 
 player.INVINCIBLE_TIMER = 3.0
 player.WAVES_FOR_ONE_UP = 4
 
@@ -74,7 +74,7 @@ function player.update(gameobject, game, timepassed)
 	
 	-- Make the player invincible if the wave is gone for 1 second
 	local enemies = game_getEnemyList(game)
-	if game_sizeofList(enemies) == 0 and game_getWaveNum(game) ~= 0 and game_getObjectScore(gameobject) > 0 then
+	if game_sizeofList(enemies) == 0 and game_getWaveNum(game) ~= 0 and enemy_getObjectScore(gameobject) > 0 then
 		enemy_setObjectMode(gameobject, 2)
 		enemy_setObjectPicture(gameobject, "res/images/shielded_spaceship.png")
 		enemy_setObjectTimer(gameobject, 1.5)

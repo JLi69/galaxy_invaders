@@ -53,10 +53,13 @@ void display(struct Game *game)
 
 	for(int i = 0; i < game->bullets.size && (game->selectedMenu == GAME || getMenuFromId(game->selectedMenu)->displayGameobjects); i++)
 		appendGameobjectPointer(&game->toDraw, &game->bullets.gameobjects[i]);
+
 	for(int i = 0; i < game->enemies.size && (game->selectedMenu == GAME || getMenuFromId(game->selectedMenu)->displayGameobjects); i++)
 		appendGameobjectPointer(&game->toDraw, &game->enemies.gameobjects[i]);
+	
 	for(int i = 0; i < game->visualEffects.size; i++)
 		appendGameobjectPointer(&game->toDraw, &game->visualEffects.gameobjects[i]);
+
 	if(game->selectedMenu == GAME || getMenuFromId(game->selectedMenu)->displayGameobjects)
 		appendGameobjectPointer(&game->toDraw, &game->player);
 
