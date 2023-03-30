@@ -47,9 +47,9 @@ function star_alien.update(gameobject, game, timepassed)
 	if enemy_getObjectMode(gameobject) == 1 then
 		playerx, playery = game_getPlayerPos(game)	
 		if playerx < x - 8.0 then
-			enemy_setObjectVel(gameobject, -192.0, 0.0)	
+			enemy_setObjectVel(gameobject, -140.0, 0.0)	
 		elseif playerx > x + 8.0 then
-			enemy_setObjectVel(gameobject, 192.0, 0.0)	
+			enemy_setObjectVel(gameobject, 140.0, 0.0)	
 		else
 			enemy_setObjectVel(gameobject, 0.0, -480.0)
 			enemy_setObjectMode(gameobject, 2)

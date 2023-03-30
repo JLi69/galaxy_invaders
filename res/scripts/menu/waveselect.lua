@@ -45,13 +45,7 @@ function playselected(game)
 	game_clearList(enemies)
 	local bullets = game_getBulletList(game)
 	game_clearList(bullets)
-	local visualEffects = game_getVisualEffectList(game)
-	game_clearList(visualEffects)
 	game_setTimer(game, 0)
-
-	for i = 0, 80 do
-		prefabs.addPrefab(visualEffects, 0, 300, "star") 		
-	end
 
 	local playerObject = game_getPlayer(game)
 	player.start(playerObject)
