@@ -207,6 +207,16 @@ local spawnWaveFunctions = {
 		end
 	end,
 
+	function(enemies)
+		for y = 0, 2 do
+			for x = -3, 3 do
+				if y == 0 then
+					prefabs.addPrefab(enemies, 1.5 * SPRITE_SIZE * x, 300 - 1.2 * SPRITE_SIZE * y, "slime_alien")	
+				end
+			end
+		end
+	end,
+
 	-- Final function will spawn all other waves
 	function(enemies)
 		-- Spawn all other waves
