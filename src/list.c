@@ -76,6 +76,7 @@ void addItems(struct GameObjectList *list)
 {
 	for(int i = 0; i < list->_toAddCount; i++)
 		appendGameobject(list, list->toAdd[i]);
+	
 	if(list->_toAddCount != 0)
 	{
 		free(list->toAdd);

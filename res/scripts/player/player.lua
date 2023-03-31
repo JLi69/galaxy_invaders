@@ -15,6 +15,7 @@ function player.start(gameobject)
 	enemy_setObjectPos(gameobject, SPAWN_X, SPAWN_Y)
 	enemy_setObjectPicture(gameobject, "res/images/spaceship.png")
 	enemy_setObjectScore(gameobject, 0)
+	enemy_setObjectTimer(gameobject, 0)
 end
 
 function player.update(gameobject, game, timepassed)

@@ -2,7 +2,7 @@
 #include "gameobject.h"
 
 #define SPRITE_SIZE 48.0f
-#define SPEED 128.0f
+#define SPEED 160.0f
 #define BULLET_SPEED 256.0f
 
 //Update game objects

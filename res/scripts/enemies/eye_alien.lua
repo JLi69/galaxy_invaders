@@ -3,7 +3,7 @@ local eye_alien = {}
 
 eye_alien.VEL = 256.0
 
-function square_alien.getAngle(posX, posY, centerX, centerY)
+function eye_alien.getAngle(posX, posY, centerX, centerY)
 	local diffX = posX - centerX
 	local diffY = posY - centerY
 
@@ -70,7 +70,6 @@ function eye_alien.update(gameobject, game, timepassed)
 			enemy_setObjectTimer(gameobject, -4.0) -- 6 second delay before the enemy could dive bomb again 
 
 			enemies = game_getEnemyList(game)
-			prefabs.addPrefab(enemies, x, y, "purple_bullet")
 
 			if velx < 0.0 then
 				velx = -32.0 - math.random() * 32.0 + 16.0
@@ -83,11 +82,30 @@ function eye_alien.update(gameobject, game, timepassed)
 
 		enemy_setObjectVel(gameobject, velx, vely)
 	elseif enemy_getObjectMode(gameobject) == 2 then
-		velx = eye_alien.VEL * math.cos(square_alien.getAngle(x, y, playerx, playery) + 3.14159 / 2.0)
-		vely = eye_alien.VEL * math.sin(square_alien.getAngle(x, y, playerx, playery) + 3.14159 / 2.0)
+		velx = eye_alien.VEL * math.cos(eye_alien.getAngle(x, y, playerx, playery) + 3.14159 / 2.0)
+		vely = eye_alien.VEL * math.sin(eye_alien.getAngle(x, y, playerx, playery) + 3.14159 / 2.0)
 
-		if math.sqrt((playerx - x) * (playerx - x) + (playery - y) * (playery - y)) > 192.0 then	
-			enemy_setObjectMode(gameobject, 1)
+		if math.sqrt((playerx - x) * (playerx - x) + (playery - y) * (playery - y)) > 256.0 then	
+			if x > -320.0 or x < 320.0 then
+				enemy_setObjectMode(gameobject, 3)
+				return
+			else
+				enemy_setObjectMode(gameobject, 0)
+			end
+
+			enemy_setObjectTimer(gameobject, -4.0) -- 6 second delay before the enemy could dive bomb again 
+
+			enemies = game_getEnemyList(game)
+
+			if velx < 0.0 then
+				velx = -32.0 - math.random() * 32.0 + 16.0
+			elseif velx > 0.0 then
+				velx = 32.0 + math.random() * 32.0 - 16.0
+			end
+
+			vely = 256.0
+			
+			enemy_setObjectVel(gameobject, velx, vely)
 			return
 		end
 
@@ -129,7 +147,6 @@ function eye_alien.update(gameobject, game, timepassed)
 			enemy_setObjectTimer(gameobject, -4.0) -- 6 second delay before the enemy could dive bomb again 
 
 			enemies = game_getEnemyList(game)
-			prefabs.addPrefab(enemies, x, y, "purple_bullet")
 
 			if velx < 0.0 then
 				velx = -32.0 - math.random() * 32.0 + 16.0
@@ -143,12 +160,12 @@ function eye_alien.update(gameobject, game, timepassed)
 		enemy_setObjectVel(gameobject, velx, vely)	
 	end
 
-	if timer > 2.0 and enemy_getObjectMode(gameobject) == 0 then	
+	if timer > 2.0 and enemy_getObjectMode(gameobject) == 0 then		
 		if math.random() < 0.1 then
-			enemy_setObjectMode(gameobject, 1)
-		elseif math.random() < 0.1 then
 			enemies = game_getEnemyList(game)
 			prefabs.addPrefab(enemies, x, y, "purple_bullet")
+		elseif math.random() < 0.05 then
+			enemy_setObjectMode(gameobject, 1)
 		end
 		enemy_setObjectTimer(gameobject, 0.0)
 	end

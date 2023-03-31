@@ -137,6 +137,7 @@ void update(struct Game *game,
 			{
 				deleteGameObject(&game->enemies, i);
 				i--;
+				continue;
 			}
 		}	
 	}
@@ -183,6 +184,6 @@ void update(struct Game *game,
 			lua_pop(L, -1);
 			lua_pop(L, -2);
 		}
-		game->waveNum++;	
+		game->waveNum++;
 	}
 }
