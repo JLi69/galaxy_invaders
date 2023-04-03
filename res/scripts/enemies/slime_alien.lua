@@ -1,22 +1,23 @@
 math = require("math")
 local slime_alien = {}
 
-function slime_alien.generate_speed(minSpeed, maxSpeed)
-	if math.random() < 0.5 then
-		return -(minSpeed + math.random() * (maxSpeed - minSpeed))
-	else
-		return minSpeed + math.random() * (maxSpeed - minSpeed)
-	end
-end
+slime_alien.SPEED = 128.0
 
 -- run this upon enemy start
 function slime_alien.start(gameobject)
 	-- Set object's velocity
-	enemy_setObjectVel(gameobject, 0.0, 0.0)
+	local velx = 0.0
+	if math.random() < 0.5 then
+		velx = slime_alien.SPEED
+	else
+		velx = -slime_alien.SPEED
+	end
+	
+	enemy_setObjectVel(gameobject, velx, -slime_alien.SPEED)
 	enemy_setObjectSize(gameobject, SPRITE_SIZE, SPRITE_SIZE)	
 	enemy_setObjectFrameCount(gameobject, 4)
 	enemy_setObjectHealth(gameobject, 3)
-	enemy_setObjectScore(gameobject, 10)
+	enemy_setObjectScore(gameobject, 5)
 end
 
 function slime_alien.update(gameobject, game, timepassed)
@@ -28,24 +29,6 @@ function slime_alien.update(gameobject, game, timepassed)
 	timer = enemy_getObjectTimer(gameobject)
 	enemy_setObjectTimer(gameobject, timer + timepassed)
 
-	if timer >= 2.0 and enemy_getObjectMode(gameobject) == 0 then
-		-- shoot
-		if math.random() < 0.2 then
-			enemies = game_getEnemyList(game)
-			prefabs.addPrefab(enemies, x, y, "enemy_bullet")
-		else
-			enemies = game_getEnemyList(game)
-			enemy_setObjectMode(gameobject, 1)
-			enemy_setObjectVel(gameobject, slime_alien.generate_speed(8.0, 16.0), circle_alien.generate_speed(8.0, 32.0))
-			prefabs.addPrefab(enemies, x, y, "enemy_bullet")
-		end
-		
-		enemy_setObjectTimer(gameobject, 0)
-	elseif enemy_getObjectMode(gameobject) == 1 and timer >= 5.0 then 	
-		enemy_setObjectMode(gameobject, 0)
-		enemy_setObjectVel(gameobject, 0.0, 0.0)
-	end
-
 	-- Bounce off of edges of screen
 	if x < -320.0 then	
 		enemy_setObjectVel(gameobject, -velx, vely)
@@ -55,9 +38,9 @@ function slime_alien.update(gameobject, game, timepassed)
 		enemy_setObjectPos(gameobject, 320.0, y)
 	end
 
-	if y < 0.0 then	
+	if y < -320.0 then	
 		enemy_setObjectVel(gameobject, velx, -vely)
-		enemy_setObjectPos(gameobject, x, 0.0)	
+		enemy_setObjectPos(gameobject, x, -320.0)	
 	elseif y > 320.0 then	
 		enemy_setObjectVel(gameobject, velx, -vely)
 		enemy_setObjectPos(gameobject, x, 320.0)
@@ -80,6 +63,11 @@ function slime_alien.oncollision(gameobject, game)
 	health = health - 1
 	enemy_setObjectHealth(gameobject, health)
 
+	velx, vely = enemy_getObjectVel(gameobject)
+	if vely < 0.0 then
+		enemy_setObjectVel(gameobject, velx, -vely)
+	end
+
 	-- if out of health, explode
 	if health <= 0 then
 		x, y = enemy_getObjectPos(gameobject)
@@ -88,7 +76,7 @@ function slime_alien.oncollision(gameobject, game)
 	end
 	
 	-- Delete object if health is less than or equal to 0
-	return true
+	return health <= 0
 end
 
 return slime_alien

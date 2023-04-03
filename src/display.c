@@ -46,7 +46,10 @@ void display(struct Game *game)
 	bindTexture(getImageId("res/images/background.png"), GL_TEXTURE0);
 	setRectPos(0.0f, 0.0f);
 	setRectSize(1920.0f, 1080.0f);
-	setTexSize(640.0f, 360.0f);
+	int backgroundDimensions[2];
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &backgroundDimensions[0]);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &backgroundDimensions[1]);
+	setTexSize(backgroundDimensions[0], backgroundDimensions[1]);
 	setTexFrac(1.0f, 1.0f);
 	setTexOffset(0.0f, 0.0f);
 	drawRect();

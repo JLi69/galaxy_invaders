@@ -2,7 +2,6 @@ local math = require("math")
 
 local spawnWaveFunctions = {
 	function(enemies)
-		-- spawn first wave 
 		for y = 0, 1 do 
 			for x = -2, 2 do	
 				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, "enemy") 
@@ -11,16 +10,14 @@ local spawnWaveFunctions = {
 	end,
 
 	function(enemies)
-		-- spawn second wave
 		for y = 0, 4 do
 			for x = -(3 - y), (3 - y) do		
 				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, "enemy")
 			end
 		end
-	end,
+	end,	
 
 	function(enemies)
-		-- spawn third wave
 		for y = 0, 3 do
 			for x = -2, 2 do			
 				if y == 0 or y == 3 or x == -2 or x == 2 then
@@ -33,7 +30,6 @@ local spawnWaveFunctions = {
 	end,
 
 	function(enemies)
-		-- spawn fourth wave
 		for y = 0, 2 do
 			for x = -1, 1 do			
 				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, "enemy2")
@@ -42,7 +38,6 @@ local spawnWaveFunctions = {
 	end,
 
 	function(enemies)
-		-- spawn fifth wave
 		for y = 0, 5 do
 			for x = -2, 2 do			
 				if (y - 3) * (y - 3) + x * x <= 2 * 2 then
@@ -53,7 +48,6 @@ local spawnWaveFunctions = {
 	end,
 
 	function(enemies)
-		-- spawn sixth wave
 		for y = 0, 3 do
 			for x = -2, 2 do			
 				enemyType = ""
@@ -71,7 +65,16 @@ local spawnWaveFunctions = {
 	end,
 
 	function(enemies)
-		-- spawn seventh wave
+		for y = 0, 2 do
+			for x = -3, 3 do
+				if (x + y) % 2 == 0 then
+					prefabs.addPrefab(enemies, 1.5 * SPRITE_SIZE * x, 300 - 1.2 * SPRITE_SIZE * y, "slime_alien")	
+				end
+			end
+		end
+	end,
+
+	function(enemies)
 		y = 2
 		local dy = -1
 		for x = -6, 6 do	
@@ -87,7 +90,6 @@ local spawnWaveFunctions = {
 	end,
 
 	function(enemies)
-		-- spawn eigth wave
 		local num = 12
 		local radius = 150.0
 		for theta = 0, num - 1 do
@@ -116,8 +118,6 @@ local spawnWaveFunctions = {
 	end,
 	
 	function(enemies)
-		-- Spawn ninth wave	
-
 		for y = 0, 6 do
 			for x = -3, 3 do
 				if (math.floor(math.sin(x) * 3 + 3) <= y and 
@@ -134,8 +134,6 @@ local spawnWaveFunctions = {
 	end,
 
 	function(enemies)
-		-- Spawn tenth wave
-		
 		for y = 0, 3 do 
 			for x = -2, 2 do	
 				local enemyType = ""	
@@ -154,7 +152,6 @@ local spawnWaveFunctions = {
 	end,
 
 	function(enemies)
-		-- Spawn eleventh wave
 		for x = -2, 2 do
 			prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300, "shielded_alien") 
 		end
@@ -166,7 +163,6 @@ local spawnWaveFunctions = {
 	end,
 
 	function(enemies)
-		-- Spawn twelfth wave
 		local enemyTypes = { "shielded_alien", "enemy3", "circle_alien" }
 		for y = 0, 2 do	
 			for x = -2, 2 do
@@ -193,17 +189,7 @@ local spawnWaveFunctions = {
 				end
 			end
 		end
-	end,
-
-	function(enemies)
-		for y = 0, 2 do
-			for x = -3, 3 do
-				if y == 0 then
-					prefabs.addPrefab(enemies, 1.5 * SPRITE_SIZE * x, 300 - 1.2 * SPRITE_SIZE * y, "slime_alien")	
-				end
-			end
-		end
-	end,
+	end,	
 	
 	function(enemies)
 		for y = 0, 2 do
