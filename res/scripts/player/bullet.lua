@@ -1,7 +1,7 @@
 local bullet = {}
 
 function bullet.start(gameobject)
-
+	enemy_setObjectFrameCount(gameobject, 2);
 end
 
 function bullet.update(gameobject, game, timepassed)	

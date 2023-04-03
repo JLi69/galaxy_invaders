@@ -46,6 +46,7 @@ function prefabs.init()
 	prefabs.prefab("eye_alien", "res/scripts/enemies/eye_alien.lua", "res/images/eye_alien.png")
 	prefabs.prefab("bomb_alien", "res/scripts/enemies/bomb_alien.lua", "res/images/bomb_alien.png")
 	prefabs.prefab("slime_alien", "res/scripts/enemies/slime_alien.lua", "res/images/slime_alien.png")
+	prefabs.prefab("superweapon", "res/scripts/enemies/superweapon.lua", "res/images/superweapon.png")
 
 	prefabs.prefab("enemy_bullet", "res/scripts/bullets/enemy_bullet.lua", "res/images/enemy_bullet.png")
 	prefabs.prefab("pink_bullet", "res/scripts/bullets/pink_bullet.lua", "res/images/pink_bullet.png")

@@ -67,15 +67,18 @@ void display(struct Game *game)
 
 	//Draw gameobjects 
 	unsigned int prevTexture = -1;
+	int dimensions[2] = { 64, 16 };
 	for(int i = 0; i < game->toDraw.size; i++)
 	{
 		if(game->toDraw.pointers[i]->image != prevTexture)
-		{
+		{	
 			bindTexture(game->toDraw.pointers[i]->image, GL_TEXTURE0);
-			prevTexture = game->toDraw.pointers[i]->image;
+			glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &dimensions[0]);
+			glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &dimensions[1]);
+			prevTexture = game->toDraw.pointers[i]->image;	 
 		}
 		setRotationRad(game->toDraw.pointers[i]->rotation);
-		setTextureForObj(*game->toDraw.pointers[i], 64.0f, 16.0f, 1.0f / 4.0f, 1.0f, 0.0f, 0.0f);	
+		setTextureForObj(*game->toDraw.pointers[i], dimensions[0], dimensions[1], 1.0f / (float)((*game->toDraw.pointers[i]).totalFrames), 1.0f, 0.0f, 0.0f);	
 		drawGameObject(*game->toDraw.pointers[i]);
 	}
 	setRotationRad(0.0f);
