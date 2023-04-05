@@ -357,8 +357,9 @@ int luaApi_clearList(lua_State *L)
 {
 	CHECK_ARG_COUNT(1);
 	struct GameObjectList* list = (struct GameObjectList*)lua_touserdata(L, 1);
-	free(list->gameobjects);
-	*list = createGameObjectList();
+	for(int i = 0; i < list->size; i++)
+		free(list->gameobjects[i].scriptname);
+	list->size = 0;
 
 	return 0;
 }

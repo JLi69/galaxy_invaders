@@ -46,7 +46,7 @@ lua_State* initLua()
 	lua_register(L, "game_getPlayerPos", luaApi_getPlayerPos);
 	lua_register(L, "game_sizeofList", luaApi_getListSize);
 	lua_register(L, "game_getGameObjectAt", luaApi_getGameobject);
-	lua_register(L, "game_clearList", luaApi_clearList);	
+	lua_register(L, "game_clearList", luaApi_clearList);
 	lua_register(L, "game_getWaveNum", luaApi_getWave);
 	lua_register(L, "game_setWaveNum", luaApi_setWave);	
 	lua_register(L, "game_getPlayer", luaApi_getPlayer);	

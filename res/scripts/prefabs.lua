@@ -59,6 +59,10 @@ function prefabs.init()
 	prefabs.loadres()
 
 	game_loadTexture("res/images/shielded_spaceship.png")	
+	
+	game_loadTexture("res/images/superweapon-phase2.png")
+	game_loadTexture("res/images/superweapon-phase3.png")	
+	game_loadTexture("res/images/superweapon-phase4.png")	
 end
 
 function prefabs.addPrefab(gameobjectlist, x, y, sprite)

@@ -13,6 +13,7 @@
 #include <lualib.h>
 #include <stdio.h>
 #include "menu.h"
+#include <stdlib.h>
 
 int main(void)
 {
@@ -108,6 +109,8 @@ int main(void)
 	destroyGameObjectList(&game.enemies);
 	destroyGameObjectList(&game.visualEffects);
 	destroyGameObjectPointerList(&game.toDraw);
+	free(game.player.scriptname);
 	lua_close(L);
+	cleanupImages();
 	glfwTerminate();
 }

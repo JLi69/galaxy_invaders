@@ -71,5 +71,7 @@ void bindTexture(unsigned int texture, int texBinding);
 unsigned int getImageId(const char *path); //Assumes that the image has already been loaded,
 										   //Will return 0 otherwise
 
+void cleanupImages(void);
+
 #endif
 #define GL_FUNC_H

@@ -374,3 +374,8 @@ unsigned int getImageId(const char *path)
 	}
 	return 0;
 }
+
+void cleanupImages(void)
+{
+	free(loadedImages.images);
+}

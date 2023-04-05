@@ -58,10 +58,24 @@ void destroyGameObjectList(struct GameObjectList *list)
 	list->gameobjects = NULL;
 	list->size = 0;
 	list->_maxSize = 0;
+	
+	for(int i = 0; i < list->_toAddCount; i++)
+		free(list->toAdd->scriptname);
+	free(list->toAdd);
+	list->toAdd = NULL;
+	list->_toAddCount = 0;
+	list->_maxToAdd = 0;
 }
 
 void addToList(struct GameObjectList *list, struct GameObject object)
 {
+	if(list->size == 0 && list->_maxSize != DEFAULT_MAX_SZ)
+	{
+		free(list->gameobjects);
+		*list = createGameObjectList();
+		return;	
+	}
+
 	if(list->_toAddCount < list->_maxToAdd)
 		list->toAdd[list->_toAddCount++] = object;
 	else
