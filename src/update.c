@@ -64,7 +64,7 @@ void update(struct Game *game,
 		animationTimer = 0.0f;
 	}
 
-	if(!isPaused())	
+	if(!isPaused() && !(game->selectedMenu == GAMEOVER))	
 		animationTimer += timePassed;	
 
 	if(game->selectedMenu != GAME || isPaused())
