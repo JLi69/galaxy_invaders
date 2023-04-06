@@ -73,7 +73,8 @@ function credits(game)
 	menu_gotoMenu(game, menuids.CREDITS)
 end
 
-function gotoWaveSelect(game)	
+function gotoWaveSelect(game)		
+	game_setPaused(false)	
 	menu_clear(menuids.SELECT_WAVE)
 	game_setWaveNum(game, 0)
 	waveselect.createmenu(game)

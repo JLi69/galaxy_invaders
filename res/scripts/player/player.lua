@@ -93,15 +93,9 @@ function player.update(gameobject, game, timepassed)
 			menu_gotoMenu(game, menuids.VICTORY)
 		end
 	end
-
-	if game_sizeofList(enemies) == 0 and game_getWaveNum(game) == 15 then 	
-		vis = game_getVisualEffectList(game)
-		game_clearList(vis)
+	
+	if game_sizeofList(enemies) == 0 and game_getWaveNum(game) == 15 then 		
 		menu_gotoMenu(game, menuids.BOSS_FIGHT_INTRO)
-		-- Add visual effects
-		for i = 0, 80 do
-			prefabs.addPrefab(vis, 0, 300, "star") 		
-		end
 	end
 end
 

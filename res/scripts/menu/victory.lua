@@ -1,6 +1,14 @@
 local menuids = require("res.scripts.menu.menuids")
 local victory = {}
 
+function gotoinfinite(game)
+	local player = game_getPlayer(game)
+	if enemy_getObjectHealth(player) < 3 then
+		enemy_setObjectHealth(player, 3)
+	end
+	gotogame(game)
+end
+
 function victory.createmenu(game)
 	menu_clear(menuids.VICTORY)
 
@@ -31,7 +39,7 @@ function victory.createmenu(game)
 		menu_addTextToMenu(menuids.VICTORY, "Time: " .. tostring(minutes) .. ":0" .. tostring(seconds), 0.0, -80, 32.0)	
 	end
 
-	menu_addButtonToMenu(menuids.VICTORY, "Activate Infinite Mode", "gotogame", 0.0, -200.0, 24.0) 
+	menu_addButtonToMenu(menuids.VICTORY, "Activate Infinite Mode", "gotoinfinite", 0.0, -200.0, 24.0) 
 end
 
 return victory 

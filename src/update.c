@@ -64,6 +64,9 @@ void update(struct Game *game,
 		animationTimer = 0.0f;
 	}
 
+	if(!isPaused())	
+		animationTimer += timePassed;	
+
 	if(game->selectedMenu != GAME || isPaused())
 		return;
 
@@ -184,6 +187,5 @@ void update(struct Game *game,
 		game->waveNum++;
 	}
 
-	animationTimer += timePassed;	
 	game->timer += timePassed;		
 }

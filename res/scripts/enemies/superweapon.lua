@@ -91,7 +91,7 @@ function superweapon.update(gameobject, game, timepassed)
 		end
 	elseif health > 16 then
 		if enemy_getObjectMode(gameobject) == 0 then	
-			if timer > 0.5 then	
+			if timer > 1.0 then	
 				enemies = game_getEnemyList(game)
 				prefabs.addPrefab(enemies, x, y - 48.0 - 16.0, "bomb")
 				prefabs.addPrefab(enemies, x - 8.0, y - 48.0, "bomb")
