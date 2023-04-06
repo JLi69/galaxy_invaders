@@ -264,7 +264,7 @@ int luaApi_getListSize(lua_State *L)
 {
 	CHECK_ARG_COUNT(1);
 	struct GameObjectList* gameobjects = (struct GameObjectList*)lua_touserdata(L, 1);
-	lua_pushinteger(L, gameobjects->size);
+	lua_pushinteger(L, gameobjects->size + gameobjects->_toAddCount);
 	return 1;
 }
 

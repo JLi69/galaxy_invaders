@@ -1,10 +1,11 @@
 local menuids = require("res.scripts.menu.menuids")
 local gameover = require("res.scripts.menu.gameover")
+local victory = require("res.scripts.menu.victory")
 local player = {}
 
 player.SHOOT_COOLDOWN = 0.8 
 player.INVINCIBLE_TIMER = 3.0
-player.WAVES_FOR_ONE_UP = 4
+player.WAVES_FOR_ONE_UP = 3
 
 local SPAWN_X = 0
 local SPAWN_Y = -300
@@ -48,11 +49,11 @@ function player.update(gameobject, game, timepassed)
 	enemy_setObjectTimer(gameobject, timer - timepassed)	
 
 	-- Bound the player's position
-	if x < -360.0 then
-		x = -360.0
+	if x < -300.0 then
+		x = -300.0
 		enemy_setObjectPos(gameobject, x, y)
-	elseif x > 360.0 then
-		x = 360.0
+	elseif x > 300.0 then
+		x = 300.0
 		enemy_setObjectPos(gameobject, x, y)
 	end
 
@@ -86,10 +87,21 @@ function player.update(gameobject, game, timepassed)
 			health = health + 1
 			enemy_setObjectHealth(gameobject, health)
 		end
+
+		if game_getWaveNum(game) == 16 then
+			victory.createmenu(game)
+			menu_gotoMenu(game, menuids.VICTORY)
+		end
 	end
 
-	if game_sizeofList(enemies) == 0 and game_getWaveNum(game) == 15 then 
+	if game_sizeofList(enemies) == 0 and game_getWaveNum(game) == 15 then 	
+		vis = game_getVisualEffectList(game)
+		game_clearList(vis)
 		menu_gotoMenu(game, menuids.BOSS_FIGHT_INTRO)
+		-- Add visual effects
+		for i = 0, 80 do
+			prefabs.addPrefab(vis, 0, 300, "star") 		
+		end
 	end
 end
 

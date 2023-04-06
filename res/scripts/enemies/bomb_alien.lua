@@ -45,7 +45,8 @@ function bomb_alien.update(gameobject, game, timepassed)
 
 				vely = 256.0
 			-- Explode	
-			else	
+			else
+				enemies = game_getEnemyList(game)
 				enemy_setObjectPos(gameobject, -9999.0, -9999.0)
 				vis = game_getVisualEffectList(game)
 				for i = 0, 4 do

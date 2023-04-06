@@ -18,8 +18,8 @@ void update(struct Game *game,
 
 	addItems(&game->visualEffects);
 	addItems(&game->enemies);
-	addItems(&game->bullets);
-
+	addItems(&game->bullets);	
+	
 	//Pause/unpause the game
 	if(isPressedOnce(GLFW_KEY_ESCAPE))
 	{
@@ -167,12 +167,9 @@ void update(struct Game *game,
 		game->player.timer = lua_tonumber(L, -1);
 	}
 
-	animationTimer += timePassed;	
-	game->timer += timePassed;	
-
 	//Are all enemies dead?
 	//If all enemies have been killed, attempt to spawn the next wave
-	if(game->enemies.size == 0)
+	if(game->enemies.size + game->enemies._toAddCount == 0)
 	{
 		//Spawn next wave
 		lua_getglobal(L, "spawnwave");
@@ -186,4 +183,7 @@ void update(struct Game *game,
 		}
 		game->waveNum++;
 	}
+
+	animationTimer += timePassed;	
+	game->timer += timePassed;		
 }

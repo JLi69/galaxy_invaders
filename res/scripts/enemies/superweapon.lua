@@ -9,8 +9,7 @@ function superweapon.start(gameobject)
 	-- Set object's velocity
 	enemy_setObjectVel(gameobject, 0.0, 0.0)
 	-- Set health
-	enemy_setObjectHealth(gameobject, 32)	
-	--enemy_setObjectHealth(gameobject, 9)
+	enemy_setObjectHealth(gameobject, 32)		
 	enemy_setObjectSize(gameobject, SPRITE_SIZE * 3.0, SPRITE_SIZE * 3.0)
 	enemy_setObjectFrameCount(gameobject, 4)
 
@@ -265,10 +264,16 @@ function superweapon.oncollision(gameobject, game)
 		x, y = enemy_getObjectPos(gameobject)	
 		for i = 0, 32 do
 			local angle = math.random() * 6.28
-			local dist = math.random() * 80.0
+			local dist = math.random() * 40.0
 			prefabs.addPrefab(vis, x + dist * math.cos(angle), y + dist * math.sin(angle), "explosion")
 		end
+		enemies = game_getEnemyList(game)
+		game_clearList(enemies)
+		for i = 0, 64 do
+			prefabs.addPrefab(enemies, x, y, "bomb_shard")
+		end
 		enemy_setObjectPicture(gameobject, nil)
+		return true	
 	end
 	
 	return false
