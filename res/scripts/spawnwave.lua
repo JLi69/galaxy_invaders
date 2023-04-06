@@ -203,7 +203,7 @@ local spawnWaveFunctions = {
 		end
 	end,	
 
-	function(enemies)
+	function(enemies)	
 		prefabs.addPrefab(enemies, 0, 200, "superweapon")
 	end,
 

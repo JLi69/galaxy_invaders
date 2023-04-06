@@ -167,11 +167,7 @@ function superweapon.update(gameobject, game, timepassed)
 				enemy_setObjectMode(gameobject, 3)
 				for i = 0, 8 do
 					prefabs.addPrefab(enemies, x, y - 48.0, "star_bullet")
-				end	
-
-				if math.random() < 0.5 then
-					prefabs.addPrefab(enemies, x, y - 48.0, "enemy")
-				end
+				end		
 			end
 		elseif enemy_getObjectMode(gameobject) == 3 then
 			if timer > 2.0 then
@@ -180,7 +176,51 @@ function superweapon.update(gameobject, game, timepassed)
 			end
 		end
 	else
+		if enemy_getObjectMode(gameobject) == 0 then	
+			if timer > 0.07 then	
+				enemies = game_getEnemyList(game)
+				prefabs.addPrefab(enemies, x - 36.0, y - 48.0, "enemy_bullet")
+				prefabs.addPrefab(enemies, x + 36.0, y - 48.0, "enemy_bullet")
+				enemy_setObjectTimer(gameobject, 0.0)
+			end
 
+			distToTarget = math.sqrt((superweapon.targetX - x) * (superweapon.targetX - x) + (superweapon.targetY - y) * (superweapon.targetY - y))
+			if distToTarget < 16.0 then
+				enemies = game_getEnemyList(game)
+				superweapon.targetX = math.random() * 560.0 - 280.0
+				superweapon.targetY = math.random() * 400.0 - 100.0
+				enemy_setObjectMode(gameobject, 1)	
+				enemy_setObjectTimer(gameobject, 0)
+				
+				if math.random() < 0.5 then
+					prefabs.addPrefab(enemies, x, y - 80.0, "bomb_alien")
+				elseif math.random() < 0.5 then
+					for i = -3, 3 do
+						prefabs.addPrefab(enemies, x + i * 16.0, y - 48.0, "purple_bullet")
+					end
+				else
+					for i = -3, 3 do
+						prefabs.addPrefab(enemies, x + i * 16.0, y - 48.0, "bomb")
+					end
+				end
+			else
+				velx = (superweapon.targetX - x) / distToTarget * 128.0
+				vely = (superweapon.targetY - y) / distToTarget * 128.0
+			end	 
+		elseif enemy_getObjectMode(gameobject) == 1 then
+			velx = 0.0
+			vely = 0.0
+			if timer > 2.5 then
+				enemy_setObjectMode(gameobject, 0)
+				enemy_setObjectTimer(gameobject, 0.0)	
+			
+				if math.random() < 0.2 then
+					for i = 0, 5 do
+						prefabs.addPrefab(enemies, x + 80.0 * math.cos(6.28 / 6 * i), y + 80.0 * math.sin(6.28 / 6 * i), "enemy")
+					end	
+				end
+			end
+		end
 	end
 
 	-- move the object
@@ -231,7 +271,6 @@ function superweapon.oncollision(gameobject, game)
 		enemy_setObjectPicture(gameobject, nil)
 	end
 	
-	-- Delete object if health is less than or equal to 0
 	return false
 end
 

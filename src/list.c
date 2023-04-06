@@ -34,9 +34,12 @@ void deleteGameObject(struct GameObjectList *list, int index)
 	if(index >= list->size || index < 0)
 		return;
 
-	struct GameObject temp = list->gameobjects[list->size - 1];
-	list->gameobjects[list->size - 1] = list->gameobjects[index];
-	list->gameobjects[index] = temp;
+	if(index != list->size - 1)
+	{
+		struct GameObject temp = list->gameobjects[list->size - 1];
+		list->gameobjects[list->size - 1] = list->gameobjects[index];
+		list->gameobjects[index] = temp;
+	}
 
 	free(list->gameobjects[list->size - 1].scriptname);
 	list->gameobjects[list->size - 1].scriptname = NULL;

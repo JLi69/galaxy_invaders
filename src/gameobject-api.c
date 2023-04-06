@@ -304,6 +304,7 @@ int luaApi_setObjectScript(lua_State *L)
 	CHECK_ARG_COUNT(2);	
 	struct GameObject* obj = (struct GameObject*)lua_touserdata(L, 1);
 	free(obj->scriptname);
+	obj->scriptname = NULL;
 	setGameobjectScript(obj, lua_tostring(L, 2));
 	return 0;
 }

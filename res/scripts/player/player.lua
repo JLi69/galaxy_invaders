@@ -87,6 +87,10 @@ function player.update(gameobject, game, timepassed)
 			enemy_setObjectHealth(gameobject, health)
 		end
 	end
+
+	if game_sizeofList(enemies) == 0 and game_getWaveNum(game) == 15 then 
+		menu_gotoMenu(game, menuids.BOSS_FIGHT_INTRO)
+	end
 end
 
 function player.oncollision(gameobject, game)
