@@ -1,0 +1,89 @@
+IMPORTANT: if game is nil, the game will crash!
+
+game - user data that points to the data that keeps track of game data
+
+----------------------
+
+game_getTimer(game) -> seconds
+returns the current timer the game is at, the game keeps track of the
+current amount of time passed since the player started playing a session.
+Returns the value in seconds
+
+----------------------
+
+game_setTimer(game, time)
+Sets the timer to the value in time (time is in seconds)
+
+----------------------
+
+game_addEnemy
+game_addObject
+Adds enemy or object to the game, do not use these functions,
+use prefabs.addPrefab instead.
+
+----------------------
+
+game_getEnemyList(game) -> enemies
+game_getBulletList(game) -> bullets
+game_getVisualEffectList(game) -> visualEffects
+Returns a user data to the lists that contain sprites in the game
+
+----------------------
+
+game_getPlayerPos(game) -> playerx, playery
+Returns the coordinates of the player gameobject
+
+----------------------
+
+game_sizeofList(list) -> size
+returns the number of sprites in a list, counts sprites that are
+added to the list in the frame.
+
+----------------------
+
+game_getGameObjectAt(list, index) -> object
+returns user data of a gameobject at the index for the list.
+Indices go from 0 to size - 1, if outside that range, the
+function will return nil.
+
+----------------------
+
+game_clearList(list)
+Removes all gameobjects from the list
+
+IMPORTANT: any objects added to the list during that frame
+will not be removed by this function and will actually be
+added to the game after that frame is over.
+
+----------------------
+
+game_getWaveNum(game) -> waveNum
+returns the current wave the player is on
+
+----------------------
+
+game_setWaveNum(game, waveNum)
+sets the current wave the player is on
+
+----------------------
+
+game_getPlayer(game) -> player
+Returns the user data for the player gameobject
+
+----------------------
+
+game_loadTexture(path)
+Loads the image at that path into memory to be used for sprites.
+Needs to be called at the start of the game for any images that
+the user wants to load into memory and use for sprites or gameobjects
+
+----------------------
+
+game_loadScript(path, mod)
+Calls the lua script at that path (note that this is being
+called from the executable's working directory) and will
+then import the module named 'mod' as a global. Mod will
+also be used to refer to the script in other parts of the
+game.
+
+----------------------

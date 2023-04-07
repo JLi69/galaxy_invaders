@@ -1,0 +1,165 @@
+IMPORTANT: if gameobject is nil, the game will crash!
+
+gameobject - user data that points to an enemy object
+
+----------------------
+
+enemy_setObjectPos(gameobject, x, y)
+x - x coordinate to set the object's position to
+y - y coordinate to set the object's position to
+
+If the object goes outside of the range [-1024, 1024] for x
+or the range [-600, 600] for y it will be removed by the game.
+
+----------------------
+
+enemy_setObjectVel(gameobject, velx, vely)
+velx - new speed of the object in the x direction
+vely - new speed of the object in the y direction
+
+----------------------
+
+enemy_getObjectPos(gameobject) -> x, y
+x, y - return values of the function, position of object in game
+
+x, y = enemy_getObjectPos(gameobject)
+
+----------------------
+
+enemy_getObjectVel(gameobject) -> velx, vely
+velx, vely - return values of the function, velocity of object in game
+
+velx, vely = enemy_getObjectVel(gameobject)
+
+----------------------
+
+enemy_setObjectSize(gameobject, w, h)
+w - new width of the object
+h - new height of the object
+
+----------------------
+
+enemy_getObjectSize(gameobject) -> w, h
+w - width of the object
+h - height of the object
+
+w, h = enemy_getObjectSize(gameobject)
+
+----------------------
+
+enemy_getObjectHealth(gameobject)
+Returns health points that a gameobject has
+
+----------------------
+
+enemy_setObjectHealth(gameobject, health)
+Sets the health of a gameobject
+
+----------------------
+
+enemy_getObjectTimer(gameobject)
+Returns the internal timer value that a gameobject has.
+
+----------------------
+
+enemy_setObjectTimer(gameobject, time)
+Updates the timer value that a gameobject has.
+
+Examples:
+timer = enemy_getObjectTimer(gameobject)
+-- update the timer by the amount of time that passed
+enemy_setObjectTimer(gameobject, timer + timepassed)
+
+-- reset the timer to 0 seconds
+enemy_setObjectTimer(gameobject, 0.0)
+
+----------------------
+
+enemy_setObjectFrameCount(gameobject, framecount)
+Sets the number of animation frames that an object has
+to be framecount. The image that the gameobject is set
+to will be divided into equal sections with size
+1.0 / framecount * imagewidth. 
+
+----------------------
+
+enemy_setObjectFrame(gameobject, frame)
+Sets the current frame in the animation of the object
+The first frame is 0 and the last frame is indexed at
+framecount - 1. If it is set to a value outside this
+range, the object will not display an image.
+
+If the object is a visual effect and its animation frame
+goes outside of this range, it will be removed by the game.
+
+----------------------
+
+enemy_getObjectMode(gameobject)
+Returns an integer that represents the current 'mode'
+of the object. Can be used to control behavior of the
+object in more specific ways such as different attack
+patterns.
+
+----------------------
+
+enemy_setObjectMode(gameobject, mode)
+Sets the current 'mode' of the object to mode.
+
+----------------------
+
+enemy_setObjectScript(gameobject, scriptname)
+Sets the script of the object to another script
+so the object can behave differently. Scriptname
+is not the path to the script, it is the name
+given to the script when it is loaded by the game
+(When you load a script you supply the "name" you
+want to give it - see game_loadScript)
+
+----------------------
+
+enemy_setObjectPicture(gameobject, imagepath)
+Sets the sprite image of the object to whatever is
+at imagepath - the image must be loaded before you
+call this function - see game_loadTexture. If
+imagepath is nil, the object will not display an
+image
+
+----------------------
+
+enemy_getObjectScore(gameobject) -> score
+returns the current score value of the object,
+when used on the player object it returns the
+current score the player is at.
+
+----------------------
+
+enemy_setObjectScore(gameobject, score)
+Sets the score value of the enemy when it is
+killed by the player. When used on the player
+gameobject, it sets the current score the game
+is at.
+
+----------------------
+
+enemy_getObjectRotation(gameobject) -> rotation
+returns the rotation of the object sprite
+
+----------------------
+
+enemy_setObjectRotation(gameobject, rotation)
+Sets the rotation of the object sprite
+
+----------------------
+
+enemy_getObjectZ(gameobject) -> z
+Returns the z value of the object, the z value
+determines the order in which sprites are drawn
+onto the screen, a lower z value means that object
+will be drawn behind other objects and a higher
+z value means it will be drawn in front of other
+gameobjects.
+
+----------------------
+
+enemy_setObjectZ(gameobject, z)
+Sets the z value of the object
