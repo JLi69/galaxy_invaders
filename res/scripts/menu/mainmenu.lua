@@ -52,10 +52,10 @@ end
 function credits(game)
 	-- Initialize credits menu
 	menu_clear(menuids.CREDITS)
-	menu_addTextToMenu(menuids.CREDITS, "Credits", 0.0, 256.0, 48.0)
+	menu_addTextToMenu(menuids.CREDITS, "Credits", 0.0, 300.0, 48.0)
 	
 	-- Open file that contains the credits
-	local y = 180.0
+	local y = 240.0
 
 	file = io.open("res/CREDITS")
 	if file then

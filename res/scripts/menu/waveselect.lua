@@ -18,7 +18,6 @@ function nextwave(game)
 	
 	local enemies = game_getEnemyList(game)
 	game_clearList(enemies)
-	spawnwave(enemies, waveNum)
 
 	waveselect.refresh(game)
 end
@@ -35,7 +34,6 @@ function prevwave(game)
 	
 	local enemies = game_getEnemyList(game)
 	game_clearList(enemies)
-	spawnwave(enemies, waveNum)
 
 	waveselect.refresh(game)
 end

@@ -1,4 +1,5 @@
 local math = require("math")
+local infintemode = require("res.scripts.infinitemode")
 
 local spawnWaveFunctions = {
 	function(enemies)
@@ -210,11 +211,7 @@ local spawnWaveFunctions = {
 	-- Final function will spawn all other waves
 	function(enemies)
 		-- Spawn all other waves
-		for y = 0, 5 do
-			for x = -2, 2 do					
-				prefabs.addPrefab(enemies, x * SPRITE_SIZE * 1.5, 300 - y * SPRITE_SIZE, "enemy")
-			end
-		end
+		infintemode.spawnwave(enemies)
 	end
 }
 

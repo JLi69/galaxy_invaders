@@ -14,7 +14,7 @@ function superweapon.start(gameobject)
 	enemy_setObjectFrameCount(gameobject, 4)
 
 	superweapon.targetX = math.random() * 640.0 - 320.0
-	superweapon.targetY = math.random() * 400.0 - 100.0
+	superweapon.targetY = math.random() * 300.0
 
 	enemy_setObjectScore(gameobject, 1000)
 end
@@ -70,7 +70,7 @@ function superweapon.update(gameobject, game, timepassed)
 				enemies = game_getEnemyList(game)
 				prefabs.addPrefab(enemies, x, y - 48.0, "bomb")
 				superweapon.targetX = math.random() * 640.0 - 320.0
-				superweapon.targetY = math.random() * 400.0 - 100.0
+				superweapon.targetY = math.random() * 300.0
 				if math.random() < 0.5 then
 					velx = 160.0
 				else
@@ -104,7 +104,7 @@ function superweapon.update(gameobject, game, timepassed)
 				prefabs.addPrefab(enemies, x - 36.0, y - 48.0, "laser")
 				prefabs.addPrefab(enemies, x + 36.0, y - 48.0, "laser")
 				superweapon.targetX = math.random() * 640.0 - 320.0
-				superweapon.targetY = math.random() * 400.0 - 100.0
+				superweapon.targetY = math.random() * 300.0
 				enemy_setObjectMode(gameobject, 1)	
 				enemy_setObjectTimer(gameobject, 0)
 			else
@@ -132,7 +132,7 @@ function superweapon.update(gameobject, game, timepassed)
 			if distToTarget < 16.0 then
 				enemies = game_getEnemyList(game)
 				superweapon.targetX = math.random() * 640.0 - 320.0
-				superweapon.targetY = math.random() * 400.0 - 100.0
+				superweapon.targetY = math.random() * 300.0
 				enemy_setObjectMode(gameobject, 1)	
 				enemy_setObjectTimer(gameobject, 0)
 
@@ -187,7 +187,7 @@ function superweapon.update(gameobject, game, timepassed)
 			if distToTarget < 16.0 then
 				enemies = game_getEnemyList(game)
 				superweapon.targetX = math.random() * 560.0 - 280.0
-				superweapon.targetY = math.random() * 400.0 - 100.0
+				superweapon.targetY = math.random() * 300.0 
 				enemy_setObjectMode(gameobject, 1)	
 				enemy_setObjectTimer(gameobject, 0)
 				
