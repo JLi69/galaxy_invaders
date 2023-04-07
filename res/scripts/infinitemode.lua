@@ -1,5 +1,3 @@
--- NOTE: Infinte mode can be downright unfair at times
-
 local math = require("math")
 local infinitemode = {}
 
@@ -138,9 +136,9 @@ local shapes = {
 	},
 
 	{
-		"..#...#...#..",
-		".#.#.#.#.#.#.",
-		"#...#...#...#",
+		"#...#...#",
+		".#.#.#.#.",
+		"..#...#..",
 	},
 
 	{
