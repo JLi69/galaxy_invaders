@@ -1,5 +1,7 @@
 obj
 galaxy_invaders
 *.exe
+*.res
 todo.txt
 hiscore
+*.swp
