@@ -20,7 +20,7 @@ GLFW ([website](https://glfw.org))
 
 glad ([website](https://glad.dav1d.de))
 
-SOIL2 ([repo](https://SpartanJ/SOIL2))
+SOIL2 ([repo](https://github.com/SpartanJ/SOIL2))
 
 ### Images used:
 
