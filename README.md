@@ -22,7 +22,7 @@ result in the game crashing so be careful of that.
 
 ### Documentation
 
-TBA
+Web Documentation: [https://jli69.github.io/project-documentation/galaxy_invaders/documentation.html](https://jli69.github.io/project-documentation/galaxy_invaders/documentation.html)
 
 ## Build from source
 
