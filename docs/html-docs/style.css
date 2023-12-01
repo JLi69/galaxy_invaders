@@ -1,0 +1,70 @@
+h1
+{	
+	font-family: "Consolas", monospace;
+}
+
+.box
+{
+	border: solid;
+	border-color: #000000;	
+	font-family: "Consolas", monospace;
+	padding: 10px;
+	max-width: 960px;
+}
+
+.important
+{
+	border: solid;
+	border-color: #AA0000;
+	background-color: #FF0000;
+	color: #FFFFFF;
+	font-family: "Consolas", monospace;
+	padding: 10px;
+	max-width: 960px;
+}
+
+.code
+{
+	border: solid;
+	border-color: #000000;
+	background-color: #FFFFFF;
+	font-family: "Consolas", monospace;
+	padding: 10px;
+	color: #000000;
+	font-weight: bold;
+	max-width: 960px;
+}
+
+#top-bar
+{
+	width: 98%;
+	height: 5%;
+	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	margin: auto;
+}
+
+.top-bar-link
+{
+	padding: 20px;
+}
+
+a
+{
+	font-family: "Consolas", monospace;
+}
+a:link
+{
+	color: #0099EE;
+}
+a:visited
+{
+	color: #0099EE;
+}
+a:hover
+{
+	color: #FF00AA;
+}

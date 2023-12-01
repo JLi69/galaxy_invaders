@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+		<title>Galaxy Invaders Documentation</title>
+	</head>
+
+	<body>
+		<h1>Functions for enemies/sprites</h1>
+
+		<a href="documentation.html">Back</a>
+
+		<r><br>
+
+		<div class="important">
+			<strong><em>IMPORTANT:</em></strong> if gameobject is nil, the game will crash!
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<strong>gameobject</strong> - user data that points to an enemy object
+		</div>	
+		
+		<br>
+		
+		<div class="box">
+			<h3>enemy_setObjectPos(gameobject, x, y)</h3>
+			<p>
+				<strong>x</strong> - x coordinate to set the object's position to<br>
+				<strong>y</strong> - y coordinate to set the object's position to<br>
+				<br>
+				If the object goes outside of the range [-1024, 1024] for x<br>
+				or the range [-600, 600] for y it will be removed by the game.<br>
+			</p>	
+		</div>
+
+		<br>
+		
+		<div class="box">
+			<h3>enemy_setObjectVel(gameobject, velx, vely)</h3>
+			<p>
+				<strong>velx</strong> - new speed of the object in the x direction<br>
+				<strong>vely</strong> - new speed of the object in the y direction
+			</p>	
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>enemy_getObjectPos(gameobject) &rarr; x, y</h3>
+			
+			<p><strong>x, y</strong> - return values of the function, position of object in game</p>
+			
+			<div class="code">
+				x, y = enemy_getObjectPos(gameobject)
+			</div>
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>enemy_getObjectVel(gameobject) &rarr; velx, vely</h3>
+			<p><strong>velx, vely</strong> - return values of the function, velocity of object in game</p>
+			
+			<div class="code">
+				velx, vely = enemy_getObjectVel(gameobject)
+			</div>
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>enemy_setObjectSize(gameobject, w, h)</h3>
+			<p>
+			<strong>w</strong> - new width of the object<br>
+			<strong>h</strong> - new height of the object
+			</p>
+		</div>	
+	
+		<br>
+		
+		<div class="box">
+			<h3>enemy_getObjectSize(gameobject) &rarr; w, h</h3>
+			<p>
+			<strong>w</strong> - width of the object<br>
+			<strong>h</strong> - height of the object<br>
+			</p>	
+
+			<div class="code">
+			w, h = enemy_getObjectSize(gameobject)
+			</div>
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>enemy_getObjectHealth(gameobject) &rarr; health</h3>
+			<p>Returns health points that a gameobject has</p>
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>enemy_setObjectHealth(gameobject, health)</h3>
+			<p>Sets the health of a gameobject</p>
+		</div>
+		
+		<br>
+		
+		<div class="box">
+			<h3>enemy_getObjectTimer(gameobject)</h3>
+			<p>Returns the internal timer value that a gameobject has.</p>
+		</div>	
+
+		<br>
+	
+		<div class="box">
+			<h3>enemy_setObjectTimer(gameobject, time)</h3>
+			<p>Updates the timer value that a gameobject has.</p>
+		
+			Examples:
+			<div class="code">
+				timer = enemy_getObjectTimer(gameobject)<br>
+				-- update the timer by the amount of time that passed<br>
+				enemy_setObjectTimer(gameobject, timer + timepassed)<br>
+				<br>
+				-- reset the timer to 0 seconds<br>
+				enemy_setObjectTimer(gameobject, 0.0)<br>
+			</div>
+		</div>		
+		
+		<br>
+		
+		<div class="box">
+			<h3>enemy_setObjectFrameCount(gameobject, framecount)</h3>
+			<p>Sets the number of animation frames that an object has
+		to be framecount. The image that the gameobject is set
+		to will be divided into equal sections with size
+		1.0 / framecount * imagewidth.</p> 
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>enemy_setObjectFrame(gameobject, frame)</h3>
+			<p>
+				Sets the current frame in the animation of the object
+				The first frame is 0 and the last frame is indexed at
+				framecount - 1. If it is set to a value outside this
+				range, the object will not display an image.
+			</p>	
+			
+			<p>
+				If the object is a visual effect and its animation frame
+				goes outside of this range, it will be removed by the game.
+			</p>
+		</div>	
+
+		<br>
+		
+		<div class="box">
+		<h3>enemy_getObjectMode(gameobject)</h3>
+		<p>
+		Returns an integer that represents the current 'mode'
+		of the object. Can be used to control behavior of the
+		object in more specific ways such as different attack
+		patterns.
+		</p>
+		</div>
+		
+		<br>
+		
+		<div class="box">
+			<h3>enemy_setObjectMode(gameobject, mode)</h3>
+			<p>Sets the current 'mode' of the object to mode.<p>
+		</div>	
+
+		<br>
+	
+		<div class="box">
+			<h3>enemy_setObjectScript(gameobject, scriptname)</h3>
+			<p>	
+			Sets the script of the object to another script
+		so the object can behave differently. Scriptname
+		is not the path to the script, it is the name
+		given to the script when it is loaded by the game
+		(When you load a script you supply the "name" you
+		want to give it - see <a href="game_functions.html">game_loadScript</a>)
+			<p>
+		</div>	
+
+		<br>
+	
+		<div class="box">
+			<h3>enemy_setObjectPicture(gameobject, imagepath)</h3>
+			<p>	
+			Sets the sprite image of the object to whatever is
+		at imagepath - the image must be loaded before you
+		call this function - see <a href="game_functions.html">game_loadTexture</a>. If
+		imagepath is nil, the object will not display an
+		image
+			</p>
+		</div>
+		
+		<br>
+		
+		<div class="box">
+			<h3>enemy_getObjectScore(gameobject) &rarr; score</h3>
+			<p>	
+			returns the current score value of the object,
+		when used on the player object it returns the
+		current score the player is at.
+			</p>
+		</div>
+		
+		<br>
+		
+		<div class="box">
+			<h3>enemy_setObjectScore(gameobject, score)</h3>
+			<p>
+		Sets the score value of the enemy when it is
+		killed by the player. When used on the player
+		gameobject, it sets the current score the game
+		is at.
+			</p>
+		</div>
+		
+		<br>
+		
+		<div class="box">
+			<h3>enemy_getObjectRotation(gameobject) &rarr; rotation</h3>
+			<p>returns the rotation of the object sprite</p>
+		</div>
+		
+		<br>
+	
+		<div class="box">
+			<h3>enemy_setObjectRotation(gameobject, rotation)</h3>
+			</p>Sets the rotation of the object sprite<p>
+		</div>	
+
+		<br>
+	
+		<div class="box">
+			<h3>enemy_getObjectZ(gameobject) &rarr; z</h3>
+			<p>Returns the z value of the object, the z value
+		determines the order in which sprites are drawn
+		onto the screen, a lower z value means that object
+		will be drawn behind other objects and a higher
+		z value means it will be drawn in front of other
+		gameobjects.</p>
+		</div>
+		
+		<br>
+		
+		<div class="box">
+			<h3>enemy_setObjectZ(gameobject, z)</h3>
+			<p>Sets the z value of the object</p>
+		</div>
+	</body>
+</html>

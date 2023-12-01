@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+		<title>Galaxy Invaders Documentation</title>
+	</head>
+
+	<body>
+		<div id="top-bar">
+			<a href="../../download-pages/galaxy_invaders.html" class="top-bar-link">Download Galaxy Invaders</a>	
+			<a href="https://github.com/JLi69/galaxy_invaders" class="top-bar-link">Galaxy Invaders Github</a>
+		</div>
+
+		<h1>Lua Documentation for Galaxy Invaders</h1>
+
+		<a href="enemy_functions.html">Enemy/Sprite Functions</a>&nbsp&nbsp&nbsp&nbsp
+		<a href="menu_functions.html">Menu/UI Functions</a>&nbsp&nbsp&nbsp&nbsp
+		<a href="game_functions.html">Game Functions</a>&nbsp&nbsp&nbsp&nbsp
+
+		<br><br>
+	
+		<div class = "box">	
+			<p>
+				<strong>NOTE:</strong> Proper error handling/checking is not included
+				in this program, this game mostly serves as a fun demo.
+			</p>
+		</div>
+		<br>
+
+		<div class="box">
+			<h3>When the game is run, the following occurs:</h3>
+			
+			<p> 
+				- prefabs.lua gets imported<br>
+				- spawnwave.lua gets run<br>
+				- player.lua is imported<br>
+				- start.lua is run<br>
+				- prefabs.init() is called<br>
+				- startgame() is called<br>
+				- player.start() is called<br>
+				Main loop:<br>
+				&nbsp&nbsp - Sprites are drawn to screen (not controlled by lua)<br>
+				&nbsp&nbsp - Sprites are updated by lua <br>
+				- Cleanup<br>
+			</p>	
+		</div>
+
+		<br>
+		
+		<div class="important">
+			<strong><em>IMPORTANT</em></strong>: when importing files in lua scripts for the game,<br>
+			note that everything is imported from the executable's working<br>
+			directory which means that if the file is in res/scripts and is<br>
+			called foo.lua, we would need to do the following:<br>
+			<br>
+			<div class="code">
+				local foo = require("res.scripts.foo")
+			</div>	
+		</div>
+
+		<br>
+	
+		<div class="box">
+			<h3>spawnwave.lua</h3>
+			<p>
+				Whenever there are no more enemies on the screen and no more enemies<br>
+				are going to be added to the screen, the game calls spawnwave() which<br>
+				is given two parameters: a user data pointing to the enemy list and the<br>
+				current wave number.
+			</p>	
+
+			<div class="code">
+				function spawnwave(enemies, waveNum)<br>
+				&nbsp&nbsp if waveNum + 1 &lt;= #spawnWaveFunctions then<br> 
+				&nbsp&nbsp&nbsp&nbsp spawnWaveFunctions[waveNum + 1](enemies)<br>
+				&nbsp&nbsp else<br>
+				&nbsp&nbsp&nbsp&nbsp spawnWaveFunctions[#spawnWaveFunctions](enemies)<br>
+				&nbsp&nbsp end<br>
+				end
+			</div>
+		
+			<p>
+				spawnWaveFunctions is a local table in the file that contains the functions<br>
+				for spawning in enemies for various waves and one can simply add a function<br>
+				to the table to add another wave to the game. The final wave is randomly<br>
+				generated but it can be changed to do something else.<br>
+			</p>
+		</div>
+
+		<br>
+		
+		<div class="box">
+			<h3>start.lua</h3>
+			<p>
+				startgame is a function that is given a single parameter - the user data
+				for the game data and then is called once and is assumed to never be called
+				again.<br> 
+				Insert code here that you want run at startup.
+			</p>	
+		</div>
+
+		<br>
+	
+		<div class="box">
+			<h3>prefabs.lua</h3>
+			<p>
+				This is the file for defining "prefabs" or templates of enemies or bullets
+				or other gameobjects that are going to be identical.
+				
+				prefabs.init() is called and imports all scripts associated with prefabs
+				as global modules and then also loads textures associated with those prefabs.
+				If you want to import textures and scripts that are not going to immediately
+				be used by prefabs, you are going to have to manually import those.
+				
+				<h4>prefabs.newprefab(name, luapath, mod, imagepath)</h4>
+				This function creates a prefab with a name and imports the script at
+				'luapath' to define behavior for the object by importing the module of
+				name 'mod' as a global module and then associates the image at 'imagepath'
+				with the object.
+				
+				<h4>Example:</h4>
+				<div class="code">
+					-- Creates a prefab with name "alien" and then<br>
+					-- runs res/scripts/enemies/alien.lua and enemies/alien.lua<br>
+					-- is assumed to have a module with name "alien" and it then<br>
+					-- calls alien = require("alien")<br> 
+					-- Any "alien" sprites will be displayed with res/images/alien.png by default<br>
+					prefabs.newprefab("alien", "res/scripts/enemies/alien.lua", "alien", "res/images/alien.png")<br>
+				</div>	
+
+				<h4>prefabs.loadres()</h4>
+				imports all scripts and textures needed by prefabs, assumed to be called only
+				once and after all prefabs have been defined in prefabs.init()
+				
+				<h4>prefabs.addPrefab(gameobjectlist, x, y, sprite)</h4>
+				<strong>gameobjectlist</strong> - user data pointing to a gameobject list<br>
+				<strong>x, y</strong> - coordiantes to place the new prefab<br>
+				<strong>sprite</strong> - string that is the name associated with the prefab<br>
+			</p>		
+		
+			<div class="important">
+				<strong><em>IMPORTANT:</em></strong> gameobjectlist must not be nil or the game will crash!
+			</div>	
+
+			<h4>Example:</h4>
+			<div class="code">	
+				local enemies = game_getEnemyList(game)<br>
+				-- Adds a single sprite to the gameobject list<br>
+				-- enemies of the prefab "alien" at the<br>
+				-- coordinates (0, 0)<br>
+				prefabs.addPrefab(enemies, 0, 0, "alien")
+			</div>	
+		</div>
+
+		<br>
+		
+		<div class="box">
+			<h3>structure of [gameobject].lua</h3>
+			
+			<h4>Template enemy code:</h4>
+			
+			<div class="code">
+				local enemy = {}<br>
+				<br>
+				-- run this upon enemy start<br>
+				function enemy.start(self)<br>
+				<br>
+				end<br>
+				<br>
+				function enemy.update(self, game, timepassed)<br>
+					 <br>
+				end<br>
+				<br>
+				-- run this when the enemy collides with a bullet<br>
+				-- returns a value true or false,<br>
+				-- if the value is true, then delete the enemy,<br>
+				-- if the value is false, then do not delete the enemy<br>
+				function enemy.oncollision(self, game)		<br>
+				&nbsp&nbsp -- Delete object if health is less than or equal to 0<br>
+				&nbsp&nbsp return true<br>
+				end<br>
+				<br>
+				return enemy<br>
+			</div>	
+
+			<br>
+
+			The module is named 'enemy' and the function enemy.start(self)
+			is called when the enemy is created and is not called again by the game,
+			this is meant to initailize values such as health, score value, and velocity
+			of the enemy. The parameter 'self' is a user data pointing to data
+			associated with the enemy.<br>
+
+			<br>
+			
+			enemy.update(self, game, timepassed) is called every frame and is given three arguments:<br>
+			 &nbsp&nbsp - self<br>
+			 &nbsp&nbsp&nbsp&nbsp - User data pointing to sprite data<br>
+			 &nbsp&nbsp - game<br>
+			 &nbsp&nbsp&nbsp&nbsp - User data pointing to game data<br>
+			 &nbsp&nbsp - timepassed<br>
+			 &nbsp&nbsp&nbsp&nbsp	- Number that is the amount of time the previous frame took,<br>
+			 &nbsp&nbsp&nbsp&nbsp     use this to update the enemy's internal timer (see <a href="enemy_functions.html">enemy_setObjectTimer</a>)<br>
+				  <br>
+				  And also for moving the enemy at a fixed speed regardless of frame rate:	<br>
+				  <br>
+			<div class="code"> 
+				  -- Get object's position<br>
+				  x, y = enemy_getObjectPos(gameobject)<br>
+				  -- Get velocity<br>
+				  velx, vely = enemy_getObjectVel(gameobject)<br>
+				  -- move the object<br>
+				  enemy_setObjectPos(gameobject, x + velx * timepassed, y + vely * timepassed)<br>
+			</div>	
+			<br>
+			enemy.oncollision(self, game) is called when the enemy collides with a bullet the player shot.<br>
+			It is given two arguments: self and game - self is the user data pointing to the enemy and
+			game is user data pointing to the game data struct.
+			<br><br>	
+
+			Example code for how an enemy might behave when shot by a bullet follows:
+			<div class="code">	
+				function enemy.oncollision(self, game)<br>
+				&nbsp&nbsp -- Lower health by one when shot<br>
+				&nbsp&nbsp health = enemy_getObjectHealth(self)<br>
+				&nbsp&nbsp health = health - 1<br>
+				&nbsp&nbsp enemy_setObjectHealth(self, health)<br>
+				<br>
+				&nbsp&nbsp -- if out of health, explode<br>
+				&nbsp&nbsp if health &lt;= 0 then<br>
+				&nbsp&nbsp&nbsp&nbsp x, y = enemy_getObjectPos(self)<br>
+				&nbsp&nbsp&nbsp&nbsp local vis = game_getVisualEffectList(game)<br>
+				&nbsp&nbsp&nbsp&nbsp prefabs.addPrefab(vis, x, y, "explosion")<br>
+				&nbsp&nbsp end<br>
+					<br>
+				&nbsp&nbsp -- Delete object if health is less than or equal to 0<br>
+				&nbsp&nbsp return health &lt;= 0<br>
+				end<br>
+			</div>
+
+			<br>
+			<p>	
+				If the function enemy.oncollision returns true, the object is deleted from the game object list.<br>
+				If it returns false, the program keeps it in the list.
+			</p>	
+		</div>	
+	</body>
+</html>

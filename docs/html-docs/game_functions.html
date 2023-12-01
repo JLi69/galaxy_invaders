@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+		<title>Galaxy Invaders Documentation</title>
+	</head>
+
+	<body>
+		<h1>Functions for manipulating game data</h1>
+
+		<a href="documentation.html">Back</a>
+
+		<br><br>
+	
+		<div class="important">
+			<strong><em>IMPORTANT:</em></strong> if game is nil, the game will crash!
+		</div>	
+
+		<br>
+	
+		<div class="box">
+			<strong>game</strong> - user data that points to the data that keeps track of game data
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>game_getTimer(game) &rarr; seconds</h3>
+			<p>returns the current timer the game is at, the game keeps track of the
+		current amount of time passed since the player started playing a session.
+		Returns the value in seconds</p>
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>game_setTimer(game, time)</h3>
+			<p>Sets the timer to the value in time (time is in seconds)</p>
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>game_addEnemy</h3>
+			<h3>game_addObject</h3>
+			<p>Adds enemy or object to the game, do not use these functions,
+			use prefabs.addPrefab instead.<p>
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>game_getEnemyList(game) &rarr; enemies (includes enemy bullets)</h3>
+			<h3>game_getBulletList(game) &rarr; bullets (player bullets)</h3>
+			<h3>game_getVisualEffectList(game) &rarr; visualEffects (explosions/stars)</h3>
+			<p>Returns a user data to the lists that contain sprites in the game</p>
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>game_getPlayerPos(game) &rarr; playerx, playery</h3>
+			<p>Returns the coordinates of the player gameobject</p>
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>game_sizeofList(list) &rarr; size</h3>
+			<p>returns the number of sprites in a list, counts sprites that are
+			added to the list in the frame.</p>
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>game_getGameObjectAt(list, index) &rarr; object</h3>
+			<p>returns user data of a gameobject at the index for the list.
+		Indices go from [0] to [size - 1], if outside that range, the
+		function will return nil.</p>
+		</div>
+		
+		<br>
+	
+		<div class="box">
+			<h3>game_clearList(list)</h3>
+			<p>Removes all gameobjects from the list</p>
+
+			<div class="important">
+				<strong><em>IMPORTANT:</em></strong> any objects added to the list during that frame
+				will not be removed by this function and will actually be
+				added to the game after that frame is over.
+			</div>
+		</div>	
+		
+		<br>
+		
+		<div class="box">
+			<h3>game_getWaveNum(game) &rarr; waveNum</h3>
+			<p>returns the current wave the player is on</p>
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>game_setWaveNum(game, waveNum)</h3>
+			<p>sets the current wave the player is on</p>
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>game_getPlayer(game) &rarr; player</h3>
+			<p>Returns the user data for the player gameobject</p>
+		</div>	
+
+		<br>
+		
+		<div class="box">
+			<h3>game_loadTexture(path)</h3>
+			<p>Loads the image at that path into memory to be used for sprites.
+		Needs to be called at the start of the game for any images that
+		the user wants to load into memory and use for sprites or gameobjects.</p>
+		</div>
+
+		<br>
+		
+		<div class="box">	
+			<h3>game_loadScript(path, mod)</h3>
+			<p>
+				Calls the lua script at that path (note that this is being
+				called from the executable's working directory) and will
+				then import the module named 'mod' as a global. Mod will
+				also be used to refer to the script in other parts of the
+				game.
+			</p>
+		</div>
+	</body>
+</html>

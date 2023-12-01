@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+		<title>Galaxy Invaders Documentation</title>
+	</head>
+
+	<body>
+		<h1>Functions for Menus/UI</h1>
+
+		<a href="documentation.html">Back</a>
+
+		<br><br>
+	
+		<div class="box">
+			menuid is assumed to be an integer.<br>
+			<br>	
+			For constants on what each menuid is import <strong>menuids.lua</strong>:<br>
+			
+			<div class="code">
+			local menuids = require("res.scripts.menuids")<br>
+			</div>	
+
+			<br>
+			There can only be up to 16 different menu ids in the game (0 to 15)<br>
+			The game will just ignore any attempt to access a menu outside of this range
+			unless for some specific cases<br>
+			<br>
+			Some of the reserved menuids:<br>
+			<br>
+			<div class="box">
+			-2 &rarr; Quit<br>
+			If you tell the game to go to menu -2, it will interpret it as quitting and the program will exit<br><br>
+			-1 &rarr; Game<br>
+			This is the value for actually playing the game<br><br>
+			0 &rarr; Main Menu<br>
+			This is the main menu, and also the menu that the game starts at<br><br>
+			1 &rarr; Credits<br>
+			Displays credits<br><br>
+			2 &rarr; Hiscore<br>
+			Displays top 5 high scores that the player earned<br><br>
+			3 &rarr; Paused<br>
+				This is the menu that is shown when the game is paused, will only be displayed when<br>
+				the player hits ESC while playing the game (menu id -1)<br><br>
+			4 &rarr; Game Over<br>
+			Shown when the player is killed by an enemy and runs out of lives<br><br>
+			5 &rarr; Intro<br>
+			Introduction text for the player<br><br>
+			6 &rarr; Select Wave<br>
+			Allows the player to select waves 1 to 15 along with the boss fight and infinte mode<br><br>
+			7 &rarr; Boss fight intro<br>
+			Displayed when the player reaches the final boss<br><br>
+			8 &rarr; Victory<br>
+			Shown when the player beats the final boss<br>
+			</div>
+		</div>	
+
+		<br>
+	
+		<div class="box">
+			<h3>menu_addTextToMenu(menuid, text, x, y, character_size)</h3>
+		<p>	
+		Adds text to the menu in the positions (x, y) with a size of
+		'character_size' pixels
+		</p>
+		</div>
+
+		<br>
+		
+		<div class="box">
+		
+			<h3>menu_addButtonToMenu(menuid, text, onclick_function x, y, character_size) </h3>
+			<p>Adds a button the menu with text at position (x, y) and each character
+		has a size of 'character_size' pixels.</p>
+			
+			<p>When the button is clicked, it will call the lua function onclick_function
+		which must have a single parameter 'game' which the user data for the game
+		structure that manages the game data for the game.</p>
+		
+		Example:
+		<div class="code">	
+			-- When the button is clicked, this function prints "Hello World" and quits the program<br>
+			function hello(game)<br>
+			&nbsp&nbsp print("Hello World")<br>
+			&nbsp&nbsp -- Quits the game<br>
+			&nbsp&nbsp menu_gotoMenu(game, menuids.QUIT)<br>
+			end<br><br>
+			-- Adds button at 0, 0 with text "Hello" and character size 32<br>
+			-- Runs hello(game) when clicked<br>
+			menu_addButtonToMenu(menuid, "Hello", "hello", 0, 0, 32) <br>
+		</div>	
+
+		</div>
+
+		<br>
+		
+		<div class="box">
+			<h3>menu_gotoMenu(game, menuid)</h3>
+			<p>Sets the current menu to be displayed to be menuid.</p>
+		</div>	
+
+		<br>
+	
+		<div class="box">
+			<h3>menu_clear(menuid)</h3>
+			<p>removes all menu elements from the menu at menuid</p>	
+		</div>
+
+		<br>
+	
+		<div class="box">
+			<h3>menu_setBackgroundColor(menuid, r, g, b, a)</h3>
+			<p>
+		Sets the background color of the menu ad menuid to be the color
+		(r, g, b), transparency is supported with a - alpha.
+		r, g, b, and a are assumed to be values between 0.0 and 255.0
+			</p>
+		</div>
+	
+		<br>
+
+		<div class="box">
+			<h3>menu_showGameobjects(menuid, showobjects)</h3>
+			<p><strong>showobjects</strong> - boolean value</p>
+			<p>Whether or not to display gameobjects such as the player or enemies
+			on the menu, by default this is false</p>
+		</div>	
+
+		<br>
+	
+		<div class="box">
+			<h3>game_setPaused(paused)</h3>
+			<p><strong>paused</strong> - boolean value</p>
+			<p>Sets whether the game is paused or not. If it is paused when playing
+			the game, the pause menu will be shown.</p>
+		</div>
+	</body>
+</html>
