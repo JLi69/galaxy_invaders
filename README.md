@@ -22,7 +22,9 @@ result in the game crashing so be careful of that.
 
 ### Documentation
 
-Web Documentation: [https://jli69.github.io/project-documentation/galaxy_invaders/documentation.html](https://jli69.github.io/project-documentation/galaxy_invaders/documentation.html)
+Documentation can be found in `docs/`.
+
+You can either find it in plain text or as html in `docs/html-docs/`.
 
 ## Build from source
 
